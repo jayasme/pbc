@@ -60,6 +60,9 @@ class StatementManager {
         self.registerStatement(DOStatement.self)
         self.registerStatement(LOOPStatement.self)
         
+        self.registerStatement(EXITFORStatement.self)
+        self.registerStatement(EXITDOStatement.self)
+        
         self.registerStatement(PRINTStatement.self)
     }
     

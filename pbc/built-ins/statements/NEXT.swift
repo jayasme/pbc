@@ -29,21 +29,21 @@ class NEXTStatement: BaseStatement {
     
     static func parse(_ code: inout String) throws -> BaseStatement? {
         do {
-            // get the counter variable
-            guard let counter = ((CodeParser.sharedBlock?.fragments.first as? StatementElement)?.statement as? FORStatement)?.counter else {
-                throw InvalidValueError("Cannot find the counter variable.")
+            // check the matched FOR statment
+            guard let forStatement = (CodeParser.sharedBlock?.firstStatement as? FORStatement) else {
+                throw SyntaxError("Cannot find the matched FOR statement for this NEXT statment.")
             }
             
             // parse the variable
             guard let nextName = PatternedNameParser.parse(&code)?.name else {
-                return NEXTStatement(counter)
+                return NEXTStatement(forStatement.counter)
             }
             
-            guard counter.name == nextName else {
+            guard forStatement.counter.name == nextName else {
                 throw InvalidValueError("Mismatched loop counter '" + nextName + "'.")
             }
             
-            return NEXTStatement(counter)
+            return NEXTStatement(forStatement.counter)
         } catch let error {
             throw error
         }

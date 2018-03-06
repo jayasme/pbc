@@ -59,7 +59,7 @@ class DOStatement: BaseStatement, GroupedStatement {
             }
             
             // check the expression's type
-            guard condition != nil && condition!.type == BOOLEANType else {
+            guard (condition == nil || condition!.type == BOOLEANType) else {
                 throw InvalidValueError("DO statement only excepts a boolean as its condition.")
             }
             

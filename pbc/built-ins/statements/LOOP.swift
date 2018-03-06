@@ -8,7 +8,7 @@
 
 import Foundation
 
-class LOOPStatement: BaseStatement, GroupedStatement {
+class LOOPStatement: BaseStatement {
     static var name: String {
         get {
             return "LOOP"
@@ -29,12 +29,13 @@ class LOOPStatement: BaseStatement, GroupedStatement {
         self.loopType = loopType
     }
     
-    static func endStatement(statement: BaseStatement) -> Bool {
-        return statement is NEXTStatement
-    }
-    
     static func parse(_ code: inout String) throws -> BaseStatement? {
         do {
+            // check the matched DO statment
+            guard let doStatement = (CodeParser.sharedBlock?.firstStatement as? DOStatement) else {
+                throw SyntaxError("Cannot find the matched DO statement for this LOOP statment.")
+            }
+            
             // parse the type
             var loopType: LoopType = .none
             if (KeywordParser.parse(&code, keyword: "WHILE") != nil) {
@@ -52,8 +53,13 @@ class LOOPStatement: BaseStatement, GroupedStatement {
                 condition = expression
             }
             
-            // check the expression's type
-            guard condition != nil && condition!.type == BOOLEANType else {
+            // check there must and only be one condition between the LOOP and its matched DO statements.
+            guard ((doStatement.loopType == .none && loopType != .none) || (doStatement.loopType != .none && loopType == .none)) else {
+                throw InvalidValueError("There must and only be one condition between the LOOP and its matched DO statements.")
+            }
+            
+            // check the condition's type
+            guard (condition == nil || condition!.type == BOOLEANType) else {
                 throw InvalidValueError("DO statement only excepts a boolean as its condition.")
             }
             

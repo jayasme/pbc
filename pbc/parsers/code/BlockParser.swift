@@ -14,6 +14,12 @@ class BlockElement: FragmentElement {
     var typeManager: TypeManager
     var tagManager: TagManager
     
+    var firstStatement: BaseStatement? {
+        get {
+            return (fragments.first as? StatementElement)?.statement
+        }
+    }
+    
     init(parentBlock: BlockElement? = nil, fragments: [FragmentElement] = []) {
         self.fragments = fragments
         self.variableManager = VariableManager(parentManager: parentBlock?.variableManager)
