@@ -12,6 +12,7 @@ enum OperatorCategory {
     case mathematics
     case logic
     case comparation
+    case equality
 }
 
 enum OperatorOperands {
@@ -22,7 +23,8 @@ enum OperatorOperands {
 fileprivate let operatorsCategory: [OperatorType: OperatorCategory] = [
     .addition: .mathematics, .subtract: .mathematics, .multiply: .mathematics, .division: .mathematics, .square: .mathematics, .intDivision: .mathematics, .modulo: .mathematics, .positive: .mathematics, .negative: .mathematics,
     .and: .logic, .or: .logic, .not: .logic, .xor: .logic, .eqv: .logic,
-    .equal: .comparation, .less: .comparation, .greater: .comparation, .lessOrEqual: .comparation, .greaterOrEqual: .comparation, .notEqual: .comparation
+    .equal: .equality, .notEqual: .equality,
+    .less: .comparation, .greater: .comparation, .lessOrEqual: .comparation, .greaterOrEqual: .comparation,
 ]
 
 fileprivate let operatorsPiority: [OperatorType: Int] = [

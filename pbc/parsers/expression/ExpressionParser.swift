@@ -31,29 +31,38 @@ class ExpressionElement: OperandElement {
     
     private static func getBinaryType(type1: Type, type2: Type, oper: OperatorElement) throws -> Type {
         if (oper.category == .mathematics) {
+            // mathematics
             guard (type1 != BOOLEANType && type2 != BOOLEANType) else {
                 throw InvalidValueError("Boolean cannot be the one of the operands in a mathematical calculation.")
             }
             
             if (type1 == STRINGType && type2 == STRINGType && oper.type == .addition) {
                 return STRINGType
-            } else if (decimalList.contains(type1) && decimalList.contains(type2)) {
+            } else if (type1.isDecimal && type2.isDecimal) {
                 return decimalList[max(decimalList.index(of: type1)!, decimalList.index(of: type2)!)]
             } else {
                 throw InvalidValueError("'" + type1.name + "' and '" + type2.name + "' cannot be the operands in a mathematical calculation.")
             }
         } else if (oper.category == .logic) {
+            // logic
             guard (type1 == BOOLEANType && type2 == BOOLEANType) else {
                 throw InvalidValueError("Only Boolean can be the operands in a logical calculation.")
             }
             return BOOLEANType
-        } else {
-            guard (decimalList.contains(type1) && decimalList.contains(type2)) else {
-                throw InvalidValueError("Only numbers can be the operands of a comparational calculation.")
+        } else if (oper.category == .equality) {
+            // equality
+            guard (type1 == type2 || (type1.isDecimal && type2.isDecimal)) else {
+                throw InvalidValueError("Only the values of identical type or numbers can be the operands of a comparational calculation.")
             }
-            
             return BOOLEANType
         }
+        
+        // comparation
+        guard (type1.isDecimal && type2.isDecimal) else {
+            throw InvalidValueError("Only numbers can be the operands of a comparational calculation.")
+        }
+            
+        return BOOLEANType
     }
     
     static func predictType(_ elements: [BaseElement]) throws -> Type {
