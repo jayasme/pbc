@@ -87,8 +87,8 @@ class ExpressionElement: OperandElement {
             }
         }
         
-        guard let result = stack.top else {
-            throw InvalidValueError("Only Boolean can be the operand in a logical calculation.")
+        guard stack.count == 1, let result = stack.top else {
+            throw InvalidValueError("Expression is illegal, please check it.")
         }
         
         return result
@@ -120,21 +120,19 @@ class ExpressionParser {
                     // constant
                     list.append(const)
                     couldBeOperand = false
-                    continue
-                }
-                if couldBeOperand, let variable = try VariableParser.parse(&tryCode) {
+                } else if couldBeOperand, let variable = try VariableParser.parse(&tryCode) {
                     // variable
                     list.append(variable)
                     couldBeOperand = false
-                    continue
-                }
-                if let oper = OperatorParser.parse(&tryCode, preferUnary: couldBeOperand) {
+                } else if couldBeOperand, let function = try FunctionParser.parse(&tryCode) {
+                    // function invoker
+                    list.append(function)
+                    couldBeOperand = false
+                } else if let oper = OperatorParser.parse(&tryCode, preferUnary: couldBeOperand) {
                     // operator
                     list.append(oper)
                     couldBeOperand = true
-                    continue
-                }
-                if let bracket = BracketParser.parse(&tryCode) {
+                } else if let bracket = BracketParser.parse(&tryCode) {
                     if (bracket.direction == .open) {
                         deepOfBracket += 1
                         couldBeOperand = true
@@ -149,10 +147,10 @@ class ExpressionParser {
                     }
                     // bracket
                     list.append(bracket)
-                    continue
+                } else {
+                    code = tryCode
+                    return list
                 }
-                code = tryCode
-                return list
             } catch let error {
                 throw error
             }
