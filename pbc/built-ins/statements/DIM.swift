@@ -41,7 +41,7 @@ class DIMStatement: BaseStatement {
                     break
                 }
                 
-                var varBounds: [VariableArrayBound] = []
+                var varSubscripts: [VariableArraySubscript] = []
                 // parse the array bounds
                 if (BracketParser.parse(&code, expectedDirection: .open) != nil) {
                     var lowerBound: Int32 = 1
@@ -68,7 +68,7 @@ class DIMStatement: BaseStatement {
                             throw InvalidValueError("Invalid array bounds indicated.")
                         }
                         
-                        varBounds.append(VariableArrayBound(lowerBound: lowerBound, upperBound: upperBound))
+                        varSubscripts.append(VariableArraySubscript(lowerBound: lowerBound, upperBound: upperBound))
                         
                         if (SymbolParser.parse(&code, symbol: ",") != nil) {
                             // separator
@@ -110,7 +110,7 @@ class DIMStatement: BaseStatement {
                     }
                 }
                 
-                let variable = Variable.init(name: varName, type: varType!, bounds: varBounds, initialValue: varInital)
+                let variable = Variable.init(name: varName, type: varType!, subscripts: varSubscripts, initialValue: varInital)
                 variables.append(variable)
                 
                 // Register the variable

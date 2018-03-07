@@ -8,7 +8,7 @@
 
 import Foundation
 
-class VariableArrayBound {
+class VariableArraySubscript {
     var lowerBound: Int32
     var upperBound: Int32
     
@@ -20,12 +20,12 @@ class VariableArrayBound {
 
 class Variable: BaseManagerContent {
     var type: Type
-    var bounds: [VariableArrayBound]?
+    var subscripts: [VariableArraySubscript]
     var initialValue: OperandElement?
     
-    init(name: String, type: Type, bounds: [VariableArrayBound]? = nil, initialValue: OperandElement? = nil) {
+    init(name: String, type: Type, subscripts: [VariableArraySubscript] = [], initialValue: OperandElement? = nil) {
         self.type = type
-        self.bounds = bounds
+        self.subscripts = subscripts
         self.initialValue = initialValue
         super.init(name)
     }

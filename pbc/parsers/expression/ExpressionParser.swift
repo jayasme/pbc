@@ -8,7 +8,7 @@
 
 import Foundation
 
-fileprivate var decimalList = [SHORTType, INTEGERType, LONGType, SINGLEType, DOUBLEType]
+fileprivate var numberTypeList = [SHORTType, INTEGERType, LONGType, SINGLEType, DOUBLEType]
 
 class OperandElement: BaseElement {
     var type: Type
@@ -38,8 +38,8 @@ class ExpressionElement: OperandElement {
             
             if (type1 == STRINGType && type2 == STRINGType && oper.type == .addition) {
                 return STRINGType
-            } else if (type1.isDecimal && type2.isDecimal) {
-                return decimalList[max(decimalList.index(of: type1)!, decimalList.index(of: type2)!)]
+            } else if (type1.isNumber && type2.isNumber) {
+                return numberTypeList[max(numberTypeList.index(of: type1)!, numberTypeList.index(of: type2)!)]
             } else {
                 throw InvalidValueError("'" + type1.name + "' and '" + type2.name + "' cannot be the operands in a mathematical calculation.")
             }
@@ -51,14 +51,14 @@ class ExpressionElement: OperandElement {
             return BOOLEANType
         } else if (oper.category == .equality) {
             // equality
-            guard (type1 == type2 || (type1.isDecimal && type2.isDecimal)) else {
+            guard (type1 == type2 || (type1.isNumber && type2.isNumber)) else {
                 throw InvalidValueError("Only the values of identical type or numbers can be the operands of a comparational calculation.")
             }
             return BOOLEANType
         }
         
         // comparation
-        guard (type1.isDecimal && type2.isDecimal) else {
+        guard (type1.isNumber && type2.isNumber) else {
             throw InvalidValueError("Only numbers can be the operands of a comparational calculation.")
         }
             
@@ -109,31 +109,32 @@ class ExpressionElement: OperandElement {
 class ExpressionParser {    
     // build expression list from the expression string
     private static func buildExpressionList(_ code: inout String) throws -> [BaseElement] {
+        var tryCode = code
         var deepOfBracket = 0
         var list: [BaseElement] = []
         var couldBeOperand = true
         
-        while(code.count > 0) {
+        while(tryCode.count > 0) {
             do {
-                if couldBeOperand, let const = try ConstantParser.parse(&code) {
+                if couldBeOperand, let const = try ConstantParser.parse(&tryCode) {
                     // constant
                     list.append(const)
                     couldBeOperand = false
                     continue
                 }
-                if couldBeOperand, let variable = try VariableParser.parse(&code) {
+                if couldBeOperand, let variable = try VariableParser.parse(&tryCode) {
                     // variable
                     list.append(variable)
                     couldBeOperand = false
                     continue
                 }
-                if let oper = OperatorParser.parse(&code, preferUnary: couldBeOperand) {
+                if let oper = OperatorParser.parse(&tryCode, preferUnary: couldBeOperand) {
                     // operator
                     list.append(oper)
                     couldBeOperand = true
                     continue
                 }
-                if let bracket = BracketParser.parse(&code) {
+                if let bracket = BracketParser.parse(&tryCode) {
                     if (bracket.direction == .open) {
                         deepOfBracket += 1
                         couldBeOperand = true
@@ -143,18 +144,21 @@ class ExpressionParser {
                     }
                     if (deepOfBracket < 0) {
                         // Out of effective area
+                        code = code[(code.count - tryCode.count - 1)...]
                         return list
                     }
                     // bracket
                     list.append(bracket)
                     continue
                 }
+                code = tryCode
                 return list
             } catch let error {
                 throw error
             }
         }
         
+        code = tryCode
         return list
     }
     

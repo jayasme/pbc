@@ -48,7 +48,7 @@ class LETStatement: BaseStatement {
             }
             
             // if assignment type is dismatched, only decimals can pass the check
-            guard (variable.type == expression.type || (variable.type.isDecimal && expression.type.isDecimal)) else {
+            guard (variable.type == expression.type || (variable.type.isNumber && expression.type.isNumber)) else {
                 throw InvalidValueError("Cannot assign '" + expression.type.name + "' to a variable of type '" + variable.type.name + "'.")
             }
 

@@ -76,7 +76,7 @@ class FORStatement: BaseStatement, GroupedStatement {
             }
             
             // check the start's type
-            guard start.type.isDecimal else {
+            guard start.type.isNumber else {
                 throw InvalidValueError("Only numbers are excepted as the start value of a FOR loop statement.")
             }
             
@@ -91,7 +91,7 @@ class FORStatement: BaseStatement, GroupedStatement {
             }
             
             // check the end's type
-            guard end.type.isDecimal else {
+            guard end.type.isNumber else {
                 throw InvalidValueError("Only numbers are excepted as the end value of a FOR loop statement.")
             }
 
@@ -105,7 +105,7 @@ class FORStatement: BaseStatement, GroupedStatement {
             }
             
             // check the step's type
-            guard step.type.isDecimal else {
+            guard step.type.isNumber else {
                 throw InvalidValueError("Only numbers are excepted as the step of a FOR loop statement.")
             }
 

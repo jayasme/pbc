@@ -8,7 +8,8 @@
 
 import Foundation
 
-fileprivate var decimaTypelList = [SHORTType, INTEGERType, LONGType, SINGLEType, DOUBLEType]
+fileprivate var roundedTypeList = [SHORTType, INTEGERType, LONGType]
+fileprivate var numberTypelList = [SHORTType, INTEGERType, LONGType, SINGLEType, DOUBLEType]
 fileprivate var nativeTypeList = [SHORTType, INTEGERType, LONGType, SINGLEType, DOUBLEType, STRINGType, BOOLEANType]
 
 class TypeField {
@@ -23,14 +24,19 @@ class TypeField {
 
 class Type: BaseManagerContent {
     var fields: [String: TypeField]
-    var isDecimal: Bool {
+    var isNumber: Bool {
         get {
-            return decimaTypelList.contains(self)
+            return numberTypelList.contains(self)
         }
     }
     var isNative: Bool {
         get {
             return nativeTypeList.contains(self)
+        }
+    }
+    var isRounded: Bool {
+        get {
+            return roundedTypeList.contains(self)
         }
     }
     
