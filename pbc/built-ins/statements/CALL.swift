@@ -31,14 +31,28 @@ class CALLStatement: BaseStatement {
     
     static func parse(_ code: inout String) throws -> BaseStatement? {
         do {
+            return try CALLStatement.parse(&code, expectedStatement: true)
+        } catch let error {
+            throw error
+        }
+    }
+    
+    static func parse(_ code: inout String, expectedStatement: Bool) throws -> BaseStatement? {
+        do {
             var tryCode = code
             
             guard let name = PatternedNameParser.parse(&tryCode)?.name else {
-                throw SyntaxError("Expected a valid name.")
+                if (expectedStatement) {
+                    throw SyntaxError("Expected a valid name.")
+                }
+                return nil
             }
             
             guard let sub = CodeParser.sharedDeclareManager.findDeclare(name) else {
-                throw SyntaxError("Cannot find the declaration.")
+                if (expectedStatement) {
+                    throw SyntaxError("Cannot find the declaration.")
+                }
+                return nil
             }
             
             // To exclude the situation that no arguments invoved and brackets used

@@ -32,18 +32,34 @@ class LETStatement: BaseStatement {
     
     static func parse(_ code: inout String) throws -> BaseStatement? {
         do {
+            return try LETStatement.parse(&code)
+        } catch let error {
+            throw error
+        }
+    }
+    
+    static func parse(_ code: inout String, expectedStatement: Bool) throws -> BaseStatement? {
+        do {
+            var tryCode = code
+            
             // parse the variable
-            guard let variable = try VariableParser.parse(&code)?.variable else {
-                throw InvalidValueError("Expected a valid variable.")
+            guard let variable = try VariableParser.parse(&tryCode)?.variable else {
+                if (expectedStatement) {
+                    throw InvalidValueError("Expected a valid variable.")
+                }
+                return nil
             }
             
             // parse the equality sign
-            guard (SymbolParser.parse(&code, symbol: "=") != nil) else {
-                throw InvalidValueError("Expected an equality symbol")
+            guard (SymbolParser.parse(&tryCode, symbol: "=") != nil) else {
+                if (expectedStatement) {
+                    throw InvalidValueError("Expected an equality symbol")
+                }
+                return nil
             }
             
             // parse the expression
-            guard let expression = try ExpressionParser.parse(&code) else {
+            guard let expression = try ExpressionParser.parse(&tryCode) else {
                 throw InvalidValueError("Expected an valid expression")
             }
             
@@ -51,7 +67,8 @@ class LETStatement: BaseStatement {
             guard (variable.type == expression.type || (variable.type.isNumber && expression.type.isNumber)) else {
                 throw InvalidValueError("Cannot assign '" + expression.type.name + "' to a variable of type '" + variable.type.name + "'.")
             }
-
+            
+            code = tryCode
             return LETStatement(variable: variable, expression: expression)
         } catch let error {
             throw error

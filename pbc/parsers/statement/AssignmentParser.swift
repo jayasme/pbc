@@ -14,7 +14,7 @@ class AssignmentParser {
     
     static func parse(_ code: inout String) throws -> BaseStatement? {
         do {
-            return try LETStatement.parse(&code)
+            return try LETStatement.parse(&code, expectedStatement: false)
         } catch let error {
             throw error
         }

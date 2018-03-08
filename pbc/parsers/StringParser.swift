@@ -30,7 +30,6 @@ class StringParser {
         while(offset < code.count) {
             if (code[offset] == "\"") {
                 endOfQuote = true
-                offset += 1
                 break
             }
             offset += 1
@@ -41,7 +40,7 @@ class StringParser {
         }
         
         let string = code[..<offset]
-        code = code[offset...]
+        code = code[(offset + 1)...]
         WhitespaceParser.parse(&code)
         return StringElement(string)
     }

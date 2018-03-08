@@ -32,7 +32,13 @@ class FragmentParser {
                 }
             }
             
-            return try AssignmentParser.parse(&code)
+            if let assignment = try AssignmentParser.parse(&code) {
+                return assignment
+            }
+            if let subInvoker = try SubInvokerParser.parse(&code) {
+                return subInvoker
+            }
+            return nil
         } catch let error {
             throw error
         }

@@ -34,7 +34,7 @@ END IF
 DIM array(5,5) AS INTEGER
 array(1,1)=ABS(array(2,2))
 
-CALL STUN "test", 1
+STUN "test", 1
 
 ' ABS
 FUNCTION ABS(num AS DOUBLE) AS DOUBLE
