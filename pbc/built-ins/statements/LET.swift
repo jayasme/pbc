@@ -23,9 +23,9 @@ class LETStatement: BaseStatement {
     
     var variable: Variable
     
-    var expression: ExpressionElement
+    var expression: OperandElement
     
-    init(variable: Variable, expression: ExpressionElement) {
+    init(variable: Variable, expression: OperandElement) {
         self.variable = variable
         self.expression = expression
     }

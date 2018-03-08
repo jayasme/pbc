@@ -10,9 +10,9 @@ import Foundation
 
 class FunctionInvokerElement: OperandElement {
     var function: Declare
-    var arguments: [ExpressionElement]
+    var arguments: [OperandElement]
     
-    init(_ function: Declare, arguments: [ExpressionElement] = []) throws {
+    init(_ function: Declare, arguments: [OperandElement] = []) throws {
         guard let returningType = function.returningType else {
             throw InvalidValueError("SUB cannot be a part of expression.")
         }
@@ -41,7 +41,7 @@ class FunctionInvokerParser {
                 throw SyntaxError("Expected '('.")
             }
             
-            var funcArguments: [ExpressionElement] = []
+            var funcArguments: [OperandElement] = []
             if (BracketParser.parse(&tryCode, expectedDirection: .close) == nil) {
                 while(code.count > 0) {
                     guard funcArguments.count < function.arguments.arguments.count else {

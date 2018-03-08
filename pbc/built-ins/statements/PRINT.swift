@@ -24,7 +24,7 @@ class PRINTStatement: BaseStatement {
     static func parse(_ code: inout String) throws -> BaseStatement? {
         do {
             // parse the arguments
-            var arguments: [ExpressionElement] = []
+            var arguments: [OperandElement] = []
             while(code.count > 0) {
                 guard let argument = try ExpressionParser.parse(&code) else {
                     break

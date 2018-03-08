@@ -12,7 +12,7 @@ class VariableElement: OperandElement {
     var variable: Variable
     var subscripts: [OperandElement]
     
-    init(_ variable: Variable, subscripts: [ExpressionElement] = []) {
+    init(_ variable: Variable, subscripts: [OperandElement] = []) {
         self.variable = variable
         self.subscripts = subscripts
         super.init(variable.type)
@@ -33,7 +33,7 @@ class VariableParser {
         }
         
         // parse the array bounds
-        var varSubscripts: [ExpressionElement] = []
+        var varSubscripts: [OperandElement] = []
         if (variable.subscripts.count > 0) {
             guard (BracketParser.parse(&tryCode, expectedDirection: .open) != nil) else {
                 throw SyntaxError("'" + variable.name + "' is an array, must specify the subscript.")

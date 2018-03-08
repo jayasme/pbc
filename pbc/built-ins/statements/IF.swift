@@ -31,9 +31,9 @@ class IFStatement: BaseStatement, GroupedStatement {
         return statement is ENDIFStatement
     }
     
-    var condition: ExpressionElement
+    var condition: OperandElement
     
-    init(_ condition: ExpressionElement) {
+    init(_ condition: OperandElement) {
         self.condition = condition
     }
     
@@ -54,7 +54,7 @@ class IFStatement: BaseStatement, GroupedStatement {
                 throw SyntaxError("Requires the keyword 'THEN'")
             }
             
-            return IFStatement.init(condition)
+            return IFStatement(condition)
         } catch let error {
             throw error
         }

@@ -92,7 +92,7 @@ class DIMStatement: BaseStatement {
                 }
                 
                 // parse the initial value
-                var varInital: ExpressionElement? = nil
+                var varInital: OperandElement? = nil
                 if (SymbolParser.parse(&code, symbol: "=") != nil) {
                     guard let expression = try ExpressionParser.parse(&code) else {
                         throw SyntaxError("Expected a valid expression to be the initial value.")

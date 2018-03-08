@@ -22,9 +22,9 @@ class CALLStatement: BaseStatement {
     }
     
     var sub: Declare
-    var arguments: [ExpressionElement]
+    var arguments: [OperandElement]
     
-    init(sub: Declare, arguments: [ExpressionElement]) {
+    init(sub: Declare, arguments: [OperandElement]) {
         self.sub = sub
         self.arguments = arguments
     }
@@ -66,7 +66,7 @@ class CALLStatement: BaseStatement {
             // Bracket is optional
             let hasOpenBracket = (BracketParser.parse(&tryCode, expectedDirection: .open) != nil)
             
-            var subArguments: [ExpressionElement] = []
+            var subArguments: [OperandElement] = []
             while(code.count > 0) {
                 guard subArguments.count < sub.arguments.arguments.count else {
                     throw InvalidValueError("Sub '" + sub.name + "' only recieves " + String(sub.arguments.arguments.count) + " arguments.")

@@ -35,11 +35,11 @@ class FORStatement: BaseStatement, GroupedStatement {
     }
 
     var counter: Variable
-    var start: ExpressionElement
-    var end: ExpressionElement
-    var step: ExpressionElement
+    var start: OperandElement
+    var end: OperandElement
+    var step: OperandElement
     
-    init(counter: Variable, start: ExpressionElement, end: ExpressionElement, step: ExpressionElement) {
+    init(counter: Variable, start: OperandElement, end: OperandElement, step: OperandElement) {
         self.counter = counter
         self.start = start
         self.end = end
@@ -96,7 +96,7 @@ class FORStatement: BaseStatement, GroupedStatement {
             }
 
             // parse the step
-            var step: ExpressionElement = try ExpressionElement([ConstantElement.init(1, type: counterType!)])
+            var step: OperandElement = ConstantElement.init(1, type: counterType!)
             if (KeywordParser.parse(&code, keyword: "STEP") != nil) {
                 guard let se = try ExpressionParser.parse(&code) else {
                     throw SyntaxError("Expected a valid step expression.")

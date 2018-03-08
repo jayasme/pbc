@@ -205,10 +205,19 @@ class ExpressionParser {
         return result
     }
 
-    static func parse(_ code: inout String) throws -> ExpressionElement? {
+    static func parse(_ code: inout String) throws -> OperandElement? {
         do {
             let expression = try ExpressionParser.buildExpressionList(&code)
             let elements = ExpressionParser.convertToRPN(expression)
+            
+            // if there is only one operand in the expression, extract it
+            guard elements.count > 1 else {
+                // only one or none elements
+                guard let operand = elements.first as? OperandElement else {
+                    throw SyntaxError("Invalid expression.")
+                }
+                return operand
+            }
             
             return try ExpressionElement(elements)
         } catch let error {

@@ -21,10 +21,10 @@ class LOOPStatement: BaseStatement {
         }
     }
     
-    var condition: ExpressionElement?
+    var condition: OperandElement?
     var loopType: LoopType
     
-    init(_ condition: ExpressionElement?, loopType: LoopType) {
+    init(_ condition: OperandElement?, loopType: LoopType) {
         self.condition = condition
         self.loopType = loopType
     }
@@ -45,7 +45,7 @@ class LOOPStatement: BaseStatement {
             }
 
             // parse the expression
-            var condition: ExpressionElement? = nil
+            var condition: OperandElement? = nil
             if (loopType != .none) {
                 guard let expression = try ExpressionParser.parse(&code) else {
                     throw SyntaxError("Expected a valid expression")

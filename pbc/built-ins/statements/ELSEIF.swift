@@ -21,9 +21,9 @@ class ELSEIFStatement: BaseStatement {
         }
     }
     
-    var condition: ExpressionElement
+    var condition: OperandElement
     
-    init(_ condition: ExpressionElement) {
+    init(_ condition: OperandElement) {
         self.condition = condition
     }
     
@@ -44,7 +44,7 @@ class ELSEIFStatement: BaseStatement {
                 throw SyntaxError("Requires the keyword 'THEN'")
             }
             
-            return IFStatement.init(condition)
+            return ELSEIFStatement(condition)
         } catch let error {
             throw error
         }
