@@ -22,7 +22,7 @@ class WhitespaceParser {
     static func parse(_ code: inout String) -> WhitespaceElement? {
         
         var offset = 0
-        while(offset < code.count && code[offset] == " ") {
+        while(offset < code.count && (code[offset] == " " || code[offset] == "\t")) {
             offset += 1
         }
         if (offset > 0) {
