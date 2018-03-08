@@ -21,44 +21,75 @@ class CALLStatement: BaseStatement {
         }
     }
     
-    var sub: Procedure
+    var sub: Declare
     var arguments: [ExpressionElement]
     
-    init(sub: Procedure, arguments: [ExpressionElement]) {
+    init(sub: Declare, arguments: [ExpressionElement]) {
         self.sub = sub
         self.arguments = arguments
     }
     
     static func parse(_ code: inout String) throws -> BaseStatement? {
         do {
-            // parse the procedure
-            guard let declare = CodeParser.sharedDeclareManager.parse(&code) else {
-                throw NotFoundError("Sub not found.")
-            }
-            guard let procedure = declare.procedure else {
-                throw InvalidValueError("Declaration not implemented.")
-            }
-            guard procedure.isSub else {
-                throw InvalidValueError("Cannot call a function.")
+            var tryCode = code
+            
+            guard let name = PatternedNameParser.parse(&tryCode)?.name else {
+                throw SyntaxError("Expected a valid name.")
             }
             
-            // parse the argument list
-            var arguments: [ExpressionElement] = []
+            guard let sub = CodeParser.sharedDeclareManager.findDeclare(name) else {
+                throw SyntaxError("Cannot find the declaration.")
+            }
+            
+            // To exclude the situation that no arguments invoved and brackets used
+            if (BracketParser.parse(&tryCode, expectedDirection: .pair) != nil) {
+                // paired brackets
+                code = tryCode
+                return CALLStatement(sub: sub, arguments: [])
+            }
+            
+            // parse the arguments
+            // Bracket is optional
+            let hasOpenBracket = (BracketParser.parse(&tryCode, expectedDirection: .open) != nil)
+            
+            var subArguments: [ExpressionElement] = []
             while(code.count > 0) {
-                guard let argument = try ExpressionParser.parse(&code) else {
-                    break
+                guard subArguments.count < sub.arguments.arguments.count else {
+                    throw InvalidValueError("Sub '" + sub.name + "' only recieves " + String(sub.arguments.arguments.count) + " arguments.")
                 }
                 
-                arguments.append(argument)
-                
-                guard (SymbolParser.parse(&code, symbol: ",") != nil) else {
-                    break
+                guard let expression = try ExpressionParser.parse(&tryCode) else {
+                    throw SyntaxError("Expected a valid expression.")
                 }
+                
+                let decArg = sub.arguments.arguments[subArguments.count]
+                
+                // check if the expression's type is matched with function's declaration
+                guard (expression.type == decArg.type || (expression.type.isNumber && decArg.type.isNumber)) else {
+                    throw SyntaxError("The type of argument " + String(subArguments.count + 1) + " is not matched to its declaration.")
+                }
+                
+                // TODO check if the expression and the arguments are both array or not.
+                
+                subArguments.append(expression)
+                
+                if (SymbolParser.parse(&tryCode, symbol: ",") != nil) {
+                    // separator
+                    continue
+                }
+                
+                let hasCloseBracket = (BracketParser.parse(&tryCode, expectedDirection: .close) != nil)
+                if (hasOpenBracket && !hasCloseBracket) {
+                    throw SyntaxError("Expected a close bracket.")
+                } else if (!hasOpenBracket && hasCloseBracket) {
+                    throw SyntaxError("Unexpected the close bracket.")
+                }
+                
+                break
             }
             
-            // TODO: Validate the arugments between call & declaration
-            
-            return CALLStatement(sub: PRINTProcedure, arguments: arguments)
+            code = tryCode
+            return CALLStatement(sub: sub, arguments: subArguments)
         } catch let error {
             throw error
         }

@@ -37,9 +37,14 @@ class BracketParser {
             return BracketElement(.close)
         }
         
-        if (code.hasPrefix("()") && (expectedDirection == nil || expectedDirection == .pair)) {
-            code = code[2...]
-            WhitespaceParser.parse(&code)
+        // enter the paired bracket parser zone
+        guard (expectedDirection == nil || expectedDirection == .pair) else {
+            return nil
+        }
+        
+        var tryCode = code
+        if (BracketParser.parse(&tryCode, expectedDirection: .open) != nil && BracketParser.parse(&tryCode, expectedDirection: .close) != nil) {
+            code = tryCode
             return BracketElement(.pair)
         }
         

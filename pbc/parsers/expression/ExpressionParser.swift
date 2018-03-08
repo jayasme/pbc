@@ -124,7 +124,7 @@ class ExpressionParser {
                     // variable
                     list.append(variable)
                     couldBeOperand = false
-                } else if couldBeOperand, let function = try FunctionParser.parse(&tryCode) {
+                } else if couldBeOperand, let function = try FunctionInvokerParser.parse(&tryCode) {
                     // function invoker
                     list.append(function)
                     couldBeOperand = false

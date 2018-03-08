@@ -37,7 +37,7 @@ class PRINTStatement: BaseStatement {
                 }
             }
             
-            return CALLStatement(sub: PRINTProcedure, arguments: arguments)
+            return CALLStatement(sub: BuiltInDeclares.PRINTDeclare, arguments: arguments)
         } catch let error {
             throw error
         }

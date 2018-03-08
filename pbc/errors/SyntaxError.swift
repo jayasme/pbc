@@ -9,5 +9,5 @@
 import Foundation
 
 class SyntaxError: InnerError {
-    
+    static var InvalidToken: SyntaxError = SyntaxError("Unexpected token, expected '%s'.")
 }

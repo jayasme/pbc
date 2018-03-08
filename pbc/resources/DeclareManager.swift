@@ -21,12 +21,4 @@ class DeclareManager: BaseManager<Declare> {
     func findDeclare(_ name: String) -> Declare? {
         return super.findValue(name)
     }
-    
-    func parse(_ code: inout String) -> Declare? {
-        guard let name = PatternedNameParser.parse(&code)?.name else {
-            return nil
-        }
-        
-        return self.findDeclare(name)
-    }
 }
