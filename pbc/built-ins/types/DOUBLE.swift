@@ -8,4 +8,4 @@
 
 import Foundation
 
-let DOUBLEType = Type(name: "DOUBLE", fields: [:])
+let DOUBLEType = Type(name: "DOUBLE", defaultValue: Double(0.0))

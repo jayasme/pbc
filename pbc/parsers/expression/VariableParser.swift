@@ -15,7 +15,12 @@ class VariableElement: OperandElement {
     init(_ variable: Variable, subscripts: [OperandElement] = []) {
         self.variable = variable
         self.subscripts = subscripts
-        super.init(variable.type)
+        if let subscripts = (variable as? ArrayVariable)?.subscripts {
+            let bounds = subscripts.map{ Int($0.upperBound - $0.lowerBound)  }
+            super.init(variable.type, bounds: bounds)
+        } else {
+            super.init(variable.type)
+        }
     }
 }
 
@@ -34,7 +39,7 @@ class VariableParser {
         
         // parse the array bounds
         var varSubscripts: [OperandElement] = []
-        if (variable.subscripts.count > 0) {
+        if let arrayVariable = variable as? ArrayVariable {
             guard (BracketParser.parse(&tryCode, expectedDirection: .open) != nil) else {
                 throw SyntaxError("'" + variable.name + "' is an array, must specify the subscript.")
             }
@@ -50,7 +55,7 @@ class VariableParser {
                 
                 varSubscripts.append(expression)
                 
-                if (varSubscripts.count == variable.subscripts.count) {
+                if (varSubscripts.count == arrayVariable.subscripts.count) {
                     break
                 }
                 

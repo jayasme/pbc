@@ -24,6 +24,7 @@ class TypeField {
 
 class Type: BaseManagerContent {
     var fields: [String: TypeField]
+    var defaultValue: Any
     var isNumber: Bool {
         get {
             return numberTypelList.contains(self)
@@ -40,8 +41,27 @@ class Type: BaseManagerContent {
         }
     }
     
-    init(name: String, fields: [String: TypeField]) {
+    var numberIndex: Int? {
+        get {
+            return numberTypelList.index(of: self)
+        }
+    }
+    
+    init(name: String, fields: [String: TypeField] = [:], defaultValue: Any) {
         self.fields = fields
+        self.defaultValue = defaultValue
         super.init(name)
+    }
+    
+    static func mixType(type1: Type, type2: Type) -> Type? {
+        guard (type1 != type2) else {
+            return type1
+        }
+
+        guard let index1 = type1.numberIndex, let index2 = type2.numberIndex else {
+            return nil
+        }
+        
+        return numberTypelList[max(index1, index2)]
     }
 }

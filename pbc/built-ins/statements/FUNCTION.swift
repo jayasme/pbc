@@ -71,21 +71,10 @@ class FUNCTIONStatement: GroupedStatement, BaseStatement {
             let arguments = ArgumentList()
             if (BracketParser.parse(&code, expectedDirection: .close) == nil) {
                 while(code.count > 0) {
-                    guard let argName = PatternedNameParser.parse(&code)?.name else {
-                        break
+                    guard let argument = try VariableDeclarationParser.parse(&code)?.variable else {
+                        throw SyntaxError("Expected a valid argument.")
                     }
                     
-                    let isArray = BracketParser.parse(&code, expectedDirection: .pair) != nil
-                    
-                    var argType: Type = INTEGERType
-                    if (KeywordParser.parse(&code, keyword: "AS") != nil) {
-                        guard let type = CodeParser.sharedBlock?.typeManager.parseType(&code) else {
-                            throw SyntaxError("Expected a valid type.")
-                        }
-                        argType = type
-                    }
-                    
-                    let argument = Argument(name: argName, type: argType, isArray: isArray)
                     arguments.arguments.append(argument)
                     
                     if (SymbolParser.parse(&code, symbol: ",") != nil) {

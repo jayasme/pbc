@@ -11,9 +11,9 @@ import Foundation
 class ConstantElement: OperandElement {
     var value: Any
     
-    init(_ value: Any, type: Type) {
+    init(_ value: Any, type: Type, bounds: [Int] = []) {
         self.value = value
-        super.init(type)
+        super.init(type, bounds: bounds)
     }
     
     var shortValue: Int16 {
@@ -51,12 +51,6 @@ class ConstantParser {
                 return ConstantElement(string.value, type: STRINGType)
             }
             
-            // Check if it is a decimal
-            if let decimal = try DecimalParser.parse(&code) {
-                // the minimum parsable decimal type is integer
-                return ConstantElement(decimal.value, type: decimal.type == SHORTType ? INTEGERType : decimal.type)
-            }
-            
             // Check if it is a boolean
             if (KeywordParser.parse(&code, keyword: "TRUE") != nil) {
                 return ConstantElement(true, type: BOOLEANType)
@@ -64,6 +58,17 @@ class ConstantParser {
             
             if (KeywordParser.parse(&code, keyword: "FALSE") != nil) {
                 return ConstantElement(false, type: BOOLEANType)
+            }
+            
+            // Check if it is an array
+            if let array = try ArrayParser.parse(&code) {
+                return ConstantElement(array.value, type: array.type == nil ? INTEGERType : array.type!, bounds: array.bounds)
+            }
+            
+            // Check if it is a decimal
+            if let decimal = try DecimalParser.parse(&code) {
+                // the minimum parsable decimal type is integer
+                return ConstantElement(decimal.value, type: decimal.type == SHORTType ? INTEGERType : decimal.type)
             }
             
             return nil

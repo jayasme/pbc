@@ -10,9 +10,9 @@ import Foundation
 
 class VariableRedimension {
     var variable: Variable
-    var newSubscripts: [VariableArraySubscript]
+    var newSubscripts: [ArraySubscript]
     
-    init(variable: Variable, newSubscripts: [VariableArraySubscript]) {
+    init(variable: Variable, newSubscripts: [ArraySubscript]) {
         self.variable = variable
         self.newSubscripts = newSubscripts
     }
@@ -51,11 +51,11 @@ class REDIMStatement: BaseStatement {
                     break
                 }
                 
-                guard (variable.subscripts.count > 0) else {
+                guard let arrayVariable = variable as? ArrayVariable else {
                     throw InvalidValueError("Variable '" + variable.name + "' is not an array.")
                 }
                 
-                var varSubscripts: [VariableArraySubscript] = []
+                var varSubscripts: [ArraySubscript] = []
                 // parse the array bounds
                 if (BracketParser.parse(&code, expectedDirection: .open) != nil) {
                     var lowerBound: Int32 = 1
@@ -82,7 +82,7 @@ class REDIMStatement: BaseStatement {
                             throw InvalidValueError("Invalid array bounds indicated.")
                         }
                         
-                        varSubscripts.append(VariableArraySubscript(lowerBound: lowerBound, upperBound: upperBound))
+                        varSubscripts.append(ArraySubscript(lowerBound: lowerBound, upperBound: upperBound))
                         
                         if (SymbolParser.parse(&code, symbol: ",") != nil) {
                             // separator
@@ -96,7 +96,7 @@ class REDIMStatement: BaseStatement {
                     }
                 }
                 
-                let redimension = VariableRedimension(variable: variable, newSubscripts: varSubscripts)
+                let redimension = VariableRedimension(variable: arrayVariable, newSubscripts: varSubscripts)
                 redimensions.append(redimension)
                 
                 guard (SymbolParser.parse(&code, symbol: ",") != nil) else {

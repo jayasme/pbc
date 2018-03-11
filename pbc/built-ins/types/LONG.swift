@@ -8,4 +8,4 @@
 
 import Foundation
 
-let LONGType = Type(name: "LONG", fields: [:])
+let LONGType = Type(name: "LONG", defaultValue: Int64(0))

@@ -8,4 +8,4 @@
 
 import Foundation
 
-let SHORTType = Type(name: "SHORT", fields: [:])
+let SHORTType = Type(name: "SHORT", defaultValue: Int16(0))

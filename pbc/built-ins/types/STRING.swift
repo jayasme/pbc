@@ -8,4 +8,4 @@
 
 import Foundation
 
-let STRINGType = Type(name: "STRING", fields: [:])
+let STRINGType = Type(name: "STRING", defaultValue: "")

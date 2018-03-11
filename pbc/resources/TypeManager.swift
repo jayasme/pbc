@@ -10,6 +10,21 @@ import Foundation
 
 class TypeManager: BaseManager<Type> {
     
+    init(parentManager: TypeManager? = nil) {
+        super.init(parentManager: parentManager)
+        self.registerBuiltInTypes()
+    }
+    
+    func registerBuiltInTypes() {
+        try? self.registerType(SHORTType)
+        try? self.registerType(INTEGERType)
+        try? self.registerType(LONGType)
+        try? self.registerType(SINGLEType)
+        try? self.registerType(DOUBLEType)
+        try? self.registerType(STRINGType)
+        try? self.registerType(BOOLEANType)
+    }
+    
     func registerType(_ type: Type) throws {
         do {
             try super.registerValue(type)

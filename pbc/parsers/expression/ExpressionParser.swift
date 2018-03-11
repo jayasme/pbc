@@ -8,13 +8,37 @@
 
 import Foundation
 
-fileprivate var numberTypeList = [SHORTType, INTEGERType, LONGType, SINGLEType, DOUBLEType]
-
 class OperandElement: BaseElement {
     var type: Type
+    var bounds: [Int]
     
-    init(_ type: Type) {
+    var isArray: Bool {
+        get {
+            return bounds.count > 0
+        }
+    }
+    
+    var arrayDimension: Int {
+        get {
+            guard (self.isArray) else {
+                return 0
+            }
+            
+            return self.bounds.count
+        }
+    }
+    
+    func isSameWith(_ operand: OperandElement) -> Bool {
+        return self.type == operand.type && self.arrayDimension == operand.arrayDimension
+    }
+    
+    func isCompatibleWith(_ operand: OperandElement) -> Bool {
+        return (self.type == operand.type || self.type.isNumber || operand.type.isNumber) && self.arrayDimension == operand.arrayDimension
+    }
+    
+    init(_ type: Type, bounds: [Int] = []) {
         self.type = type
+        self.bounds = bounds
     }
 }
 
@@ -29,6 +53,7 @@ class ExpressionElement: OperandElement {
         }
     }
     
+    // get the type of the result of caclculations with binary operation.
     private static func getBinaryType(type1: Type, type2: Type, oper: OperatorElement) throws -> Type {
         if (oper.category == .mathematics) {
             // mathematics
@@ -38,8 +63,8 @@ class ExpressionElement: OperandElement {
             
             if (type1 == STRINGType && type2 == STRINGType && oper.type == .addition) {
                 return STRINGType
-            } else if (type1.isNumber && type2.isNumber) {
-                return numberTypeList[max(numberTypeList.index(of: type1)!, numberTypeList.index(of: type2)!)]
+            } else if let mixedType = Type.mixType(type1: type1, type2: type2), mixedType.isNumber {
+                return mixedType
             } else {
                 throw InvalidValueError("'" + type1.name + "' and '" + type2.name + "' cannot be the operands in a mathematical calculation.")
             }
@@ -66,23 +91,27 @@ class ExpressionElement: OperandElement {
     }
     
     static func predictType(_ elements: [BaseElement]) throws -> Type {
-        let stack = Stack<Type>()
+        let stack = Stack<(type: Type, isArray: Bool)>()
         
         for element in elements {
             if let operand = element as? OperandElement {
-                stack.push(operand.type)
+                stack.push((type: operand.type, isArray: operand.isArray))
             } else if let oper = element as? OperatorElement {
                 if (oper.operands == .unary) {
                     // do nothing
                 } else {
-                    guard let type1 = stack.pop() else {
+                    guard let operand1 = stack.pop() else {
                         throw SyntaxError("Not enough operand")
                     }
-                    guard let type2 = stack.pop() else {
+                    guard let operand2 = stack.pop() else {
                         throw SyntaxError("Not enough operand")
                     }
                     
-                    try stack.push(ExpressionElement.getBinaryType(type1: type1, type2: type2, oper: oper))
+                    if (operand1.isArray || operand2.isArray) {
+                        throw InvalidValueError("Arrays cannot be applied for '" + oper.type.rawValue + "' operations.")
+                    }
+                    
+                    try stack.push((type: ExpressionElement.getBinaryType(type1: operand1.type, type2: operand2.type, oper: oper), isArray: false))
                 }
             }
         }
@@ -91,7 +120,7 @@ class ExpressionElement: OperandElement {
             throw InvalidValueError("Expression is illegal, please check it.")
         }
         
-        return result
+        return result.type
     }
     
     init(_ elements: [BaseElement]) throws {

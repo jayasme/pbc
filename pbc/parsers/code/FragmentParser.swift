@@ -52,7 +52,8 @@ class FragmentParser {
             }
             fields[typeField.typeField.name] = typeField.typeField
         }
-        let type = Type.init(name: typeName, fields: fields)
+        // TODO the defaultValue
+        let type = Type(name: typeName, fields: fields, defaultValue: Int(1))
         try CodeParser.sharedBlock?.typeManager.registerType(type)
     }
     

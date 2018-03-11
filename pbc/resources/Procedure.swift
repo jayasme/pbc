@@ -8,17 +8,8 @@
 
 import Foundation
 
-class Argument: Variable {
-    var isArray: Bool
-    
-    init(name: String, type: Type, isArray: Bool) {
-        self.isArray = isArray
-        super.init(name: name, type: type)
-    }
-}
-
 class ArgumentList: Equatable {
-    var arguments: [Argument] = []
+    var arguments: [Variable] = []
     
     static func ==(lhs: ArgumentList, rhs: ArgumentList) -> Bool {
         guard (lhs.arguments.count == rhs.arguments.count) else {

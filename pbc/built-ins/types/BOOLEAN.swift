@@ -8,4 +8,4 @@
 
 import Foundation
 
-let BOOLEANType = Type(name: "BOOLEAN", fields: [:])
+let BOOLEANType = Type(name: "BOOLEAN", defaultValue: false)

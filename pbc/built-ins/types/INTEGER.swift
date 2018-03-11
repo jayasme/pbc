@@ -8,4 +8,4 @@
 
 import Foundation
 
-let INTEGERType = Type(name: "INTEGER", fields: [:])
+let INTEGERType = Type(name: "INTEGER", defaultValue: Int32(0))

@@ -8,4 +8,4 @@
 
 import Foundation
 
-let SINGLEType = Type(name: "SINGLE", fields: [:])
+let SINGLEType = Type(name: "SINGLE", defaultValue: Float(0.0))

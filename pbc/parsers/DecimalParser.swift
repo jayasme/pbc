@@ -65,6 +65,7 @@ class DecimalParser {
                     // decimal point appeared repeatly
                     break
                 }
+                offset += 1
                 decimalClaimed = true
                 continue
             } else if (char.uppercased() == "E") {
@@ -72,10 +73,12 @@ class DecimalParser {
                 if (scientificClaimed) {
                     break
                 }
+                offset += 1
                 scientificClaimed = true
                 continue
             } else if ((char == "+" || char == "-") && offset > 0 && code[offset - 1].uppercased() == "E") {
                 // scientific notation
+                offset += 1
                 continue
             }
             
