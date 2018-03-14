@@ -8,36 +8,20 @@
 
 import Foundation
 
-class ArraySubscript {
-    var lowerBound: Int32
-    var upperBound: Int32
+class Variable: Operand, BaseManagerContent {
+    var name: String
     
-    init(lowerBound: Int32 = 1, upperBound: Int32) {
-        self.lowerBound = lowerBound
-        self.upperBound = upperBound
+    init(name: String, type: Type) {
+        self.name = name
+        super.init(type: type)
     }
 }
 
-class Variable: BaseManagerContent {
-    var type: Type
-    var initialValue: OperandElement
+class ArrayVariable: ArrayOperand, BaseManagerContent {
+    var name: String
     
-    var isArray: Bool {
-        return self is ArrayVariable
-    }
-    
-    init(name: String, type: Type, initialValue: OperandElement? = nil) {
-        self.type = type
-        self.initialValue = initialValue != nil ? initialValue! : ConstantElement(type.defaultValue, type: type)
-        super.init(name)
-    }
-}
-
-class ArrayVariable: Variable {
-    var subscripts: [ArraySubscript]
-    
-    init(name: String, type: Type, subscripts: [ArraySubscript] = [], initialValue: OperandElement? = nil) {
-        self.subscripts = subscripts
-        super.init(name: name, type: type, initialValue: initialValue)
+    init(name: String, type: Type, subscripts: [Subscript] = []) {
+        self.name = name
+        super.init(type: type, subscripts: subscripts)
     }
 }

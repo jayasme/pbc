@@ -9,35 +9,8 @@
 import Foundation
 
 class ConstantElement: OperandElement {
-    var value: Any
-    
-    init(_ value: Any, type: Type, bounds: [Int] = []) {
-        self.value = value
-        super.init(type, bounds: bounds)
-    }
-    
-    var shortValue: Int16 {
-        return self.value as! Int16
-    }
-    
-    var integerValue: Int32 {
-        return self.value as! Int32
-    }
-    
-    var longValue: Int64 {
-        return self.value as! Int64
-    }
-    
-    var floatValue: Float {
-        return self.value as! Float
-    }
-    
-    var doubleValue: Double {
-        return self.value as! Double
-    }
-    
-    var stringValue: String {
-        return self.value as! String
+    init(_ constant: Constant) {
+        super.init(constant)
     }
 }
 
@@ -48,27 +21,28 @@ class ConstantParser {
         do {
             // Check if it is a string
             if let string = try StringParser.parse(&code) {
-                return ConstantElement(string.value, type: STRINGType)
+                return ConstantElement(Constant(value: string.value, type: STRINGType))
             }
             
             // Check if it is a boolean
             if (KeywordParser.parse(&code, keyword: "TRUE") != nil) {
-                return ConstantElement(true, type: BOOLEANType)
+                return ConstantElement(Constant(value: true, type: BOOLEANType))
             }
             
             if (KeywordParser.parse(&code, keyword: "FALSE") != nil) {
-                return ConstantElement(false, type: BOOLEANType)
+                return ConstantElement(Constant(value: false, type: BOOLEANType))
             }
             
             // Check if it is an array
             if let array = try ArrayParser.parse(&code) {
-                return ConstantElement(array.value, type: array.type == nil ? INTEGERType : array.type!, bounds: array.bounds)
+                return ConstantElement(ArrayConstant(value: array.value, type: array.type, subscripts: array.subscripts))
             }
             
             // Check if it is a decimal
             if let decimal = try DecimalParser.parse(&code) {
                 // the minimum parsable decimal type is integer
-                return ConstantElement(decimal.value, type: decimal.type == SHORTType ? INTEGERType : decimal.type)
+                let type = decimal.type == SHORTType ? INTEGERType : decimal.type
+                return ConstantElement(Constant(value: decimal.value, type: type))
             }
             
             return nil

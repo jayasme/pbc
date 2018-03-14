@@ -8,16 +8,8 @@
 
 import Foundation
 
-class BaseManagerContent: Equatable {
-    var name: String
-    
-    init(_ name: String) {
-        self.name = name
-    }
-    
-    static func ==(lhs: BaseManagerContent, rhs: BaseManagerContent) -> Bool {
-        return lhs.name == rhs.name
-    }
+protocol BaseManagerContent {
+    var name: String { get }
 }
 
 class BaseManager<T: BaseManagerContent> {

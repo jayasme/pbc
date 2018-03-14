@@ -9,36 +9,102 @@
 import Foundation
 
 
-class ArraySubscript {
-    var lowerBound: Int32
-    var upperBound: Int32
+class Subscript {
+    var lowerBound: Int
+    var upperBound: Int
     
-    init(lowerBound: Int32 = 1, upperBound: Int32) {
+    init(lowerBound: Int = 1, upperBound: Int) throws {
+        guard (upperBound > lowerBound) else {
+            throw InvalidValueError("The upper bound must be greater than the lower bound.")
+        }
         self.lowerBound = lowerBound
         self.upperBound = upperBound
     }
+    
+    var count: Int {
+        return upperBound - lowerBound + 1
+    }
 }
 
-class Variable: BaseManagerContent {
+class Subscripts: Equatable {
+    static func ==(lhs: Subscripts, rhs: Subscripts) -> Bool {
+        guard (lhs.subscripts.count == rhs.subscripts.count) else {
+            return false
+        }
+        
+        for i in 0..<lhs.subscripts.count {
+            if (lhs.subscripts[i].count != rhs.subscripts[i].count) {
+                return false
+            }
+        }
+        
+        return true
+    }
+    
+    private var subscripts: [Subscript]
+    
+    init(current: Subscript? = nil) {
+        if let current = current {
+            self.subscripts = [current]
+        } else {
+            self.subscripts = []
+        }
+    }
+    
+    init(current: Subscript, parentSubscripts: Subscripts) {
+        self.subscripts =  [current] + parentSubscripts.subscripts
+    }
+    
+    subscript(index: Int) -> Subscript {
+        get {
+            return self.subscripts[index]
+        }
+        set(value) {
+            self.subscripts[index] = value
+        }
+    }
+    
+    var dimensions: Int {
+        return self.subscripts.count
+    }
+}
+
+class Operand {
     var type: Type
-    var initialValue: OperandElement
-    
+
     var isArray: Bool {
-        return self is ArrayVariable
+        return self is ArrayOperand
     }
     
-    init(name: String, type: Type, initialValue: OperandElement? = nil) {
+    func isSameWith(_ operand: Operand) -> Bool {
+        if let array = self as? ArrayOperand, let operand = operand as? ArrayOperand {
+            return array.type == operand.type && array.subscripts == operand.subscripts
+        } else if (!self.isArray && !operan.isArray) {
+            return self.type == operand.type
+        }
+        return false
+    }
+    
+    func isCompatibleWith(_ operand: Operand) -> Bool {
+        if let array = self as? ArrayOperand, let operand = operand as? ArrayOperand {
+            return (array.type == operand.type || array.type.isNumber && operand.type.isNumber) && array.subscripts == operand.subscripts
+        } else if (!self.isArray && !operan.isArray) {
+            return self.type == operand.type || (self.type.isNumber && operand.type.isNumber)
+        }
+        return false
+    }
+    
+    init(type: Type) {
         self.type = type
-        self.initialValue = initialValue != nil ? initialValue! : ConstantElement(type.defaultValue, type: type)
-        super.init(name)
     }
 }
 
-class ArrayVariable: Variable {
-    var subscripts: [ArraySubscript]
+class ArrayOperand: Operand {
+    var subscripts: Subscripts
     
-    init(name: String, type: Type, subscripts: [ArraySubscript] = [], initialValue: OperandElement? = nil) {
+    init(type: Type, subscripts: Subscripts) {
         self.subscripts = subscripts
-        super.init(name: name, type: type, initialValue: initialValue)
+        super.init(type: type)
     }
 }
+

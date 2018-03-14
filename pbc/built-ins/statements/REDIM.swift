@@ -10,9 +10,9 @@ import Foundation
 
 class VariableRedimension {
     var variable: Variable
-    var newSubscripts: [ArraySubscript]
+    var newSubscripts: [Subscript]
     
-    init(variable: Variable, newSubscripts: [ArraySubscript]) {
+    init(variable: Variable, newSubscripts: [Subscript]) {
         self.variable = variable
         self.newSubscripts = newSubscripts
     }
@@ -55,11 +55,11 @@ class REDIMStatement: BaseStatement {
                     throw InvalidValueError("Variable '" + variable.name + "' is not an array.")
                 }
                 
-                var varSubscripts: [ArraySubscript] = []
+                var varSubscripts: [Subscript] = []
                 // parse the array bounds
                 if (BracketParser.parse(&code, expectedDirection: .open) != nil) {
-                    var lowerBound: Int32 = 1
-                    var upperBound: Int32 = 1
+                    var lowerBound: Int = 1
+                    var upperBound: Int = 1
                     while(code.count > 0) {
                         guard let leftBound = try DecimalParser.parse(&code, expectedType: INTEGERType) else {
                             throw SyntaxError("Expected a valid array bound.")
@@ -82,7 +82,7 @@ class REDIMStatement: BaseStatement {
                             throw InvalidValueError("Invalid array bounds indicated.")
                         }
                         
-                        varSubscripts.append(ArraySubscript(lowerBound: lowerBound, upperBound: upperBound))
+                        varSubscripts.append(Subscript(lowerBound: lowerBound, upperBound: upperBound))
                         
                         if (SymbolParser.parse(&code, symbol: ",") != nil) {
                             // separator

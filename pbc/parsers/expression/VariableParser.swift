@@ -9,11 +9,10 @@
 import Foundation
 
 class VariableElement: OperandElement {
-    var variable: Variable
     var subscripts: [OperandElement]
     
-    init(_ variable: Variable, subscripts: [OperandElement] = []) {
-        self.variable = variable
+    init(_ variable: Variable, subscripts: [Operand] = []) {
+        super.init(variable)
         self.subscripts = subscripts
         if let subscripts = (variable as? ArrayVariable)?.subscripts {
             let bounds = subscripts.map{ Int($0.upperBound - $0.lowerBound)  }
@@ -21,6 +20,10 @@ class VariableElement: OperandElement {
         } else {
             super.init(variable.type)
         }
+    }
+    
+    var variable: Operand? {
+        return self.operand as? Variable
     }
 }
 

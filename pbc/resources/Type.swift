@@ -22,9 +22,16 @@ class TypeField {
     }
 }
 
-class Type: BaseManagerContent {
+class Type: BaseManagerContent, Equatable {
+    var name: String
+    
+    static func ==(lhs: Type, rhs: Type) -> Bool {
+        return lhs.name == rhs.name
+    }
+    
     var fields: [String: TypeField]
     var defaultValue: Any
+    
     var isNumber: Bool {
         get {
             return numberTypelList.contains(self)
@@ -47,10 +54,14 @@ class Type: BaseManagerContent {
         }
     }
     
+    func isCompatibileWith(type: Type) -> Bool {
+        return self == type || (self.isNumber && type.isNumber)
+    }
+    
     init(name: String, fields: [String: TypeField] = [:], defaultValue: Any) {
+        self.name = name
         self.fields = fields
         self.defaultValue = defaultValue
-        super.init(name)
     }
     
     static func mixType(type1: Type, type2: Type) -> Type? {

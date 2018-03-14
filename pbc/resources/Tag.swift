@@ -8,4 +8,10 @@
 
 import Foundation
 
-class Tag: BaseManagerContent { }
+class Tag: BaseManagerContent {
+    var name: String
+    
+    init(_ name: String) {
+        self.name = name
+    }
+}

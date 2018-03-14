@@ -9,6 +9,7 @@
 import Foundation
 
 class Declare: BaseManagerContent {
+    var name: String
     var alias: String?
     var module: String?
     var arguments: ArgumentList
@@ -17,11 +18,11 @@ class Declare: BaseManagerContent {
     var procedure: Procedure? = nil
     
     init(name: String, alias: String?, module: String?, arguments: ArgumentList, returningType: Type?) {
+        self.name = name
         self.alias = alias
         self.module = module
         self.arguments = arguments
         self.returningType = returningType
-        super.init(name)
     }
 }
 
