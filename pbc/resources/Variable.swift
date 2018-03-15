@@ -20,7 +20,7 @@ class Variable: Operand, BaseManagerContent {
 class ArrayVariable: ArrayOperand, BaseManagerContent {
     var name: String
     
-    init(name: String, type: Type, subscripts: [Subscript] = []) {
+    init(name: String, type: Type, subscripts: Subscripts) {
         self.name = name
         super.init(type: type, subscripts: subscripts)
     }

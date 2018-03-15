@@ -46,38 +46,10 @@ class Constant: Operand {
 }
 
 class ArrayConstant: ArrayOperand {
-    var value: Array<Any>
+    var value: Array<Operand>
     
-    init(value: Array<Any>, type: Type, subscripts: [Subscript] = []) {
+    init(value: Array<Operand>, type: Type, subscripts: Subscripts) {
         self.value = value
         super.init(type: type, subscripts: subscripts)
-    }
-    
-    var shortValue: Array<Int16>? {
-        return self.value as? Array<Int16>
-    }
-    
-    var integerValue: Array<Int32>? {
-        return self.value as? Array<Int32>
-    }
-    
-    var longValue: Array<Int64>? {
-        return self.value as? Array<Int64>
-    }
-    
-    var floatValue: Array<Float>? {
-        return self.value as? Array<Float>
-    }
-    
-    var doubleValue: Array<Double>? {
-        return self.value as? Array<Double>
-    }
-    
-    var stringValue: Array<String>? {
-        return self.value as? Array<String>
-    }
-    
-    var booleanValue: Bool? {
-        return self.value as? Array<Bool>
     }
 }

@@ -8,16 +8,16 @@
 
 import Foundation
 
-class ArgumentList: Equatable {
+class Arguments: Equatable {
     var arguments: [Variable] = []
     
-    static func ==(lhs: ArgumentList, rhs: ArgumentList) -> Bool {
+    static func ==(lhs: Arguments, rhs: Arguments) -> Bool {
         guard (lhs.arguments.count == rhs.arguments.count) else {
             return false
         }
         
         for i in 0..<lhs.arguments.count {
-            guard (lhs.arguments[i].type == rhs.arguments[i].type && lhs.arguments[i].isArray == rhs.arguments[i].isArray) else {
+            guard (lhs.arguments[i].type.isCompatibileWith(type: rhs.arguments[i].type)) else {
                 return false
             }
         }
@@ -30,10 +30,10 @@ class ArgumentList: Equatable {
 // A procedure may stand for a function or a sub, determined by its returningType
 class Procedure {
     var name: String
-    var arguments: ArgumentList
+    var arguments: Arguments
     var returningType: Type?
     
-    init(name: String, arguments: ArgumentList, returningType:Type? = nil) {
+    init(name: String, arguments: Arguments, returningType:Type? = nil) {
         self.name = name
         self.arguments = arguments
         self.returningType = returningType

@@ -1,17 +1,25 @@
 //
-//  Expression.swift
+//  ExpressionFragment.swift
 //  pbc
 //
-//  Created by Scott Rong on 2018/3/13.
+//  Created by Scott Rong on 2018/3/14.
 //  Copyright © 2018年 jadestudio. All rights reserved.
 //
 
 import Foundation
 
-protocol ExpressionItem { }
+class ExpressionSubFragment {
+    var operand: Operand? {
+        return (self as? OperandFragment)?.operand
+    }
+    
+    var oper: Operator? {
+        return (self as? OperatorFragment)?.oper
+    }
+}
 
-class Expression: Operand {
-    var items: [ExpressionItem]
+class ExpressionFragment: OperandFragment {
+    var fragments: [ExpressionSubFragment]
     
     // get the type of the result of caclculations with binary operation.
     private static func getBinaryType(type1: Type, type2: Type, oper: Operator) throws -> Type {
@@ -21,7 +29,7 @@ class Expression: Operand {
                 throw InvalidValueError("Boolean cannot be the one of the operands in a mathematical calculation.")
             }
             
-            if (type1 == STRINGType && type2 == STRINGType && oper.type == .addition) {
+            if (type1 == STRINGType && type2 == STRINGType && oper == .addition) {
                 return STRINGType
             } else if let mixedType = Type.mixType(type1: type1, type2: type2), mixedType.isNumber {
                 return mixedType
@@ -50,13 +58,15 @@ class Expression: Operand {
         return BOOLEANType
     }
     
-    static func predictType(_ items: [ExpressionItem]) throws -> Type {
-        let stack = Stack<(type: Type, dimensions: Int)>()
+    static func predictType(_ fragments: [ExpressionSubFragment]) throws -> Type {
+        let stack = Stack<(type: Type, subscripts: Subscripts)>()
         
-        for item in items {
-            if let operand = item as? Operand {
-                stack.push((type: operand.type, dimensions: operand.dimensions))
-            } else if let oper = item as? Operator {
+        for fragment in fragments {
+            if let operand = fragment.operand as? ArrayOperand {
+                stack.push((type: operand.type, subscripts: operand.subscripts))
+            } else if let operand = fragment.operand {
+                stack.push((type: operand.type, subscripts: Subscripts.empty))
+            } else if let oper = fragment.oper {
                 if (oper.operands == .unary) {
                     // do nothing
                 } else {
@@ -67,11 +77,12 @@ class Expression: Operand {
                         throw SyntaxError("Not enough operand")
                     }
                     
-                    if (operand1.dimensions > 0 || operand2.dimensions > 0) {
-                        throw InvalidValueError("Arrays cannot be applied for '" + oper.type.rawValue + "' operations.")
+                    if (!operand1.subscripts.isEmpty || !operand2.subscripts.isEmpty) {
+                        throw InvalidValueError("Arrays cannot be applied for '" + oper.rawValue + "' operations.")
                     }
                     
-                    try stack.push((type: Expression.getBinaryType(type1: operand1.type, type2: operand2.type, oper: oper), dimensions: 0))
+                    let type = try ExpressionFragment.getBinaryType(type1: operand1.type, type2: operand2.type, oper: oper)
+                    stack.push((type: type, subscripts: Subscripts.empty))
                 }
             }
         }
@@ -83,9 +94,9 @@ class Expression: Operand {
         return result.type
     }
     
-    init(_ items: [ExpressionItem]) throws {
-        self.items = items
-        let type = try Expression.predictType(items)
+    init(_ fragments: [ExpressionSubFragment]) throws {
+        self.fragments = fragments
+        let type = try ExpressionFragment.predictType(fragments)
         super.init(type: type)
     }
 }

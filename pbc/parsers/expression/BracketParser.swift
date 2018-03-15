@@ -14,7 +14,7 @@ enum BracketDirection:Int {
     case pair
 }
 
-class BracketElement: BaseElement {
+class BracketFragment: ExpressionSubFragment {
     var direction: BracketDirection
 
     init(_ direction: BracketDirection) {
@@ -24,17 +24,17 @@ class BracketElement: BaseElement {
 
 class BracketParser {
     
-    static func parse(_ code: inout String, expectedDirection: BracketDirection? = nil) -> BracketElement? {
+    static func parse(_ code: inout String, expectedDirection: BracketDirection? = nil) -> BracketFragment? {
         if (code.hasPrefix("(") && (expectedDirection == nil || expectedDirection == .open)) {
             code = code[1...]
             WhitespaceParser.parse(&code)
-            return BracketElement(.open)
+            return BracketFragment(.open)
         }
         
         if (code.hasPrefix(")") && (expectedDirection == nil || expectedDirection == .close)) {
             code = code[1...]
             WhitespaceParser.parse(&code)
-            return BracketElement(.close)
+            return BracketFragment(.close)
         }
         
         // enter the paired bracket parser zone
@@ -45,7 +45,7 @@ class BracketParser {
         var tryCode = code
         if (BracketParser.parse(&tryCode, expectedDirection: .open) != nil && BracketParser.parse(&tryCode, expectedDirection: .close) != nil) {
             code = tryCode
-            return BracketElement(.pair)
+            return BracketFragment(.pair)
         }
         
         return nil

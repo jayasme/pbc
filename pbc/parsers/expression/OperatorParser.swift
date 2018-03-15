@@ -18,47 +18,47 @@ class OperatorElement: BaseElement {
 
 class OperatorParser {
     
-    static func parse(_ code: inout String, preferUnary: Bool = false) -> OperatorElement? {
+    static func parse(_ code: inout String, preferUnary: Bool = false) -> OperatorFragment? {
         if (!preferUnary && SymbolParser.parse(&code, symbol: "+") != nil) {
-            return OperatorElement(Operator(.addition))
+            return OperatorFragment(.addition)
         } else if (!preferUnary && SymbolParser.parse(&code, symbol: "-") != nil) {
-            return OperatorElement(Operator(.subtract))
+            return OperatorFragment(.subtract)
         } else if (SymbolParser.parse(&code, symbol: "*") != nil) {
-            return OperatorElement(Operator(.multiply))
+            return OperatorFragment(.multiply)
         } else if (SymbolParser.parse(&code, symbol: "/") != nil) {
-            return OperatorElement(Operator(.division))
+            return OperatorFragment(.division)
         } else if (SymbolParser.parse(&code, symbol: "^") != nil) {
-            return OperatorElement(Operator(.square))
+            return OperatorFragment(.square)
         } else if (SymbolParser.parse(&code, symbol: "\\") != nil) {
-            return OperatorElement(Operator(.intDivision))
+            return OperatorFragment(.intDivision)
         } else if (KeywordParser.parse(&code, keyword: "MOD") != nil) {
-            return OperatorElement(Operator(.modulo))
+            return OperatorFragment(.modulo)
         } else if (KeywordParser.parse(&code, keyword: "AND") != nil) {
-            return OperatorElement(Operator(.and))
+            return OperatorFragment(.and)
         } else if (KeywordParser.parse(&code, keyword: "OR") != nil) {
-            return OperatorElement(Operator(.or))
+            return OperatorFragment(.or)
         } else if (KeywordParser.parse(&code, keyword: "NOT") != nil) {
-            return OperatorElement(Operator(.not))
+            return OperatorFragment(.not)
         } else if (KeywordParser.parse(&code, keyword: "XOR") != nil) {
-            return OperatorElement(Operator(.xor))
+            return OperatorFragment(.xor)
         } else if (KeywordParser.parse(&code, keyword: "EQV") != nil) {
-            return OperatorElement(Operator(.eqv))
+            return OperatorFragment(.eqv)
         } else if (SymbolParser.parse(&code, symbol: "=") != nil) {
-            return OperatorElement(Operator(.equal))
+            return OperatorFragment(.equal)
         } else if (SymbolParser.parse(&code, symbol: "<>") != nil) {
-            return OperatorElement(Operator(.notEqual))
+            return OperatorFragment(.notEqual)
         } else if (SymbolParser.parse(&code, symbol: "<=") != nil) {
-            return OperatorElement(Operator(.lessOrEqual))
+            return OperatorFragment(.lessOrEqual)
         } else if (SymbolParser.parse(&code, symbol: ">=") != nil) {
-            return OperatorElement(Operator(.greaterOrEqual))
+            return OperatorFragment(.greaterOrEqual)
         } else if (SymbolParser.parse(&code, symbol: "<") != nil) {
-            return OperatorElement(Operator(.less))
+            return OperatorFragment(.less)
         } else if (SymbolParser.parse(&code, symbol: ">") != nil) {
-            return OperatorElement(Operator(.greater))
+            return OperatorFragment(.greater)
         } else if (preferUnary && SymbolParser.parse(&code, symbol: "+") != nil) {
-            return OperatorElement(Operator(.positive))
+            return OperatorFragment(.positive)
         } else if (preferUnary && SymbolParser.parse(&code, symbol: "-") != nil) {
-            return OperatorElement(Operator(.negative))
+            return OperatorFragment(.negative)
         }
         return nil
     }

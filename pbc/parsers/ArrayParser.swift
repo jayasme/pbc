@@ -26,7 +26,7 @@ class ArrayParser {
         
         var arrValue: [Operand] = []
         var arrType: Type! = nil
-        var subSubscript: [Subscript]! = nil
+        var lastSubscripts: Subscripts! = nil
         if (SymbolParser.parse(&code, symbol: "}") == nil) {
             while(code.count > 0) {
                 guard let operand = try ExpressionParser.parse(&code)?.operand else {
@@ -38,11 +38,12 @@ class ArrayParser {
                     throw InvalidValueError("Each type of elements in the array must be the same.")
                 }
                 
+                let subscripts = (operand is ArrayOperand) ? (operand as? ArrayOperand)?.subscripts : Subscripts()
                 // keep the each type of elements must be array or not be array at the same time
-                guard (subSubscript == nil || operand.count == subSubscript.first!.count) else {
+                guard (lastSubscripts == nil || subscripts == lastSubscripts) else {
                     throw InvalidValueError("Each type of elements in the array must be array or not be array at the same time.")
                 }
-                expectedCount = operand.count
+                lastSubscripts = subscripts
                 
                 arrValue.append(operand)
                 if (arrType == nil) {
@@ -63,7 +64,10 @@ class ArrayParser {
             }
         }
         
-        let array = ArrayConstant(value: arrVa, type: arrType, subscripts: [Subscript])
+        let bounds = try Subscript(upperBound: arrValue.count)
+        let subscripts = lastSubscripts == nil ? Subscripts(current: bounds) : Subscripts(current: bounds, parentSubscripts: lastSubscripts)
+        let array = ArrayConstant(value: arrValue, type: arrType, subscripts: subscripts)
+
         return ArrayElement(array)
     }
 }

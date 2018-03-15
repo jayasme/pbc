@@ -14,15 +14,21 @@ class Declare: BaseManagerContent {
     var module: String?
     var arguments: ArgumentList
     var returningType: Type?
+    var subscripts: Subscripts?
     
     var procedure: Procedure? = nil
     
-    init(name: String, alias: String?, module: String?, arguments: ArgumentList, returningType: Type?) {
+    init(name: String, alias: String?, module: String?, arguments: ArgumentList, returningType: Type? = nil, subscripts: Subscripts? = nil) throws {
+        guard !(returningType == nil && subscripts != nil) else {
+            throw InvalidValueError("No returning type specified.")
+        }
+        
         self.name = name
         self.alias = alias
         self.module = module
         self.arguments = arguments
         self.returningType = returningType
+        self.subscripts = subscripts
     }
 }
 

@@ -43,6 +43,12 @@ class Subscripts: Equatable {
     
     private var subscripts: [Subscript]
     
+    static var empty: Subscripts = Subscripts()
+    
+    var isEmpty: Bool {
+        return self == Subscripts.empty
+    }
+    
     init(current: Subscript? = nil) {
         if let current = current {
             self.subscripts = [current]
@@ -69,7 +75,7 @@ class Subscripts: Equatable {
     }
 }
 
-class Operand {
+class Operand: ExpressionItem {
     var type: Type
 
     var isArray: Bool {
@@ -79,7 +85,7 @@ class Operand {
     func isSameWith(_ operand: Operand) -> Bool {
         if let array = self as? ArrayOperand, let operand = operand as? ArrayOperand {
             return array.type == operand.type && array.subscripts == operand.subscripts
-        } else if (!self.isArray && !operan.isArray) {
+        } else if (!self.isArray && !operand.isArray) {
             return self.type == operand.type
         }
         return false
@@ -88,7 +94,7 @@ class Operand {
     func isCompatibleWith(_ operand: Operand) -> Bool {
         if let array = self as? ArrayOperand, let operand = operand as? ArrayOperand {
             return (array.type == operand.type || array.type.isNumber && operand.type.isNumber) && array.subscripts == operand.subscripts
-        } else if (!self.isArray && !operan.isArray) {
+        } else if (!self.isArray && !operand.isArray) {
             return self.type == operand.type || (self.type.isNumber && operand.type.isNumber)
         }
         return false

@@ -8,28 +8,9 @@
 
 import Foundation
 
-class VariableElement: OperandElement {
-    var subscripts: [OperandElement]
-    
-    init(_ variable: Variable, subscripts: [Operand] = []) {
-        super.init(variable)
-        self.subscripts = subscripts
-        if let subscripts = (variable as? ArrayVariable)?.subscripts {
-            let bounds = subscripts.map{ Int($0.upperBound - $0.lowerBound)  }
-            super.init(variable.type, bounds: bounds)
-        } else {
-            super.init(variable.type)
-        }
-    }
-    
-    var variable: Operand? {
-        return self.operand as? Variable
-    }
-}
-
 class VariableParser {
     
-    static func parse(_ code: inout String) throws -> VariableElement? {
+    static func parse(_ code: inout String) throws -> OperandFragment? {
         var tryCode = code
         
         guard let name = PatternedNameParser.parse(&tryCode)?.name else {
@@ -41,7 +22,7 @@ class VariableParser {
         }
         
         // parse the array bounds
-        var varSubscripts: [OperandElement] = []
+        /* var varSubscripts: [OperandElement] = []
         if let arrayVariable = variable as? ArrayVariable {
             guard (BracketParser.parse(&tryCode, expectedDirection: .open) != nil) else {
                 throw SyntaxError("'" + variable.name + "' is an array, must specify the subscript.")
@@ -72,34 +53,10 @@ class VariableParser {
                 // separator
                 throw SyntaxError("Expected ')'.")
             }
-        }
+        } */
         
-        code = tryCode
-        return VariableElement(variable, subscripts: varSubscripts)
+        // code = tryCode
+        return OperandFragment(variable)
     }
 }
-
-/*
- // Seek for the following character to determine it is a function / array or not
- while(currCode.hasPrefix("(") || currCode.hasPrefix(",") || currCode.hasPrefix(")")) {
- if (parameters == nil) {
- parameters = []
- }
- 
- let subParser = ExpressionParser.init(currCode[1...])
- do {
- let subTuple = try subParser.parse()
- parameters!.append(subTuple.instructions)
- if (subTuple.rest.hasPrefix(")")) {
- // end of the function or array
- currCode = subTuple.rest[1...]
- break
- } else {
- currCode = subTuple.rest
- }
- } catch let error {
- throw error
- }
- }
- */
 
