@@ -9,17 +9,17 @@
 import Foundation
 
 class OperandFragment: ExpressionSubFragment {
-    var operand: Operand
+    var value: Operand
     
-    init(_ operand: Operand) {
-        self.operand = operand
+    init(_ value: Operand) {
+        self.value = value
     }
     
     var variable: Variable? {
-        return self.operand as? Variable
+        return self.value as? Variable
     }
     
     var constant: Constant? {
-        return self.operand as? Constant
+        return self.value as? Constant
     }
 }

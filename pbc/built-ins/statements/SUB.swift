@@ -33,16 +33,16 @@ class SUBStatement: GroupedStatement, BaseStatement {
         }
     }
 
-    var sub: Procedure
+    var sub: Sub
     
-    init(_ sub: Procedure) {
+    init(_ sub: Sub) {
         self.sub = sub
     }
     
     func beginStatement(block: BlockElement) throws {
         do {
-            for argument in self.sub.arguments.arguments {
-                try block.variableManager.registerVariable(argument)
+            for variable in self.sub.parameters.parameters {
+                try block.variableManager.registerVariable(variable)
             }
         } catch let error {
             throw error
@@ -65,15 +65,15 @@ class SUBStatement: GroupedStatement, BaseStatement {
                 throw SyntaxError("Sub requires a bracket following the sub name.")
             }
             
-            // parse the argument bracket
-            let arguments = ArgumentList()
+            // parse the parameters bracket
+            let parameters = Parameters.empty
             if (BracketParser.parse(&code, expectedDirection: .close) == nil) {
                 while(code.count > 0) {
                     guard let argument = try VariableDeclarationParser.parse(&code)?.variable else {
                         throw SyntaxError("Expected a valid argument.")
                     }
 
-                    arguments.arguments.append(argument)
+                    parameters.parameters.append(argument)
                     
                     if (SymbolParser.parse(&code, symbol: ",") != nil) {
                         // separator
@@ -97,11 +97,11 @@ class SUBStatement: GroupedStatement, BaseStatement {
             guard (declare.procedure == nil) else {
                 throw NotFoundError("Reimplementation of the sub '" + subName + "'.")
             }
-            guard (declare.arguments == arguments) else {
+            guard (declare.parameters == parameters) else {
                 throw NotFoundError("Sub '" + subName + "' dismatches its declaration.")
             }
             
-            let sub = Procedure(name: subName, arguments: arguments)
+            let sub = Sub(name: subName, parameters: parameters)
             declare.procedure = sub
             
             return SUBStatement(sub)

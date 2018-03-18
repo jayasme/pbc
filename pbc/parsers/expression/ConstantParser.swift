@@ -31,7 +31,7 @@ class ConstantParser {
             if let array = try ArrayParser.parse(&code)?.array {
                 return OperandFragment(
                     ArrayConstant(
-                        value: array.value,
+                        value: array.arrayValue,
                         type: array.type,
                         subscripts: array.subscripts
                     )

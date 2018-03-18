@@ -21,11 +21,11 @@ class CALLStatement: BaseStatement {
         }
     }
     
-    var sub: Declare
-    var arguments: [OperandElement]
+    var procedure: Declare
+    var arguments: Arguments
     
-    init(sub: Declare, arguments: [OperandElement]) {
-        self.sub = sub
+    init(procedure: Declare, arguments: Arguments) {
+        self.procedure = procedure
         self.arguments = arguments
     }
     
@@ -48,7 +48,7 @@ class CALLStatement: BaseStatement {
                 return nil
             }
             
-            guard let sub = CodeParser.sharedDeclareManager.findDeclare(name) else {
+            guard let procedure = CodeParser.sharedDeclareManager.findDeclare(name) else {
                 if (expectedStatement) {
                     throw SyntaxError("Cannot find the declaration.")
                 }
@@ -59,33 +59,20 @@ class CALLStatement: BaseStatement {
             if (BracketParser.parse(&tryCode, expectedDirection: .pair) != nil) {
                 // paired brackets
                 code = tryCode
-                return CALLStatement(sub: sub, arguments: [])
+                return CALLStatement(procedure: procedure, arguments: Arguments.empty)
             }
             
             // parse the arguments
             // Bracket is optional
             let hasOpenBracket = (BracketParser.parse(&tryCode, expectedDirection: .open) != nil)
             
-            var subArguments: [OperandElement] = []
+            var arguments: Arguments = Arguments.empty
             while(code.count > 0) {
-                guard subArguments.count < sub.arguments.arguments.count else {
-                    throw InvalidValueError("Sub '" + sub.name + "' only recieves " + String(sub.arguments.arguments.count) + " arguments.")
-                }
-                
-                guard let expression = try ExpressionParser.parse(&tryCode) else {
+                guard let operand = try ExpressionParser.parse(&tryCode)?.value else {
                     throw SyntaxError("Expected a valid expression.")
                 }
                 
-                let decArg = sub.arguments.arguments[subArguments.count]
-                
-                // check if the expression's type is matched with function's declaration
-                guard (expression.type == decArg.type || (expression.type.isNumber && decArg.type.isNumber)) else {
-                    throw SyntaxError("The type of argument " + String(subArguments.count + 1) + " is not matched to its declaration.")
-                }
-                
-                // TODO check if the expression and the arguments are both array or not.
-                
-                subArguments.append(expression)
+                arguments.arguments.append(operand)
                 
                 if (SymbolParser.parse(&tryCode, symbol: ",") != nil) {
                     // separator
@@ -102,8 +89,13 @@ class CALLStatement: BaseStatement {
                 break
             }
             
+            // check the arguments
+            guard (arguments == procedure.parameters) else {
+                throw InvalidValueError("Called function '" + procedure.name + "' it not mathced to its declaration.")
+            }
+            
             code = tryCode
-            return CALLStatement(sub: sub, arguments: subArguments)
+            return CALLStatement(procedure: procedure, arguments: arguments)
         } catch let error {
             throw error
         }

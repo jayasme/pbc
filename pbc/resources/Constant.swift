@@ -45,11 +45,15 @@ class Constant: Operand {
     }
 }
 
-class ArrayConstant: ArrayOperand {
-    var value: Array<Operand>
+class ArrayConstant: Constant, ArrayOperand {
+    var subscripts: Subscripts
     
     init(value: Array<Operand>, type: Type, subscripts: Subscripts) {
-        self.value = value
-        super.init(type: type, subscripts: subscripts)
+        self.subscripts = subscripts
+        super.init(value: value, type: type)
+    }
+
+    var arrayValue: Array<Operand> {
+        return self.value as! Array<Operand>
     }
 }

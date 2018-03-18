@@ -27,10 +27,10 @@ class DOStatement: BaseStatement, GroupedStatement {
         }
     }
     
-    var condition: OperandElement?
+    var condition: OperandFragment?
     var loopType: LoopType
     
-    init(_ condition: OperandElement?, loopType: LoopType) {
+    init(_ condition: OperandFragment?, loopType: LoopType) {
         self.condition = condition
         self.loopType = loopType
     }
@@ -50,7 +50,7 @@ class DOStatement: BaseStatement, GroupedStatement {
             }
             
             // parse the expression
-            var condition: OperandElement? = nil
+            var condition: OperandFragment! = nil
             if (loopType != .none) {
                 guard let expression = try ExpressionParser.parse(&code) else {
                     throw SyntaxError("Expected a valid expression")
@@ -59,7 +59,7 @@ class DOStatement: BaseStatement, GroupedStatement {
             }
             
             // check the expression's type
-            guard (condition == nil || condition!.type == BOOLEANType) else {
+            guard (condition == nil || condition.value.type == BOOLEANType) else {
                 throw InvalidValueError("DO statement only excepts a boolean as its condition.")
             }
             

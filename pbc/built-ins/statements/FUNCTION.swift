@@ -34,18 +34,24 @@ class FUNCTIONStatement: GroupedStatement, BaseStatement {
     }
 
     
-    var function: Procedure
+    var function: Function
     
-    init(_ function: Procedure) {
+    init(_ function: Function) {
         self.function = function
     }
     
     func beginStatement(block: BlockElement) throws {
         do {
-            for argument in self.function.arguments.arguments {
-                try block.variableManager.registerVariable(argument)
+            for variable in self.function.parameters.parameters {
+                try block.variableManager.registerVariable(variable)
             }
-            try block.variableManager.registerVariable(Variable(name: self.function.name, type: self.function.returningType!))
+            var returningVariable: Variable!
+            if let subscripts = function.returningSubscripts {
+                returningVariable = ArrayVariable(name: self.function.name, type: self.function.returningType, subscripts: subscripts)
+            } else {
+                returningVariable = Variable(name: self.function.name, type: self.function.returningType)
+            }
+            try block.variableManager.registerVariable(returningVariable)
         } catch let error {
             throw error
         }
@@ -67,15 +73,15 @@ class FUNCTIONStatement: GroupedStatement, BaseStatement {
                 throw SyntaxError("Function requires a bracket following the function name.")
             }
             
-            // parse the argument bracket
-            let arguments = ArgumentList()
+            // parse the parameter bracket
+            let parameters = Parameters.empty
             if (BracketParser.parse(&code, expectedDirection: .close) == nil) {
                 while(code.count > 0) {
-                    guard let argument = try VariableDeclarationParser.parse(&code)?.variable else {
+                    guard let parameter = try VariableDeclarationParser.parse(&code)?.variable else {
                         throw SyntaxError("Expected a valid argument.")
                     }
                     
-                    arguments.arguments.append(argument)
+                    parameters.parameters.append(parameter)
                     
                     if (SymbolParser.parse(&code, symbol: ",") != nil) {
                         // separator
@@ -98,6 +104,9 @@ class FUNCTIONStatement: GroupedStatement, BaseStatement {
                 returningType = type
             }
             
+            // TODO parse the returning subscripts
+            var returningSubscripts: Subscripts? = nil
+            
             // Find the check declare registeration
             guard let declare = CodeParser.sharedDeclareManager.findDeclare(funcName) else {
                 throw NotFoundError("Function '" + funcName + "' not declared")
@@ -108,11 +117,11 @@ class FUNCTIONStatement: GroupedStatement, BaseStatement {
             guard (declare.procedure == nil) else {
                 throw NotFoundError("Reimplementation of the function '" + funcName + "'.")
             }
-            guard (declare.arguments == arguments && declare.returningType == returningType) else {
+            guard (declare.parameters == parameters && declare.returningType == returningType && declare.returningSubscripts == returningSubscripts) else {
                 throw NotFoundError("Function '" + funcName + "' dismatches its declaration.")
             }
             
-            let function = Procedure(name: funcName, arguments: arguments, returningType: returningType)
+            let function = Function(name: funcName, parameters: parameters, returningType: returningType, returningSubscripts: returningSubscripts)
             declare.procedure = function
             
             return FUNCTIONStatement(function)

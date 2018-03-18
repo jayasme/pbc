@@ -27,27 +27,15 @@ class FunctionInvokerParser {
                 throw SyntaxError("Expected '('.")
             }
             
-            var funcArguments: [Operand] = []
+            let arguments = Arguments.empty
             if (BracketParser.parse(&tryCode, expectedDirection: .close) == nil) {
                 while(code.count > 0) {
-                    guard funcArguments.count < function.arguments.arguments.count else {
-                        throw InvalidValueError("Function '" + function.name + "' only recieves " + String( function.arguments.arguments.count) + " arguments.")
+                    
+                    guard let operand = try ExpressionParser.parse(&tryCode)?.value else {
+                        throw SyntaxError("Expected a valid operand.")
                     }
                     
-                    guard let expression = try ExpressionParser.parse(&tryCode) else {
-                        throw SyntaxError("Expected a valid expression.")
-                    }
-                    
-                    let decArg = function.arguments.arguments[funcArguments.count]
-                    
-                    // check if the expression's type is matched with function's declaration
-                    guard (expression.operand.isCompatibleWith(decArg)) else {
-                        throw SyntaxError("The type of argument " + String(funcArguments.count + 1) + " is not matched to its declaration.")
-                    }
-                    
-                    // TODO check if the expression and the arguments are both array or not.
-                    
-                    funcArguments.append(expression)
+                    arguments.arguments.append(operand)
                     
                     if (SymbolParser.parse(&tryCode, symbol: ",") != nil) {
                         // separator
@@ -61,8 +49,13 @@ class FunctionInvokerParser {
                 }
             }
             
+            // check the arguments
+            guard (arguments == function.parameters) else {
+                throw InvalidValueError("Called function '" + function.name + "' it not mathced to its declaration.")
+            }
+            
             code = tryCode
-            return try FunctionInvokerFragment(function, arguments: funcArguments)
+            return try FunctionInvokerFragment(function, arguments: arguments)
         } catch let error {
             throw error
         }

@@ -61,7 +61,6 @@
 		1D6548B6203E634A000455DD /* PatternedNameParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6548B5203E634A000455DD /* PatternedNameParser.swift */; };
 		1D6548B8203E7A8A000455DD /* Procedure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6548B7203E7A8A000455DD /* Procedure.swift */; };
 		1D8899032056DC0400C9E5C5 /* Operand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8899022056DC0300C9E5C5 /* Operand.swift */; };
-		1D8899072056DD7800C9E5C5 /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8899062056DD7800C9E5C5 /* Expression.swift */; };
 		1D8FFA33204EE98E007920AC /* EXITFOR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8FFA32204EE98E007920AC /* EXITFOR.swift */; };
 		1D8FFA35204EE99C007920AC /* EXITDO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8FFA34204EE99C007920AC /* EXITDO.swift */; };
 		1D8FFA37204F59BC007920AC /* FunctionInvokerParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8FFA36204F59BC007920AC /* FunctionInvokerParser.swift */; };
@@ -116,7 +115,6 @@
 		1DA13D7F2026FF90007AE5E8 /* BaseInstruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA13D7E2026FF90007AE5E8 /* BaseInstruction.swift */; };
 		1DA13D872027CCA8007AE5E8 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA13D862027CCA8007AE5E8 /* Stack.swift */; };
 		1DAFA7B320443CA0009E9D96 /* KeywordParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAFA7B220443CA0009E9D96 /* KeywordParser.swift */; };
-		1DEF44F8205971BE00E8D608 /* Invoker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEF44F7205971BE00E8D608 /* Invoker.swift */; };
 		1DEF44FC20597DC500E8D608 /* OperandFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEF44FB20597DC500E8D608 /* OperandFragment.swift */; };
 		1DEF44FF20597DDA00E8D608 /* ExpressionFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEF44FE20597DDA00E8D608 /* ExpressionFragment.swift */; };
 		1DEF450320597DF700E8D608 /* OperatorFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEF450220597DF700E8D608 /* OperatorFragment.swift */; };
@@ -191,7 +189,6 @@
 		1D6548B5203E634A000455DD /* PatternedNameParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternedNameParser.swift; sourceTree = "<group>"; };
 		1D6548B7203E7A8A000455DD /* Procedure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Procedure.swift; sourceTree = "<group>"; };
 		1D8899022056DC0300C9E5C5 /* Operand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operand.swift; sourceTree = "<group>"; };
-		1D8899062056DD7800C9E5C5 /* Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
 		1D8FFA32204EE98E007920AC /* EXITFOR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXITFOR.swift; sourceTree = "<group>"; };
 		1D8FFA34204EE99C007920AC /* EXITDO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXITDO.swift; sourceTree = "<group>"; };
 		1D8FFA36204F59BC007920AC /* FunctionInvokerParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionInvokerParser.swift; sourceTree = "<group>"; };
@@ -247,7 +244,6 @@
 		1DA13D7E2026FF90007AE5E8 /* BaseInstruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseInstruction.swift; sourceTree = "<group>"; };
 		1DA13D862027CCA8007AE5E8 /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		1DAFA7B220443CA0009E9D96 /* KeywordParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordParser.swift; sourceTree = "<group>"; };
-		1DEF44F7205971BE00E8D608 /* Invoker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invoker.swift; sourceTree = "<group>"; };
 		1DEF44FB20597DC500E8D608 /* OperandFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperandFragment.swift; sourceTree = "<group>"; };
 		1DEF44FE20597DDA00E8D608 /* ExpressionFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionFragment.swift; sourceTree = "<group>"; };
 		1DEF450220597DF700E8D608 /* OperatorFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatorFragment.swift; sourceTree = "<group>"; };
@@ -522,9 +518,7 @@
 				1D54F190204C2E1F00A66AB8 /* DeclareManager.swift */,
 				1D54F17C204B913E00A66AB8 /* BaseManager.swift */,
 				1D8899022056DC0300C9E5C5 /* Operand.swift */,
-				1D8899062056DD7800C9E5C5 /* Expression.swift */,
 				1D981EDE2056DE1900998846 /* Constant.swift */,
-				1DEF44F7205971BE00E8D608 /* Invoker.swift */,
 			);
 			path = resources;
 			sourceTree = "<group>";
@@ -656,7 +650,6 @@
 				1DA13D51202563DE007AE5E8 /* main.swift in Sources */,
 				1DEF44FC20597DC500E8D608 /* OperandFragment.swift in Sources */,
 				1D6548A2203D524B000455DD /* SINGLE.swift in Sources */,
-				1D8899072056DD7800C9E5C5 /* Expression.swift in Sources */,
 				1D54F18F204BCBB300A66AB8 /* Declare.swift in Sources */,
 				1DA13D6320260EE2007AE5E8 /* SyntaxError.swift in Sources */,
 				1D925A462035311A00F3C4E5 /* DataTypeError.swift in Sources */,
@@ -704,7 +697,6 @@
 				1D34C17320455F000019FFEB /* IOError.swift in Sources */,
 				1D518D632048D37C00CB5DD0 /* BlockParser.swift in Sources */,
 				1D34C17120455B920019FFEB /* CodeInput.swift in Sources */,
-				1DEF44F8205971BE00E8D608 /* Invoker.swift in Sources */,
 				1D925A4820353D4B00F3C4E5 /* Loads.swift in Sources */,
 				1D34C2312047FAD90019FFEB /* AssignmentParser.swift in Sources */,
 				1D54F16D204A2FC100A66AB8 /* TagParser.swift in Sources */,

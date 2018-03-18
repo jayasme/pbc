@@ -54,7 +54,7 @@ class Type: BaseManagerContent, Equatable {
         }
     }
     
-    func isCompatibileWith(type: Type) -> Bool {
+    func isCompatibleWith(type: Type) -> Bool {
         return self == type || (self.isNumber && type.isNumber)
     }
     

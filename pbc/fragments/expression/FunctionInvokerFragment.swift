@@ -8,21 +8,38 @@
 
 import Foundation
 
-class FunctionInvokerFragment: OperandFragment {
-    var function: Declare
-    var arguments: [Operand]
+class FunctionInvoker: Operand {
+    var function: Function
+    var arguments: Arguments
     
-    init(_ function: Declare, arguments: [Operand] = []) throws {
-        guard let returningType = function.returningType else {
-            throw InvalidValueError("SUB cannot be a part of expression.")
-        }
+    fileprivate init(function: Function, arguments: Arguments) throws {
         self.function = function
         self.arguments = arguments
+        
+        super.init(type: function.returningType)
+    }
+}
+
+class ArrayFunctionInvoker: FunctionInvoker, ArrayOperand {
+    var subscripts: Subscripts
+    
+    fileprivate override init(function: Function, arguments: Arguments) throws {
+        guard let subscripts = function.returningSubscripts else {
+            throw InvalidValueError("No returning subscripts found.")
+        }
+        
+        self.subscripts = subscripts
+        try super.init(function: function, arguments: arguments)
+    }
+}
+
+class FunctionInvokerFragment: OperandFragment {
+    init(function: Function, arguments: Arguments) throws {
         var operand: Operand! = nil;
-        if let subscripts = function.subscripts {
-            operand = ArrayOperand(type: returningType, subscripts: subscripts)
+        if (function.returningSubscripts != nil) {
+            operand = try ArrayFunctionInvoker(function: function, arguments: arguments)
         } else {
-            operand = Operand(type: returningType)
+            operand = try FunctionInvoker(function: function, arguments: arguments)
         }
         super.init(operand)
     }

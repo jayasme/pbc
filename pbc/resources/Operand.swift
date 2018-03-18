@@ -10,10 +10,10 @@ import Foundation
 
 
 class Subscript {
-    var lowerBound: Int
-    var upperBound: Int
+    var lowerBound: Int32
+    var upperBound: Int32
     
-    init(lowerBound: Int = 1, upperBound: Int) throws {
+    init(lowerBound: Int32 = 1, upperBound: Int32) throws {
         guard (upperBound > lowerBound) else {
             throw InvalidValueError("The upper bound must be greater than the lower bound.")
         }
@@ -22,7 +22,7 @@ class Subscript {
     }
     
     var count: Int {
-        return upperBound - lowerBound + 1
+        return Int(upperBound - lowerBound) + 1
     }
 }
 
@@ -43,10 +43,12 @@ class Subscripts: Equatable {
     
     private var subscripts: [Subscript]
     
-    static var empty: Subscripts = Subscripts()
+    static var empty: Subscripts {
+        return Subscripts()
+    }
     
     var isEmpty: Bool {
-        return self == Subscripts.empty
+        return self.subscripts.count == 0
     }
     
     init(current: Subscript? = nil) {
@@ -59,6 +61,10 @@ class Subscripts: Equatable {
     
     init(current: Subscript, parentSubscripts: Subscripts) {
         self.subscripts =  [current] + parentSubscripts.subscripts
+    }
+    
+    init(baseSubscripts: Subscripts, attached: Subscript) {
+        self.subscripts = baseSubscripts.subscripts + [attached]
     }
     
     subscript(index: Int) -> Subscript {
@@ -75,27 +81,27 @@ class Subscripts: Equatable {
     }
 }
 
-class Operand: ExpressionItem {
+class Operand {
     var type: Type
 
     var isArray: Bool {
         return self is ArrayOperand
     }
     
-    func isSameWith(_ operand: Operand) -> Bool {
-        if let array = self as? ArrayOperand, let operand = operand as? ArrayOperand {
-            return array.type == operand.type && array.subscripts == operand.subscripts
+    func isSameWith(operand: Operand) -> Bool {
+        if let arraySelf = self as? ArrayOperand, let arrayOperand = operand as? ArrayOperand {
+            return self.type == operand.type && arraySelf.subscripts == arrayOperand.subscripts
         } else if (!self.isArray && !operand.isArray) {
             return self.type == operand.type
         }
         return false
     }
     
-    func isCompatibleWith(_ operand: Operand) -> Bool {
-        if let array = self as? ArrayOperand, let operand = operand as? ArrayOperand {
-            return (array.type == operand.type || array.type.isNumber && operand.type.isNumber) && array.subscripts == operand.subscripts
+    func isCompatibleWith(operand: Operand) -> Bool {
+        if let arraySelf = self as? ArrayOperand, let arrayOperand = operand as? ArrayOperand {
+            return (self.type.isCompatibleWith(type: operand.type)) && arraySelf.subscripts == arrayOperand.subscripts
         } else if (!self.isArray && !operand.isArray) {
-            return self.type == operand.type || (self.type.isNumber && operand.type.isNumber)
+            return self.type.isCompatibleWith(type: operand.type)
         }
         return false
     }
@@ -105,12 +111,6 @@ class Operand: ExpressionItem {
     }
 }
 
-class ArrayOperand: Operand {
-    var subscripts: Subscripts
-    
-    init(type: Type, subscripts: Subscripts) {
-        self.subscripts = subscripts
-        super.init(type: type)
-    }
+protocol ArrayOperand {
+    var subscripts: Subscripts { get }
 }
-

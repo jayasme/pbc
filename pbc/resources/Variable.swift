@@ -17,11 +17,11 @@ class Variable: Operand, BaseManagerContent {
     }
 }
 
-class ArrayVariable: ArrayOperand, BaseManagerContent {
-    var name: String
+class ArrayVariable: Variable, ArrayOperand {
+    var subscripts: Subscripts
     
     init(name: String, type: Type, subscripts: Subscripts) {
-        self.name = name
-        super.init(type: type, subscripts: subscripts)
+        self.subscripts = subscripts
+        super.init(name: name, type: type)
     }
 }

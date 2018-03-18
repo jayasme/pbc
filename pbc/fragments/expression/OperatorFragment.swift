@@ -9,9 +9,9 @@
 import Foundation
 
 class OperatorFragment: ExpressionSubFragment {
-    var oper: Operator
+    var value: Operator
     
-    init(_ oper: Operator) {
-        self.oper = oper
+    init(_ value: Operator) {
+        self.value = value
     }
 }

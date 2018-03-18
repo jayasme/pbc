@@ -29,12 +29,12 @@ class ArrayParser {
         var lastSubscripts: Subscripts! = nil
         if (SymbolParser.parse(&code, symbol: "}") == nil) {
             while(code.count > 0) {
-                guard let operand = try ExpressionParser.parse(&code)?.operand else {
+                guard let operand = try ExpressionParser.parse(&code)?.value else {
                     throw SyntaxError("Expected a valid expression.")
                 }
                 
                 // keep the each type of elements must be the same
-                guard (arrType == nil || operand.type.isCompatibileWith(type: arrType)) else {
+                guard (arrType == nil || operand.type.isCompatibleWith(type: arrType)) else {
                     throw InvalidValueError("Each type of elements in the array must be the same.")
                 }
                 
@@ -64,7 +64,7 @@ class ArrayParser {
             }
         }
         
-        let bounds = try Subscript(upperBound: arrValue.count)
+        let bounds = try Subscript(upperBound: Int32(arrValue.count))
         let subscripts = lastSubscripts == nil ? Subscripts(current: bounds) : Subscripts(current: bounds, parentSubscripts: lastSubscripts)
         let array = ArrayConstant(value: arrValue, type: arrType, subscripts: subscripts)
 

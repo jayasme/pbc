@@ -9,12 +9,12 @@
 import Foundation
 
 class ExpressionSubFragment {
-    var operand: Operand? {
-        return (self as? OperandFragment)?.operand
+    var operandValue: Operand? {
+        return (self as? OperandFragment)?.value
     }
     
-    var oper: Operator? {
-        return (self as? OperatorFragment)?.oper
+    var operatorValue: Operator? {
+        return (self as? OperatorFragment)?.value
     }
 }
 
@@ -44,7 +44,7 @@ class ExpressionFragment: OperandFragment {
             return BOOLEANType
         } else if (oper.category == .equality) {
             // equality
-            guard type1.isCompatibileWith(type: type2) else {
+            guard type1.isCompatibleWith(type: type2) else {
                 throw InvalidValueError("Only the values of identical type or numbers can be the operands of a comparational calculation.")
             }
             return BOOLEANType
@@ -62,11 +62,11 @@ class ExpressionFragment: OperandFragment {
         let stack = Stack<(type: Type, subscripts: Subscripts)>()
         
         for fragment in fragments {
-            if let operand = fragment.operand as? ArrayOperand {
-                stack.push((type: operand.type, subscripts: operand.subscripts))
-            } else if let operand = fragment.operand {
+            if let operand = fragment.operandValue, let array = operand as? ArrayOperand {
+                stack.push((type: operand.type, subscripts: array.subscripts))
+            } else if let operand = fragment.operandValue {
                 stack.push((type: operand.type, subscripts: Subscripts.empty))
-            } else if let oper = fragment.oper {
+            } else if let oper = fragment.operatorValue {
                 if (oper.operands == .unary) {
                     // do nothing
                 } else {
@@ -97,6 +97,7 @@ class ExpressionFragment: OperandFragment {
     init(_ fragments: [ExpressionSubFragment]) throws {
         self.fragments = fragments
         let type = try ExpressionFragment.predictType(fragments)
-        super.init(type: type)
+        let operand = Operand(type: type)
+        super.init(operand)
     }
 }

@@ -86,8 +86,8 @@ class ExpressionParser {
                         _ = stack.pop()
                     }
                 }
-            } else if let oper = fragment.oper {
-                while let topOper = stack.top?.oper, oper.piority <= topOper.piority {
+            } else if let oper = fragment.operatorValue {
+                while let topOper = stack.top?.operatorValue, oper.piority <= topOper.piority {
                     result.append(stack.pop()!)
                 }
                 stack.push(fragment);

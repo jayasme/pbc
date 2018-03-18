@@ -35,11 +35,11 @@ class FORStatement: BaseStatement, GroupedStatement {
     }
 
     var counter: Variable
-    var start: OperandElement
-    var end: OperandElement
-    var step: OperandElement
+    var start: OperandFragment
+    var end: OperandFragment
+    var step: OperandFragment
     
-    init(counter: Variable, start: OperandElement, end: OperandElement, step: OperandElement) {
+    init(counter: Variable, start: OperandFragment, end: OperandFragment, step: OperandFragment) {
         self.counter = counter
         self.start = start
         self.end = end
@@ -54,7 +54,7 @@ class FORStatement: BaseStatement, GroupedStatement {
             }
             
             // parse the counter type
-            var counterType: Type? = nil
+            var counterType: Type! = nil
             if (KeywordParser.parse(&code, keyword: "AS") != nil) {
                 guard let type = CodeParser.sharedBlock?.typeManager.parseType(&code) else {
                     throw SyntaxError("Unexpected a data type.")
@@ -72,7 +72,7 @@ class FORStatement: BaseStatement, GroupedStatement {
                 throw SyntaxError("Expected a valid initial expression.")
             }
             if (counterType == nil) {
-                counterType = start.type
+                counterType = start.operandValue.type
             }
             
             // check the start's type
@@ -91,17 +91,20 @@ class FORStatement: BaseStatement, GroupedStatement {
             }
             
             // check the end's type
-            guard end.type.isNumber else {
+            guard end.value.type.isNumber else {
                 throw InvalidValueError("Only numbers are excepted as the end value of a FOR loop statement.")
             }
 
             // parse the step
-            var step: OperandElement = ConstantElement.init(1, type: counterType!)
+            var step: OperandFragment! = nil
             if (KeywordParser.parse(&code, keyword: "STEP") != nil) {
                 guard let se = try ExpressionParser.parse(&code) else {
                     throw SyntaxError("Expected a valid step expression.")
                 }
                 step = se
+            }
+            if (step == nil) {
+                step = OperandFragment(Constant(value: 1, type: counterType))
             }
             
             // check the step's type
