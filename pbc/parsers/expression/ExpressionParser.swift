@@ -90,7 +90,7 @@ class ExpressionParser {
                 while let topOper = stack.top?.operatorValue, oper.piority <= topOper.piority {
                     result.append(stack.pop()!)
                 }
-                stack.push(fragment);
+                stack.push(fragment)
             } else if fragment is OperandFragment {
                 result.append(fragment)
             }

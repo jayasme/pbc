@@ -9,10 +9,10 @@
 import Foundation
 
 class FunctionInvoker: Operand {
-    var function: Function
+    var function: FunctionDeclare
     var arguments: Arguments
     
-    fileprivate init(function: Function, arguments: Arguments) throws {
+    fileprivate init(function: FunctionDeclare, arguments: Arguments) throws {
         self.function = function
         self.arguments = arguments
         
@@ -23,7 +23,7 @@ class FunctionInvoker: Operand {
 class ArrayFunctionInvoker: FunctionInvoker, ArrayOperand {
     var subscripts: Subscripts
     
-    fileprivate override init(function: Function, arguments: Arguments) throws {
+    fileprivate override init(function: FunctionDeclare, arguments: Arguments) throws {
         guard let subscripts = function.returningSubscripts else {
             throw InvalidValueError("No returning subscripts found.")
         }
@@ -34,8 +34,8 @@ class ArrayFunctionInvoker: FunctionInvoker, ArrayOperand {
 }
 
 class FunctionInvokerFragment: OperandFragment {
-    init(function: Function, arguments: Arguments) throws {
-        var operand: Operand! = nil;
+    init(function: FunctionDeclare, arguments: Arguments) throws {
+        var operand: Operand! = nil
         if (function.returningSubscripts != nil) {
             operand = try ArrayFunctionInvoker(function: function, arguments: arguments)
         } else {

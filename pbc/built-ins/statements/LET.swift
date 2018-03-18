@@ -23,9 +23,9 @@ class LETStatement: BaseStatement {
     
     var variable: Variable
     
-    var expression: OperandElement
+    var expression: Operand
     
-    init(variable: Variable, expression: OperandElement) {
+    init(variable: Variable, expression: Operand) {
         self.variable = variable
         self.expression = expression
     }
@@ -59,12 +59,13 @@ class LETStatement: BaseStatement {
             }
             
             // parse the expression
-            guard let expression = try ExpressionParser.parse(&tryCode) else {
+            guard let expression = try ExpressionParser.parse(&tryCode)?.value else {
                 throw InvalidValueError("Expected an valid expression")
             }
             
-            // if assignment type is dismatched, only decimals can pass the check
-            guard (variable.type == expression.type || (variable.type.isNumber && expression.type.isNumber)) else {
+            // check the type of variable & expression
+            
+            guard (variable.isCompatibleWith(operand: expression)) else {
                 throw InvalidValueError("Cannot assign '" + expression.type.name + "' to a variable of type '" + variable.type.name + "'.")
             }
             

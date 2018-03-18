@@ -13,22 +13,45 @@ class Declare: BaseManagerContent {
     var alias: String?
     var module: String?
     var parameters: Parameters
-    var returningType: Type?
-    var returningSubscripts: Subscripts?
     
     var procedure: Procedure? = nil
     
-    init(name: String, alias: String?, module: String?, parameters: Parameters, returningType: Type? = nil, returningSubscripts: Subscripts? = nil) throws {
-        guard returningType != nil || returningSubscripts == nil else {
-            throw InvalidValueError("No returning type specified.")
-        }
-        
+    init(name: String, alias: String?, module: String?, parameters: Parameters) {
         self.name = name
         self.alias = alias
         self.module = module
         self.parameters = parameters
-        self.returningType = returningType
-        self.returningSubscripts = returningSubscripts
+    }
+    
+    var sub: Sub? {
+        get {
+            return self.procedure as? Sub
+        }
+        set(value) {
+            self.procedure = value
+        }
+    }
+    
+    var function: Function? {
+        get {
+            return self.procedure as? Function
+        }
+        set(value) {
+            self.procedure = value
+        }
     }
 }
 
+class SubDeclare: Declare { }
+
+class FunctionDeclare: Declare {
+    var returningType: Type
+    var returningSubscripts: Subscripts?
+    
+    init(name: String, alias: String?, module: String?, parameters: Parameters, returningType: Type, returningSubscripts: Subscripts? = nil) {
+        self.returningType = returningType
+        self.returningSubscripts = returningSubscripts
+        
+        super.init(name: name, alias: alias, module: module, parameters: parameters)
+    }
+}

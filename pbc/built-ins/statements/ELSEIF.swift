@@ -21,16 +21,16 @@ class ELSEIFStatement: BaseStatement {
         }
     }
     
-    var condition: OperandElement
+    var condition: Operand
     
-    init(_ condition: OperandElement) {
+    init(_ condition: Operand) {
         self.condition = condition
     }
     
     static func parse(_ code: inout String) throws -> BaseStatement? {
         do {
             // parse the condition
-            guard let condition = try ExpressionParser.parse(&code) else {
+            guard let condition = try ExpressionParser.parse(&code)?.value else {
                 throw SyntaxError("Requires a valid expression")
             }
             

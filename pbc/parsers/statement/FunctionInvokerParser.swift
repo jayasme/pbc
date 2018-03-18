@@ -18,8 +18,12 @@ class FunctionInvokerParser {
                 return nil
             }
             
-            guard let function = CodeParser.sharedDeclareManager.findDeclare(name) else {
+            guard let declare = CodeParser.sharedDeclareManager.findDeclare(name) else {
                 return nil
+            }
+            
+            guard let function = declare as? FunctionDeclare else {
+                throw SyntaxError("Only function could be a part of expression.")
             }
             
             // parse the arguments
@@ -55,7 +59,7 @@ class FunctionInvokerParser {
             }
             
             code = tryCode
-            return try FunctionInvokerFragment(function, arguments: arguments)
+            return try FunctionInvokerFragment(function: function, arguments: arguments)
         } catch let error {
             throw error
         }

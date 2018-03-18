@@ -92,9 +92,11 @@ class DECLAREStatement: BaseStatement {
             }
         }
         
+        var declare: Declare! = nil
+        
         // parse the returning type
-        var returningType: Type? = nil
         if (isFunction == true) {
+            var returningType: Type! = nil
             if (KeywordParser.parse(&code, keyword: "AS") != nil) {
                 guard let type = CodeParser.sharedBlock?.typeManager.parseType(&code) else {
                     throw SyntaxError("The returning expected a valid type.")
@@ -103,16 +105,22 @@ class DECLAREStatement: BaseStatement {
             } else {
                 returningType = INTEGERType
             }
+            
+            declare = FunctionDeclare(
+                name: declareName,
+                alias: aliasName,
+                module: moduleName,
+                parameters: parameters,
+                returningType: returningType)
+        } else {
+            
+            declare = SubDeclare(
+                name: declareName,
+                alias: aliasName,
+                module: moduleName,
+                parameters: parameters)
         }
         
-        // parse the returning subscripts
-        
-        let declare = try Declare(
-            name: declareName,
-            alias: aliasName,
-            module: moduleName,
-            parameters: parameters,
-            returningType: returningType)
         try CodeParser.sharedDeclareManager.registerDeclare(declare)
         
         return DECLAREStatement(declare)

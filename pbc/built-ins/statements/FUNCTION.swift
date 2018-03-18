@@ -105,10 +105,10 @@ class FUNCTIONStatement: GroupedStatement, BaseStatement {
             }
             
             // TODO parse the returning subscripts
-            var returningSubscripts: Subscripts? = nil
+            let returningSubscripts: Subscripts? = nil
             
             // Find the check declare registeration
-            guard let declare = CodeParser.sharedDeclareManager.findDeclare(funcName) else {
+            guard let declare = CodeParser.sharedDeclareManager.findDeclare(funcName) as? FunctionDeclare else {
                 throw NotFoundError("Function '" + funcName + "' not declared")
             }
             guard (declare.module == nil) else {
@@ -122,7 +122,7 @@ class FUNCTIONStatement: GroupedStatement, BaseStatement {
             }
             
             let function = Function(name: funcName, parameters: parameters, returningType: returningType, returningSubscripts: returningSubscripts)
-            declare.procedure = function
+            declare.function = function
             
             return FUNCTIONStatement(function)
         } catch let error {

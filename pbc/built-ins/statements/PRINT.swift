@@ -24,20 +24,20 @@ class PRINTStatement: BaseStatement {
     static func parse(_ code: inout String) throws -> BaseStatement? {
         do {
             // parse the arguments
-            var arguments: [OperandElement] = []
+            let arguments = Arguments.empty
             while(code.count > 0) {
-                guard let argument = try ExpressionParser.parse(&code) else {
+                guard let argument = try ExpressionParser.parse(&code)?.value else {
                     break
                 }
                 
-                arguments.append(argument)
+                arguments.arguments.append(argument)
                 
                 guard (SymbolParser.parse(&code, symbol: ";") != nil) else {
                     break
                 }
             }
             
-            return CALLStatement(sub: BuiltInDeclares.PRINTDeclare, arguments: arguments)
+            return CALLStatement(procedure: BuiltInDeclares.PRINTDeclare, arguments: arguments)
         } catch let error {
             throw error
         }

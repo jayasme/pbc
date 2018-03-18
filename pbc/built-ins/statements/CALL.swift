@@ -66,7 +66,7 @@ class CALLStatement: BaseStatement {
             // Bracket is optional
             let hasOpenBracket = (BracketParser.parse(&tryCode, expectedDirection: .open) != nil)
             
-            var arguments: Arguments = Arguments.empty
+            let arguments: Arguments = Arguments.empty
             while(code.count > 0) {
                 guard let operand = try ExpressionParser.parse(&tryCode)?.value else {
                     throw SyntaxError("Expected a valid expression.")

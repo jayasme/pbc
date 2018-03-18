@@ -35,11 +35,11 @@ class FORStatement: BaseStatement, GroupedStatement {
     }
 
     var counter: Variable
-    var start: OperandFragment
-    var end: OperandFragment
-    var step: OperandFragment
+    var start: Operand
+    var end: Operand
+    var step: Operand
     
-    init(counter: Variable, start: OperandFragment, end: OperandFragment, step: OperandFragment) {
+    init(counter: Variable, start: Operand, end: Operand, step: Operand) {
         self.counter = counter
         self.start = start
         self.end = end
@@ -68,16 +68,20 @@ class FORStatement: BaseStatement, GroupedStatement {
             }
             
             // parse the start
-            guard let start = try ExpressionParser.parse(&code) else {
+            guard let start = try ExpressionParser.parse(&code)?.value else {
                 throw SyntaxError("Expected a valid initial expression.")
             }
             if (counterType == nil) {
-                counterType = start.operandValue.type
+                counterType = start.type
             }
             
             // check the start's type
             guard start.type.isNumber else {
                 throw InvalidValueError("Only numbers are excepted as the start value of a FOR loop statement.")
+            }
+            
+            guard start.type.isCompatibleWith(type: counterType) else {
+                throw InvalidValueError("The type of counter '" + start.type.name + "' dismatches to the start value.")
             }
             
             // parse the 'TO'
@@ -86,25 +90,25 @@ class FORStatement: BaseStatement, GroupedStatement {
             }
             
             // parse the end
-            guard let end = try ExpressionParser.parse(&code) else {
+            guard let end = try ExpressionParser.parse(&code)?.value else {
                 throw SyntaxError("Expected a valid end expression.")
             }
             
             // check the end's type
-            guard end.value.type.isNumber else {
+            guard end.type.isNumber else {
                 throw InvalidValueError("Only numbers are excepted as the end value of a FOR loop statement.")
             }
 
             // parse the step
-            var step: OperandFragment! = nil
+            var step: Operand! = nil
             if (KeywordParser.parse(&code, keyword: "STEP") != nil) {
-                guard let se = try ExpressionParser.parse(&code) else {
+                guard let se = try ExpressionParser.parse(&code)?.value else {
                     throw SyntaxError("Expected a valid step expression.")
                 }
                 step = se
             }
             if (step == nil) {
-                step = OperandFragment(Constant(value: 1, type: counterType))
+                step = Constant(value: 1, type: counterType)
             }
             
             // check the step's type

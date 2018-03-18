@@ -68,6 +68,8 @@ class VariableDeclarationParser {
                     throw SyntaxError("Expected a valid type.")
                 }
                 varType = type
+            } else {
+                varType = INTEGERType
             }
             
             if (varSubscripts != nil) {
