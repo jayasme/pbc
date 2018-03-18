@@ -22,4 +22,12 @@ class OperandFragment: ExpressionSubFragment {
     var constant: Constant? {
         return self.value as? Constant
     }
+    
+    var functionInvoker: FunctionInvoker? {
+        return self.value as? FunctionInvoker
+    }
+    
+    var variableInvoker: VariableInvoker? {
+        return self.value as? VariableInvoker
+    }
 }

@@ -60,6 +60,7 @@
 		1D6548AE203DBB42000455DD /* StringParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6548AD203DBB42000455DD /* StringParser.swift */; };
 		1D6548B6203E634A000455DD /* PatternedNameParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6548B5203E634A000455DD /* PatternedNameParser.swift */; };
 		1D6548B8203E7A8A000455DD /* Procedure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6548B7203E7A8A000455DD /* Procedure.swift */; };
+		1D65D7FC205E360500004FF8 /* VariableInvokerFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D65D7FB205E360500004FF8 /* VariableInvokerFragment.swift */; };
 		1D8899032056DC0400C9E5C5 /* Operand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8899022056DC0300C9E5C5 /* Operand.swift */; };
 		1D8FFA33204EE98E007920AC /* EXITFOR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8FFA32204EE98E007920AC /* EXITFOR.swift */; };
 		1D8FFA35204EE99C007920AC /* EXITDO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8FFA34204EE99C007920AC /* EXITDO.swift */; };
@@ -111,7 +112,7 @@
 		1DA13D6D2026DD64007AE5E8 /* WhitespaceParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA13D6C2026DD64007AE5E8 /* WhitespaceParser.swift */; };
 		1DA13D6F2026DF56007AE5E8 /* BracketParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA13D6E2026DF56007AE5E8 /* BracketParser.swift */; };
 		1DA13D752026E1EB007AE5E8 /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA13D742026E1EB007AE5E8 /* Tree.swift */; };
-		1DA13D772026E918007AE5E8 /* VariableParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA13D762026E918007AE5E8 /* VariableParser.swift */; };
+		1DA13D772026E918007AE5E8 /* VariableInvokerParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA13D762026E918007AE5E8 /* VariableInvokerParser.swift */; };
 		1DA13D7F2026FF90007AE5E8 /* BaseInstruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA13D7E2026FF90007AE5E8 /* BaseInstruction.swift */; };
 		1DA13D872027CCA8007AE5E8 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA13D862027CCA8007AE5E8 /* Stack.swift */; };
 		1DAFA7B320443CA0009E9D96 /* KeywordParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAFA7B220443CA0009E9D96 /* KeywordParser.swift */; };
@@ -188,6 +189,7 @@
 		1D6548AD203DBB42000455DD /* StringParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringParser.swift; sourceTree = "<group>"; };
 		1D6548B5203E634A000455DD /* PatternedNameParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternedNameParser.swift; sourceTree = "<group>"; };
 		1D6548B7203E7A8A000455DD /* Procedure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Procedure.swift; sourceTree = "<group>"; };
+		1D65D7FB205E360500004FF8 /* VariableInvokerFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableInvokerFragment.swift; sourceTree = "<group>"; };
 		1D8899022056DC0300C9E5C5 /* Operand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operand.swift; sourceTree = "<group>"; };
 		1D8FFA32204EE98E007920AC /* EXITFOR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXITFOR.swift; sourceTree = "<group>"; };
 		1D8FFA34204EE99C007920AC /* EXITDO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXITDO.swift; sourceTree = "<group>"; };
@@ -240,7 +242,7 @@
 		1DA13D6C2026DD64007AE5E8 /* WhitespaceParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhitespaceParser.swift; sourceTree = "<group>"; };
 		1DA13D6E2026DF56007AE5E8 /* BracketParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BracketParser.swift; sourceTree = "<group>"; };
 		1DA13D742026E1EB007AE5E8 /* Tree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
-		1DA13D762026E918007AE5E8 /* VariableParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableParser.swift; sourceTree = "<group>"; };
+		1DA13D762026E918007AE5E8 /* VariableInvokerParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableInvokerParser.swift; sourceTree = "<group>"; };
 		1DA13D7E2026FF90007AE5E8 /* BaseInstruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseInstruction.swift; sourceTree = "<group>"; };
 		1DA13D862027CCA8007AE5E8 /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		1DAFA7B220443CA0009E9D96 /* KeywordParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordParser.swift; sourceTree = "<group>"; };
@@ -275,7 +277,6 @@
 			children = (
 				1D34C2302047FAD90019FFEB /* AssignmentParser.swift */,
 				1D9DC3BB20450F4700B9196B /* RemarkParser.swift */,
-				1D8FFA36204F59BC007920AC /* FunctionInvokerParser.swift */,
 				1D33F28E2050D9C000BBAF42 /* SubInvokerParser.swift */,
 				1D33F2E82054A12B00BBAF42 /* VariableDecrationParser.swift */,
 			);
@@ -469,7 +470,8 @@
 				1DA13D682026A22B007AE5E8 /* ConstantParser.swift */,
 				1DA13D6A2026C289007AE5E8 /* OperatorParser.swift */,
 				1DA13D6E2026DF56007AE5E8 /* BracketParser.swift */,
-				1DA13D762026E918007AE5E8 /* VariableParser.swift */,
+				1DA13D762026E918007AE5E8 /* VariableInvokerParser.swift */,
+				1D8FFA36204F59BC007920AC /* FunctionInvokerParser.swift */,
 			);
 			path = expression;
 			sourceTree = "<group>";
@@ -536,8 +538,9 @@
 			children = (
 				1DEF44FB20597DC500E8D608 /* OperandFragment.swift */,
 				1DEF450220597DF700E8D608 /* OperatorFragment.swift */,
-				1DEF45062059FC5A00E8D608 /* FunctionInvokerFragment.swift */,
 				1DEF44FE20597DDA00E8D608 /* ExpressionFragment.swift */,
+				1DEF45062059FC5A00E8D608 /* FunctionInvokerFragment.swift */,
+				1D65D7FB205E360500004FF8 /* VariableInvokerFragment.swift */,
 			);
 			path = expression;
 			sourceTree = "<group>";
@@ -639,7 +642,7 @@
 				1D925A6B2037C07A00F3C4E5 /* StatementManager.swift in Sources */,
 				1D654893203C5974000455DD /* math.bas in Sources */,
 				1D33F28F2050D9C000BBAF42 /* SubInvokerParser.swift in Sources */,
-				1DA13D772026E918007AE5E8 /* VariableParser.swift in Sources */,
+				1DA13D772026E918007AE5E8 /* VariableInvokerParser.swift in Sources */,
 				1D9DC3A62044DF5700B9196B /* ELSEIF.swift in Sources */,
 				1D925A372032A7A400F3C4E5 /* BaseParser.swift in Sources */,
 				1D925A6320371E5900F3C4E5 /* ArgumentError.swift in Sources */,
@@ -667,6 +670,7 @@
 				1D925A4C20354A8400F3C4E5 /* Additions.swift in Sources */,
 				1D33F2E92054A12B00BBAF42 /* VariableDecrationParser.swift in Sources */,
 				1DA13D752026E1EB007AE5E8 /* Tree.swift in Sources */,
+				1D65D7FC205E360500004FF8 /* VariableInvokerFragment.swift in Sources */,
 				1D54F189204B996200A66AB8 /* ENDTYPE.swift in Sources */,
 				1D34C17920458EB80019FFEB /* GOTO.swift in Sources */,
 				1D518D672048E28000CB5DD0 /* Tag.swift in Sources */,

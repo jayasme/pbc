@@ -21,11 +21,11 @@ class LETStatement: BaseStatement {
         }
     }
     
-    var variable: Variable
+    var variable: VariableInvoker
     
     var expression: Operand
     
-    init(variable: Variable, expression: Operand) {
+    init(variable: VariableInvoker, expression: Operand) {
         self.variable = variable
         self.expression = expression
     }
@@ -43,7 +43,7 @@ class LETStatement: BaseStatement {
             var tryCode = code
             
             // parse the variable
-            guard let variable = try VariableParser.parse(&tryCode)?.variable else {
+            guard let variable = try VariableInvokerParser.parse(&tryCode)?.variableInvoker else {
                 if (expectedStatement) {
                     throw InvalidValueError("Expected a valid variable.")
                 }

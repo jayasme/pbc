@@ -22,8 +22,8 @@ class ExpressionParser {
                     // constant
                     fragments.append(constant)
                     couldBeOperand = false
-                } else if couldBeOperand, let variable = try VariableParser.parse(&tryCode) {
-                    // variable
+                } else if couldBeOperand, let variable = try VariableInvokerParser.parse(&tryCode) {
+                    // variable invoker
                     fragments.append(variable)
                     couldBeOperand = false
                 } else if couldBeOperand, let function = try FunctionInvokerParser.parse(&tryCode) {
