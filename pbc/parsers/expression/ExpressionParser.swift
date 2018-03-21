@@ -9,65 +9,38 @@
 import Foundation
 
 class ExpressionParser {    
-    // build expression list from the expression string
-    private static func buildExpressionFragments(_ code: inout String) throws -> [ExpressionSubFragment] {
-        var tryCode = code
-        var deepOfBracket = 0
-        var fragments: [ExpressionSubFragment] = []
-        var couldBeOperand = true
-        
-        while(tryCode.count > 0) {
-            do {
-                if couldBeOperand, let constant = try ConstantParser.parse(&tryCode) {
-                    // constant
-                    fragments.append(constant)
-                    couldBeOperand = false
-                } else if couldBeOperand, let variable = try VariableInvokerParser.parse(&tryCode) {
-                    // variable invoker
-                    fragments.append(variable)
-                    couldBeOperand = false
-                } else if couldBeOperand, let function = try FunctionInvokerParser.parse(&tryCode) {
-                    // function invoker
-                    fragments.append(function)
-                    couldBeOperand = false
-                } else if let oper = OperatorParser.parse(&tryCode, preferUnary: couldBeOperand) {
-                    // operator
-                    fragments.append(oper)
-                    couldBeOperand = true
-                } else if let bracket = BracketParser.parse(&tryCode) {
-                    if (bracket.direction == .open) {
-                        deepOfBracket += 1
-                        couldBeOperand = true
-                    } else if (bracket.direction == .close) {
-                        deepOfBracket -= 1
-                        couldBeOperand = false
-                    }
-                    if (deepOfBracket < 0) {
-                        // Out of effective area
-                        code = code[(code.count - tryCode.count - 1)...]
-                        return fragments
-                    }
-                    // bracket
-                    fragments.append(bracket)
-                } else {
-                    code = tryCode
-                    return fragments
-                }
-            } catch let error {
-                throw error
-            }
+
+    private static func parseNextFragment(_ code: inout String, preferUnary: Bool) throws -> BaseFragment? {
+        if let constant = try ConstantParser.parse(&code) {
+            // constant
+            return constant
+        } else if let variable = try VariableInvokerParser.parse(&code) {
+            // variable invoker
+            return variable
+        } else if let function = try FunctionInvokerParser.parse(&code) {
+            // function invoker
+            return function
+        } else if let oper = OperatorParser.parse(&code, preferUnary: preferUnary) {
+            // operator
+            return oper
+        } else if let bracket = BracketParser.parse(&code), bracket.direction != .pair {
+            return bracket
+        } else {
+            return nil
         }
-        
-        code = tryCode
-        return fragments
     }
     
-    // convert to RPN
-    private static func convertToRPN(_ fragments: [ExpressionSubFragment]) -> [ExpressionSubFragment] {
-        let stack = Stack<ExpressionSubFragment>()
-        var result: [ExpressionSubFragment] = []
+    static func parse(_ code: inout String) throws -> OperandFragment? {
+        let stack = Stack<BaseFragment>()
+        var fragments: [BaseFragment] = []
+        var deepOfBracket = 0
+        var couldBeOperand = true
         
-        for fragment in fragments {
+        while(code.count > 0) {
+            guard let fragment = try ExpressionParser.parseNextFragment(&code, preferUnary: couldBeOperand) else {
+                break
+            }
+            
             if let bracket = fragment as? BracketFragment {
                 if (bracket.direction == .open) {
                     // open bracket
@@ -76,50 +49,43 @@ class ExpressionParser {
                     // close bracket
                     while (
                         stack.count > 0 &&
-                        (!(stack.top is BracketFragment) || (
-                        stack.top is BracketFragment &&
-                        (stack.top as! BracketFragment).direction != .open))
-                    ) {
-                        result.append(stack.pop()!)
+                            (!(stack.top is BracketFragment) || (
+                                stack.top is BracketFragment &&
+                                    (stack.top as! BracketFragment).direction != .open))
+                        ) {
+                            fragments.append(stack.pop()!)
                     }
                     if (stack.count > 0) {
                         _ = stack.pop()
                     }
                 }
-            } else if let oper = fragment.operatorValue {
-                while let topOper = stack.top?.operatorValue, oper.piority <= topOper.piority {
-                    result.append(stack.pop()!)
+            } else if let oper = (fragment as? OperatorFragment)?.operatorValue {
+                while let topOper = (stack.top as? OperatorFragment)?.operatorValue, oper.piority <= topOper.piority {
+                    fragments.append(stack.pop()!)
                 }
                 stack.push(fragment)
             } else if fragment is OperandFragment {
-                result.append(fragment)
+                fragments.append(fragment)
             }
         }
         
         while let top = stack.pop() {
-            result.append(top)
+            guard top is ExpressionSubFragment else {
+                throw InvalidValueError("Unexpected fragment")
+            }
+            fragments.append(top)
         }
         
-        return result
-    }
-
-    static func parse(_ code: inout String) throws -> OperandFragment? {
-        do {
-            let fragments = try ExpressionParser.convertToRPN(ExpressionParser.buildExpressionFragments(&code))
-            
-            // if there is only one operand in the expression, extract it
-            guard fragments.count > 1 else {
-                // only one or none elements
-                guard let operand = fragments.first as? OperandFragment else {
-                    throw SyntaxError("Invalid expression.")
-                }
-                return operand
+        // if there is only one operand in the expression, extract it
+        guard fragments.count > 1 else {
+            // only one or none elements
+            guard let operand = fragments.first as? OperandFragment else {
+                throw SyntaxError("Invalid expression.")
             }
-            
-            return try ExpressionFragment(fragments)
-        } catch let error {
-            throw error
+            return operand
         }
+        
+        return try ExpressionFragment(fragments as! [ExpressionSubFragment])
     }
 }
 

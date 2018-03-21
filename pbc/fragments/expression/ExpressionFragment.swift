@@ -8,11 +8,11 @@
 
 import Foundation
 
-class ExpressionSubFragment {
+class ExpressionSubFragment: BaseFragment {
     var operandValue: Operand? {
         return (self as? OperandFragment)?.value
     }
-    
+
     var operatorValue: Operator? {
         return (self as? OperatorFragment)?.value
     }

@@ -14,10 +14,10 @@ enum BracketDirection:Int {
     case pair
 }
 
-class BracketFragment: ExpressionSubFragment {
+class BracketFragment: BaseFragment {
     var direction: BracketDirection
 
-    init(_ direction: BracketDirection) {
+    init(_ direction: BracketDirection, skippedSpaceCount: Int) {
         self.direction = direction
     }
 }
@@ -27,14 +27,13 @@ class BracketParser {
     static func parse(_ code: inout String, expectedDirection: BracketDirection? = nil) -> BracketFragment? {
         if (code.hasPrefix("(") && (expectedDirection == nil || expectedDirection == .open)) {
             code = code[1...]
-            WhitespaceParser.parse(&code)
-            return BracketFragment(.open)
+            return BracketFragment(.open, skippedSpaceCount: WhitespaceParser.parse(&code).spaceCount)
         }
         
         if (code.hasPrefix(")") && (expectedDirection == nil || expectedDirection == .close)) {
             code = code[1...]
             WhitespaceParser.parse(&code)
-            return BracketFragment(.close)
+            return BracketFragment(.close, skippedSpaceCount: WhitespaceParser.parse(&code).spaceCount)
         }
         
         // enter the paired bracket parser zone
@@ -45,7 +44,7 @@ class BracketParser {
         var tryCode = code
         if (BracketParser.parse(&tryCode, expectedDirection: .open) != nil && BracketParser.parse(&tryCode, expectedDirection: .close) != nil) {
             code = tryCode
-            return BracketFragment(.pair)
+            return BracketFragment(.pair, skippedSpaceCount: WhitespaceParser.parse(&code).spaceCount)
         }
         
         return nil

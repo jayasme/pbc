@@ -19,7 +19,7 @@ class WhitespaceElement: BaseElement {
 class WhitespaceParser {
     
     @discardableResult
-    static func parse(_ code: inout String) -> WhitespaceElement? {
+    static func parse(_ code: inout String) -> WhitespaceElement {
         
         var offset = 0
         while(offset < code.count && (code[offset] == " " || code[offset] == "\t")) {
@@ -27,8 +27,7 @@ class WhitespaceParser {
         }
         if (offset > 0) {
             code = code[offset...]
-            return WhitespaceElement(spaceCount: offset)
         }
-        return nil
+        return WhitespaceElement(spaceCount: offset)
     }
 }
