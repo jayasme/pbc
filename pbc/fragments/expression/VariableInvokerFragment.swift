@@ -39,7 +39,7 @@ class VariableInvokerFragment: OperandFragment {
     }
     
     init(variable: ArrayVariable, subscripts: Arguments) throws {
-        guard variable.subscripts.dimensions == subscripts.arguments.count else {
+        guard (variable.subscripts.isDynamic || variable.subscripts.dimensions == subscripts.arguments.count) else {
             throw InvalidValueError("Count of subscripts dismatched with the variable itself.")
         }
         

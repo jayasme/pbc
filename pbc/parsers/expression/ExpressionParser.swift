@@ -31,12 +31,14 @@ class ExpressionParser {
     }
     
     static func parse(_ code: inout String) throws -> OperandFragment? {
+        var tryCode = code
         let stack = Stack<BaseFragment>()
         var fragments: [BaseFragment] = []
         var couldBeOperand = true
+        var deepOfBracket = 0
         
-        while(code.count > 0) {
-            guard let fragment = try ExpressionParser.parseNextFragment(&code, preferUnary: couldBeOperand) else {
+        while(tryCode.count > 0) {
+            guard let fragment = try ExpressionParser.parseNextFragment(&tryCode, preferUnary: couldBeOperand) else {
                 break
             }
             
@@ -45,8 +47,14 @@ class ExpressionParser {
                     // open bracket
                     stack.push(bracket)
                     couldBeOperand = false
+                    deepOfBracket += 1
                 } else {
                     // close bracket
+                    deepOfBracket -= 1
+                    guard (deepOfBracket >= 0) else {
+                        break
+                    }
+                    
                     while (
                         stack.count > 0 &&
                             (!(stack.top is BracketFragment) || (
@@ -70,11 +78,13 @@ class ExpressionParser {
                 fragments.append(fragment)
                 couldBeOperand = false
             }
+            
+            code = tryCode
         }
         
         while let top = stack.pop() {
             guard top is ExpressionSubFragment else {
-                throw InvalidValueError("Unexpected fragment")
+                throw InvalidValueError("Unexpected expression")
             }
             fragments.append(top)
         }

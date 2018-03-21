@@ -9,10 +9,24 @@ TYPE TIME
 END TYPE
 
 DECLARE FUNCTION ABS(num() AS DOUBLE) AS DOUBLE
+
+' ABS
+FUNCTION ABS(num() AS DOUBLE) AS DOUBLE
+    IF (num(1,1) < 0) THEN
+        ABS = -num(1,1)
+    ELSE
+        ABS = num(1,1)
+    END IF
+END FUNCTION
+
+
 DECLARE SUB STUN(a AS STRING, b AS INTEGER)
 
 DIM t1 AS TIME
 DIM t2 AS TIME
+
+DIM C() AS INTEGER = {222,222}
+C = {222,222}
 
 IF t1 = t2 THEN
 PRINT "YES"
@@ -26,12 +40,3 @@ IF s1 <> "HELLO WORD" THEN
 END IF
 
 STUN "test", 1
-
-' ABS
-FUNCTION ABS(num() AS DOUBLE) AS DOUBLE
-    IF (num(1,1) < 0) THEN
-        ABS = -num
-    ELSE
-        ABS = num
-    END IF
-END FUNCTION

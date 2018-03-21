@@ -27,7 +27,7 @@ class VariableInvokerParser {
             guard (BracketParser.parse(&tryCode, expectedDirection: .open) != nil) else {
                 throw SyntaxError("'" + variable.name + "' is an array, must specify the subscripts.")
             }
-            while(code.count > 0) {
+            while(tryCode.count > 0) {
                 guard let operand = try ExpressionParser.parse(&tryCode)?.value else {
                     throw SyntaxError("Expected a valid expression.")
                 }

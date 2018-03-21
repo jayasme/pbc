@@ -79,6 +79,10 @@ class Subscripts: Equatable {
     var dimensions: Int {
         return self.subscripts.count
     }
+    
+    var isDynamic: Bool {
+        return self.dimensions == 0
+    }
 }
 
 class Operand {
