@@ -33,7 +33,6 @@ class ExpressionParser {
     static func parse(_ code: inout String) throws -> OperandFragment? {
         let stack = Stack<BaseFragment>()
         var fragments: [BaseFragment] = []
-        var deepOfBracket = 0
         var couldBeOperand = true
         
         while(code.count > 0) {
@@ -45,6 +44,7 @@ class ExpressionParser {
                 if (bracket.direction == .open) {
                     // open bracket
                     stack.push(bracket)
+                    couldBeOperand = false
                 } else {
                     // close bracket
                     while (
@@ -58,14 +58,17 @@ class ExpressionParser {
                     if (stack.count > 0) {
                         _ = stack.pop()
                     }
+                    couldBeOperand = true
                 }
             } else if let oper = (fragment as? OperatorFragment)?.operatorValue {
                 while let topOper = (stack.top as? OperatorFragment)?.operatorValue, oper.piority <= topOper.piority {
                     fragments.append(stack.pop()!)
                 }
                 stack.push(fragment)
+                couldBeOperand = true
             } else if fragment is OperandFragment {
                 fragments.append(fragment)
+                couldBeOperand = false
             }
         }
         
