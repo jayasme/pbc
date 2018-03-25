@@ -33,25 +33,17 @@ class Type: BaseManagerContent, Equatable {
     var defaultValue: Any
     
     var isNumber: Bool {
-        get {
-            return numberTypelList.contains(self)
-        }
+        return numberTypelList.contains(self)
     }
     var isNative: Bool {
-        get {
-            return nativeTypeList.contains(self)
-        }
+        return nativeTypeList.contains(self)
     }
     var isRounded: Bool {
-        get {
-            return roundedTypeList.contains(self)
-        }
+        return roundedTypeList.contains(self)
     }
-    
+
     var numberIndex: Int? {
-        get {
-            return numberTypelList.index(of: self)
-        }
+        return numberTypelList.index(of: self)
     }
     
     func isCompatibleWith(type: Type) -> Bool {
@@ -74,5 +66,143 @@ class Type: BaseManagerContent, Equatable {
         }
         
         return numberTypelList[max(index1, index2)]
+    }
+}
+
+
+
+class Subscript {
+    var lowerBound: Int32
+    var upperBound: Int32
+    
+    init(lowerBound: Int32 = 1, upperBound: Int32) throws {
+        guard (upperBound > lowerBound) else {
+            throw InvalidValueError("The upper bound must be greater than the lower bound.")
+        }
+        self.lowerBound = lowerBound
+        self.upperBound = upperBound
+    }
+    
+    var count: Int {
+        return Int(upperBound - lowerBound) + 1
+    }
+}
+
+class Subscripts: Equatable {
+    static func ==(lhs: Subscripts, rhs: Subscripts) -> Bool {
+        guard (lhs.subscripts.count == rhs.subscripts.count) else {
+            return false
+        }
+        
+        for i in 0..<lhs.subscripts.count {
+            if (lhs.subscripts[i].count != rhs.subscripts[i].count) {
+                return false
+            }
+        }
+        
+        return true
+    }
+    
+    static func !=(lhs: Subscripts, rhs: Subscripts) -> Bool {
+        return !(lhs == rhs)
+    }
+    
+    private var subscripts: [Subscript]
+    
+    static var empty: Subscripts {
+        return Subscripts()
+    }
+    
+    var isEmpty: Bool {
+        return self.subscripts.count == 0
+    }
+    
+    init(current: Subscript? = nil) {
+        if let current = current {
+            self.subscripts = [current]
+        } else {
+            self.subscripts = []
+        }
+    }
+    
+    init(current: Subscript, parentSubscripts: Subscripts) {
+        self.subscripts =  [current] + parentSubscripts.subscripts
+    }
+    
+    init(baseSubscripts: Subscripts, attached: Subscript) {
+        self.subscripts = baseSubscripts.subscripts + [attached]
+    }
+    
+    subscript(index: Int) -> Subscript {
+        get {
+            return self.subscripts[index]
+        }
+        set(value) {
+            self.subscripts[index] = value
+        }
+    }
+    
+    var dimensions: Int {
+        return self.subscripts.count
+    }
+    
+    var isDynamic: Bool {
+        return self.dimensions == 0
+    }
+}
+
+class TypeTuple: Equatable {
+    var type: Type
+    var subscripts: Subscripts?
+    
+    static func ==(lhs: TypeTuple, rhs: TypeTuple) -> Bool {
+        return lhs.type == rhs.type && lhs.subscripts == rhs.subscripts
+    }
+    
+    static func !=(lhs: TypeTuple, rhs: TypeTuple) -> Bool {
+        return !(lhs == rhs)
+    }
+    
+    static func ==(lhs: TypeTuple, rhs: Type) -> Bool {
+        return lhs.type == rhs
+    }
+    
+    static func !=(lhs: TypeTuple, rhs: Type) -> Bool {
+        return !(lhs == rhs)
+    }
+    
+    func isCompatibleWith(type: TypeTuple) -> Bool {
+        return self.type.isCompatibleWith(type: type.type) && self.subscripts == type.subscripts
+    }
+    
+    var name: String {
+        return self.name
+    }
+    
+    var isArray: Bool {
+        return self.subscripts != nil
+    }
+    
+    var isNumber: Bool {
+        return self.type.isNumber
+    }
+    var isNative: Bool {
+        return self.type.isNative
+    }
+    var isRounded: Bool {
+        return self.type.isRounded
+    }
+    
+    static func mixType(type1: TypeTuple, type2: TypeTuple) -> TypeTuple? {
+        if let type = Type.mixType(type1: type1.type, type2: type2.type) {
+            return TypeTuple(type)
+        }
+        
+        return nil
+    }
+
+    init(_ type: Type, subscripts: Subscripts? = nil) {
+        self.type = type
+        self.subscripts = subscripts
     }
 }

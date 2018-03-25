@@ -8,24 +8,16 @@
 
 import Foundation
 
-class ArrayElement {
-    var array: ArrayConstant
-    
-    init(_ array: ArrayConstant) {
-        self.array = array
-    }
-}
-
 class ArrayParser {
     
-    static func parse(_ code: inout String) throws -> ArrayElement? {
+    static func parse(_ code: inout String) throws -> ConstantOperandFragment? {
         
         guard (SymbolParser.parse(&code, symbol: "{") != nil) else {
             return nil
         }
         
         var arrValue: [Operand] = []
-        var arrType: Type! = nil
+        var arrType: TypeTuple! = nil
         var lastSubscripts: Subscripts! = nil
         if (SymbolParser.parse(&code, symbol: "}") == nil) {
             while(code.count > 0) {
@@ -38,7 +30,7 @@ class ArrayParser {
                     throw InvalidValueError("Each type of elements in the array must be the same.")
                 }
                 
-                let subscripts = (operand is ArrayOperand) ? (operand as? ArrayOperand)?.subscripts : Subscripts()
+                let subscripts = operand.type.subscripts != nil ? operand.type.subscripts! : Subscripts()
                 // keep the each type of elements must be array or not be array at the same time
                 guard (lastSubscripts == nil || subscripts == lastSubscripts) else {
                     throw InvalidValueError("Each type of elements in the array must be array or not be array at the same time.")
@@ -48,7 +40,7 @@ class ArrayParser {
                 arrValue.append(operand)
                 if (arrType == nil) {
                     arrType = operand.type
-                } else if let mixedType = Type.mixType(type1: arrType, type2: operand.type) {
+                } else if let mixedType = TypeTuple.mixType(type1: arrType, type2: operand.type)  {
                     arrType = mixedType
                 }
                 
@@ -66,8 +58,6 @@ class ArrayParser {
         
         let bounds = try Subscript(upperBound: Int32(arrValue.count))
         let subscripts = lastSubscripts == nil ? Subscripts(current: bounds) : Subscripts(current: bounds, parentSubscripts: lastSubscripts)
-        let array = ArrayConstant(value: arrValue, type: arrType, subscripts: subscripts)
-
-        return ArrayElement(array)
+        return ConstantOperandFragment(Constant(value: arrValue, type: TypeTuple(arrType.type, subscripts: subscripts)))
     }
 }

@@ -54,12 +54,12 @@ class FORStatement: BaseStatement, GroupedStatement {
             }
             
             // parse the counter type
-            var counterType: Type! = nil
+            var counterType: TypeTuple! = nil
             if (KeywordParser.parse(&code, keyword: "AS") != nil) {
                 guard let type = CodeParser.sharedBlock?.typeManager.parseType(&code) else {
                     throw SyntaxError("Unexpected a data type.")
                 }
-                counterType = type
+                counterType = TypeTuple(type)
             }
             
             // parse the '='
@@ -108,7 +108,7 @@ class FORStatement: BaseStatement, GroupedStatement {
                 step = se
             }
             if (step == nil) {
-                step = Constant(value: 1, type: counterType)
+                step = ConstantOperand(Constant(value: 1, type: counterType))
             }
             
             // check the step's type

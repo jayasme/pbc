@@ -8,6 +8,14 @@
 
 import Foundation
 
+class Operand {
+    var type: TypeTuple
+    
+    init(type: TypeTuple) {
+        self.type = type
+    }
+}
+
 class OperandFragment: ExpressionSubFragment {
     var value: Operand
     
@@ -15,19 +23,15 @@ class OperandFragment: ExpressionSubFragment {
         self.value = value
     }
     
-    var variable: Variable? {
-        return self.value as? Variable
+    var constantOperand: ConstantOperand? {
+        return self.value as? ConstantOperand
     }
     
-    var constant: Constant? {
-        return self.value as? Constant
+    var functionOperand: FunctionOperand? {
+        return self.value as? FunctionOperand
     }
     
-    var functionInvoker: FunctionInvoker? {
-        return self.value as? FunctionInvoker
-    }
-    
-    var variableInvoker: VariableInvoker? {
-        return self.value as? VariableInvoker
+    var variableOperand: VariableOperand? {
+        return self.value as? VariableOperand
     }
 }

@@ -8,20 +8,13 @@
 
 import Foundation
 
-class Variable: Operand, BaseManagerContent {
+class Variable: BaseManagerContent {
     var name: String
+    var type: TypeTuple
     
-    init(name: String, type: Type) {
+    init(name: String, type: TypeTuple) {
         self.name = name
-        super.init(type: type)
+        self.type = type
     }
 }
 
-class ArrayVariable: Variable, ArrayOperand {
-    var subscripts: Subscripts
-    
-    init(name: String, type: Type, subscripts: Subscripts) {
-        self.subscripts = subscripts
-        super.init(name: name, type: type)
-    }
-}

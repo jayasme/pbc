@@ -45,12 +45,7 @@ class FUNCTIONStatement: GroupedStatement, BaseStatement {
             for variable in self.function.parameters.parameters {
                 try block.variableManager.registerVariable(variable)
             }
-            var returningVariable: Variable!
-            if let subscripts = function.returningSubscripts {
-                returningVariable = ArrayVariable(name: self.function.name, type: self.function.returningType, subscripts: subscripts)
-            } else {
-                returningVariable = Variable(name: self.function.name, type: self.function.returningType)
-            }
+            let returningVariable = Variable(name: self.function.name, type: self.function.returningType)
             try block.variableManager.registerVariable(returningVariable)
         } catch let error {
             throw error
@@ -117,11 +112,11 @@ class FUNCTIONStatement: GroupedStatement, BaseStatement {
             guard (declare.procedure == nil) else {
                 throw NotFoundError("Reimplementation of the function '" + funcName + "'.")
             }
-            guard (declare.parameters == parameters && declare.returningType == returningType && declare.returningSubscripts == returningSubscripts) else {
+            guard (declare.parameters == parameters && declare.returningType == returningType) else {
                 throw NotFoundError("Function '" + funcName + "' dismatches its declaration.")
             }
             
-            let function = Function(name: funcName, parameters: parameters, returningType: returningType, returningSubscripts: returningSubscripts)
+            let function = Function(name: funcName, parameters: parameters, returningType: TypeTuple(returningType, subscripts: returningSubscripts))
             declare.function = function
             
             return FUNCTIONStatement(function)

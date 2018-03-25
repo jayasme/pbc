@@ -21,11 +21,11 @@ class LETStatement: BaseStatement {
         }
     }
     
-    var variable: VariableInvoker
+    var variable: VariableOperand
     
     var expression: Operand
     
-    init(variable: VariableInvoker, expression: Operand) {
+    init(variable: VariableOperand, expression: Operand) {
         self.variable = variable
         self.expression = expression
     }
@@ -43,7 +43,7 @@ class LETStatement: BaseStatement {
             var tryCode = code
             
             // parse the variable
-            guard let variable = try VariableInvokerParser.parse(&tryCode)?.variableInvoker else {
+            guard let variable = try VariableOperandParser.parse(&tryCode)?.variableOperand else {
                 if (expectedStatement) {
                     throw InvalidValueError("Expected a valid variable.")
                 }
@@ -65,7 +65,7 @@ class LETStatement: BaseStatement {
             
             // check the type of variable & expression
             
-            guard (variable.isCompatibleWith(operand: expression)) else {
+            guard (variable.type.isCompatibleWith(type: expression.type)) else {
                 throw InvalidValueError("Cannot assign '" + expression.type.name + "' to a variable of type '" + variable.type.name + "'.")
             }
             

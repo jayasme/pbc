@@ -111,7 +111,7 @@ class DECLAREStatement: BaseStatement {
                 alias: aliasName,
                 module: moduleName,
                 parameters: parameters,
-                returningType: returningType)
+                returningType: TypeTuple(returningType))
         } else {
             
             declare = SubDeclare(

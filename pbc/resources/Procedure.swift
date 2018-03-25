@@ -15,13 +15,17 @@ class Parameters: Equatable {
         return Parameters()
     }
     
+    var isEmpty: Bool {
+        return parameters.count == 0
+    }
+    
     static func ==(lhs: Parameters, rhs: Parameters) -> Bool {
         guard (lhs.parameters.count == rhs.parameters.count) else {
             return false
         }
         
         for i in 0..<lhs.parameters.count {
-            guard (lhs.parameters[i].isCompatibleWith(operand: rhs.parameters[i])) else {
+            guard (lhs.parameters[i].type.isCompatibleWith(type: rhs.parameters[i].type)) else {
                 return false
             }
         }
@@ -35,7 +39,7 @@ class Parameters: Equatable {
         }
         
         for i in 0..<lhs.parameters.count {
-            guard (lhs.parameters[i].isCompatibleWith(operand: rhs.arguments[i])) else {
+            guard (lhs.parameters[i].type.isCompatibleWith(type: rhs.arguments[i].type)) else {
                 return false
             }
         }
@@ -59,13 +63,17 @@ class Arguments: Equatable {
         return Arguments()
     }
     
+    var isEmpty: Bool {
+        return arguments.count == 0
+    }
+    
     static func ==(lhs: Arguments, rhs: Arguments) -> Bool {
         guard (lhs.arguments.count == rhs.arguments.count) else {
             return false
         }
         
         for i in 0..<lhs.arguments.count {
-            guard (lhs.arguments[i].isCompatibleWith(operand: rhs.arguments[i])) else {
+            guard (lhs.arguments[i].type.isCompatibleWith(type: rhs.arguments[i].type)) else {
                 return false
             }
         }
@@ -113,12 +121,10 @@ class Procedure {
 class Sub: Procedure { }
 
 class Function: Procedure {
-    var returningType: Type
-    var returningSubscripts: Subscripts?
+    var returningType: TypeTuple
 
-    init(name: String, parameters: Parameters, returningType: Type, returningSubscripts: Subscripts?) {
+    init(name: String, parameters: Parameters, returningType: TypeTuple) {
         self.returningType = returningType
-        self.returningSubscripts = returningSubscripts
         super.init(name: name, parameters: parameters)
     }
     

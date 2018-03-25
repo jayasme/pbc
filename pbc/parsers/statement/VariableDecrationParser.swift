@@ -77,25 +77,36 @@ class VariableDeclarationParser {
             guard let operand = try ExpressionParser.parse(&code)?.value else {
                 throw SyntaxError("Expected a valid expression.")
             }
+            
             initialValue = operand
+        }
+        
+        var type: TypeTuple!
+        if let initialValue = initialValue {
             if (varType == nil) {
-                varType = initialValue!.type
+                varType = initialValue.type.type
+            }
+
+            if (varSubscripts != nil && varSubscripts.isDynamic) {
+                varSubscripts = initialValue.type.subscripts
+            }
+            
+            type = TypeTuple(varType, subscripts: varSubscripts)
+        } else {
+            if (varType == nil) {
+                varType = INTEGERType
+            }
+            
+            guard (varSubscripts == nil || !varSubscripts.isDynamic) else {
+                throw InvalidValueError("Must specify the dimensions for the variable '" + varName + "'.")
             }
         }
         
-        if (varType == nil) {
-            varType = INTEGERType
-        }
-        
         // check the type
-        guard (initialValue == nil || initialValue!.type.isCompatibleWith(type: varType)) else {
+        guard (initialValue == nil || initialValue!.type.isCompatibleWith(type: type)) else {
             throw InvalidValueError("The type of counter '" + initialValue!.type.name + "' dismatches to its type.")
         }
         
-        if (varSubscripts != nil) {
-            return VariableDeclarationFragment(ArrayVariable(name: varName, type: varType, subscripts: varSubscripts), initialValue: initialValue)
-        }
-        
-        return VariableDeclarationFragment(Variable(name: varName, type: varType), initialValue: initialValue)
+        return VariableDeclarationFragment(Variable(name: varName, type: type), initialValue: initialValue)
     }
 }

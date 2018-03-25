@@ -11,7 +11,7 @@ import Foundation
 
 class BuiltInDeclares {
 
-    static var PRINTDeclare: Declare = try! Declare(name: "$WRITE_LN", alias: "PRINT", module: "PRINT", parameters: Parameters.empty)
+    static var PRINTDeclare: Declare = Declare(name: "$WRITE_LN", alias: "PRINT", module: "PRINT", parameters: Parameters.empty)
 }
 
 var PRINTDeclare: Declare? = nil

@@ -11,14 +11,14 @@ import Foundation
 class ExpressionParser {    
 
     private static func parseNextFragment(_ code: inout String, preferUnary: Bool) throws -> BaseFragment? {
-        if let constant = try ConstantParser.parse(&code) {
-            // constant
+        if let constant = try ConstantOperandParser.parse(&code) {
+            // constant operand
             return constant
-        } else if let variable = try VariableInvokerParser.parse(&code) {
-            // variable invoker
+        } else if let variable = try VariableOperandParser.parse(&code) {
+            // variable operand
             return variable
-        } else if let function = try FunctionInvokerParser.parse(&code) {
-            // function invoker
+        } else if let function = try FunctionOperandParser.parse(&code) {
+            // function operand
             return function
         } else if let oper = OperatorParser.parse(&code, preferUnary: preferUnary) {
             // operator
