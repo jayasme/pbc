@@ -76,7 +76,7 @@ class Subscript {
     var upperBound: Int32
     
     init(lowerBound: Int32 = 1, upperBound: Int32) throws {
-        guard (upperBound > lowerBound) else {
+        guard (upperBound >= lowerBound) else {
             throw InvalidValueError("The upper bound must be greater than the lower bound.")
         }
         self.lowerBound = lowerBound
@@ -202,8 +202,18 @@ class TypeTuple: Equatable {
     }
     
     static func mixType(type1: TypeTuple, type2: TypeTuple) -> TypeTuple? {
-        if let type = Type.mixType(type1: type1.type, type2: type2.type) {
-            return TypeTuple(type)
+        if (type1.subscripts == nil && type2.subscripts == nil) {
+            if let type = Type.mixType(type1: type1.type, type2: type2.type) {
+                return TypeTuple(type)
+            }
+        } else if let subscripts1 = type1.subscripts, let subscripts2 = type2.subscripts {
+            guard subscripts1 == subscripts2 else {
+                return nil
+            }
+            
+            if let type = Type.mixType(type1: type1.type, type2: type2.type) {
+                return TypeTuple(type, subscripts: subscripts1)
+            }
         }
         
         return nil

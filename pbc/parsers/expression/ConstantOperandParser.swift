@@ -33,9 +33,7 @@ class ConstantOperandParser {
         // Check if it is a decimal
         if let decimal = try DecimalParser.parse(&code) {
             // the minimum parsable decimal type is integer
-            // TODO move this logic to decimal parsers
-            let type = decimal.type == SHORTType ? INTEGERType : decimal.type
-            return ConstantOperandFragment(Constant(value: decimal.value, type: TypeTuple(type)))
+            return ConstantOperandFragment(Constant(value: decimal.value, type: TypeTuple(decimal.type)))
         }
         
         return nil

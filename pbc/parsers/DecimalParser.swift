@@ -87,11 +87,14 @@ class DecimalParser {
         
         let value = code[..<offset]
         
-        // parse short
-        if let int16 = Int16(value), (expectedType == nil || expectedType! == SHORTType) {
-            code = code[offset...]
-            WhitespaceParser.parse(&code)
-            return DecimalElement(int16, type: SHORTType)
+        // only expecting parses the short type
+        if (expectedType == SHORTType) {
+            if let int16 = Int16(value) {
+                code = code[offset...]
+                WhitespaceParser.parse(&code)
+                return DecimalElement(int16, type: SHORTType)
+            }
+            return nil
         }
         
         // parse integer
