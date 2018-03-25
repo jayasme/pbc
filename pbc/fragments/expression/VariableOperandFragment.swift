@@ -18,16 +18,23 @@ class VariableOperand: Operand {
         
         // check the subscripts
         if let varSubscripts = variable.type.subscripts {
-            guard (varSubscripts.dimensions == subscripts.arguments.count || varSubscripts.isDynamic) else {
+            guard (varSubscripts.dimensions == subscripts.arguments.count || varSubscripts.isDynamic || subscripts.isEmpty) else {
                 throw InvalidValueError("Variable '" + variable.name + "' expected providing " + String(varSubscripts.dimensions) + " subscripts")
+            }
+            
+            if (subscripts.isEmpty) {
+                // ref the array itself
+                super.init(type: variable.type)
+            } else {
+                super.init(type: TypeTuple(variable.type.type))
             }
         } else {
             guard (subscripts.isEmpty) else {
                 throw InvalidValueError("Variable '" + variable.name + "' is not an array")
             }
+            
+            super.init(type: variable.type)
         }
-        
-        super.init(type: variable.type)
     }
 }
 

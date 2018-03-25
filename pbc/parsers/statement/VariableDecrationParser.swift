@@ -106,7 +106,7 @@ class VariableDeclarationParser {
         
         // check the type
         guard (initialValue == nil || initialValue!.type.isCompatibleWith(type: type)) else {
-            throw InvalidValueError("The type of counter '" + initialValue!.type.name + "' dismatches to its type.")
+            throw InvalidValueError("The type of initial value '" + initialValue!.type.name + "' dismatches to '" + type.name + "'")
         }
         
         return VariableDeclarationFragment(Variable(name: varName, type: type), initialValue: initialValue)

@@ -23,7 +23,7 @@ class ExpressionFragment: OperandFragment {
     
     // get the type of the result of caclculations with binary operation.
     private static func getBinaryType(type1: TypeTuple, type2: TypeTuple, oper: Operator) throws -> TypeTuple {
-        guard (type1.subscripts == nil && type1.subscripts == nil) else {
+        guard (type1.subscripts == nil && type2.subscripts == nil) else {
             throw InvalidValueError("Arrays cannot be applied for '" + oper.rawValue + "' operations.")
         }
         

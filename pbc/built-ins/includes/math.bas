@@ -2,6 +2,11 @@
 ' Assemblied with PBC
 ' Copyright © 2018年 jadestudio. All rights reserved.
 
+DIM b()={{"A","B","C"},{"1","2","3"}}
+
+IF b = "HEHE" THEN
+END IF
+
 TYPE TIME
     HOUR AS INTEGER
     MINUTE AS INTEGER
@@ -33,7 +38,6 @@ PRINT "YES"
 END IF
 
 DIM s1 = "HELLO WORD"
-DIM b(2, 2)={{"A","B","C"},{"1","2","3"}}
 
 IF s1 <> "HELLO WORD" THEN
     REM DO SOMETHING
