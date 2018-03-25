@@ -117,6 +117,10 @@ class Subscripts: Equatable {
         return self.subscripts.count == 0
     }
     
+    var description: String {
+        return String(format: "(%@)", subscripts.reduce("", { $0 + String($1.count) + "," }).trimmingCharacters(in: CharacterSet.init(charactersIn: ",")))
+    }
+    
     init(current: Subscript? = nil) {
         if let current = current {
             self.subscripts = [current]
@@ -176,7 +180,11 @@ class TypeTuple: Equatable {
     }
     
     var name: String {
-        return self.name
+        if let subscripts = self.subscripts {
+            return self.type.name + subscripts.description
+        }
+        
+        return self.type.name
     }
     
     var isArray: Bool {

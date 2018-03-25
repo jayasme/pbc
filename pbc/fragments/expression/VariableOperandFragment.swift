@@ -18,7 +18,7 @@ class VariableOperand: Operand {
         
         // check the subscripts
         if let varSubscripts = variable.type.subscripts {
-            guard varSubscripts.dimensions == subscripts.arguments.count else {
+            guard (varSubscripts.dimensions == subscripts.arguments.count || varSubscripts.isDynamic) else {
                 throw InvalidValueError("Variable '" + variable.name + "' expected providing " + String(varSubscripts.dimensions) + " subscripts")
             }
         } else {

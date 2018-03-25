@@ -20,7 +20,7 @@ class VariableDeclarationFragment {
 
 class VariableDeclarationParser {
     
-    static func parse(_ code: inout String) throws -> VariableDeclarationFragment? {
+    static func parse(_ code: inout String, needDimensions: Bool = true) throws -> VariableDeclarationFragment? {
         guard let varName = PatternedNameParser.parse(&code)?.name else {
             return nil
         }
@@ -93,11 +93,13 @@ class VariableDeclarationParser {
             
             type = TypeTuple(varType, subscripts: varSubscripts)
         } else {
-            if (varType == nil) {
-                varType = INTEGERType
+            if let varType = varType {
+                type = TypeTuple(varType, subscripts: varSubscripts)
+            } else {
+                type = TypeTuple(INTEGERType, subscripts: varSubscripts)
             }
             
-            guard (varSubscripts == nil || !varSubscripts.isDynamic) else {
+            guard (!needDimensions || varSubscripts == nil || !varSubscripts.isDynamic) else {
                 throw InvalidValueError("Must specify the dimensions for the variable '" + varName + "'.")
             }
         }

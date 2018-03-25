@@ -74,7 +74,7 @@ class DECLAREStatement: BaseStatement {
         let parameters = Parameters.empty
         if (BracketParser.parse(&code, expectedDirection: .close) == nil) {
             while(code.count > 0) {
-                guard let parameter = try VariableDeclarationParser.parse(&code)?.variable else {
+                guard let parameter = try VariableDeclarationParser.parse(&code, needDimensions: false)?.variable else {
                     throw SyntaxError("Expected a valid parameter.")
                 }
                 
