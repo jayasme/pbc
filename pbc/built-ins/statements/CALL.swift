@@ -90,7 +90,7 @@ class CALLStatement: BaseStatement {
             }
             
             // check the arguments
-            guard (arguments == procedure.parameters) else {
+            guard (arguments.isConformWith(parameters: procedure.parameters)) else {
                 throw InvalidValueError("Called function '" + procedure.name + "' it not mathced to its declaration.")
             }
             

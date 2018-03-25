@@ -81,8 +81,23 @@ class Arguments: Equatable {
         return true
     }
     
-    static func ==(lhs: Arguments, rhs: Parameters) -> Bool {
-        return rhs == lhs
+    func isConformWith(parameters: Parameters) -> Bool {
+        guard (self.arguments.count == parameters.parameters.count) else {
+            return false
+        }
+        
+        for i in 0..<self.arguments.count {
+            if self.arguments[i].type.isArray, let subscripts = parameters[i].type.subscripts, subscripts.isDynamic {
+                // if the parameter is dynamic array
+                continue
+            }
+            
+            guard (self.arguments[i].type.isCompatibleWith(type: parameters.parameters[i].type)) else {
+                return false
+            }
+        }
+        
+        return true
     }
     
     subscript(index: Int) -> Operand {

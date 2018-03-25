@@ -23,12 +23,16 @@ class VariableOperand: Operand {
             }
             
             if (subscripts.isEmpty) {
-                // ref the array itself
+                // if the variable was an array but the arguments (aka subscripts) not passed to the invoker,
+                // that means the variable is citing the array itself
                 super.init(type: variable.type)
             } else {
+                // on the countary, if the arguments (aka subscripts) was passed,
+                // this situation means that the invoker wants one element of the array
                 super.init(type: TypeTuple(variable.type.type))
             }
         } else {
+            // if the varialbe was not an array, passing the arguments (aka subscripts) is strictly prohibited.
             guard (subscripts.isEmpty) else {
                 throw InvalidValueError("Variable '" + variable.name + "' is not an array")
             }

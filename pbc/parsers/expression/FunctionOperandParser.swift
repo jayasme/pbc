@@ -53,7 +53,7 @@ class FunctionOperandParser {
         }
         
         // check the arguments
-        guard (arguments == function.parameters) else {
+        guard (arguments.isConformWith(parameters: function.parameters)) else {
             throw InvalidValueError("Called function '" + function.name + "' it not mathced to its declaration.")
         }
         

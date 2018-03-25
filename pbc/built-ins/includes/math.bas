@@ -2,25 +2,20 @@
 ' Assemblied with PBC
 ' Copyright © 2018年 jadestudio. All rights reserved.
 
-DIM b()={{"A","B","C"},{"1","2","3"}}
-
-IF b = "HEHE" THEN
-END IF
-
 TYPE TIME
     HOUR AS INTEGER
     MINUTE AS INTEGER
     SECOND AS INTEGER
 END TYPE
 
-DECLARE FUNCTION ABS(num() AS DOUBLE) AS DOUBLE
+DECLARE FUNCTION ABS(num(2) AS DOUBLE ) AS DOUBLE
 
 ' ABS
-FUNCTION ABS(num() AS DOUBLE) AS DOUBLE
-    IF (num(1,1) < 0) THEN
-        ABS = -num(1,1)
+FUNCTION ABS(num(2) AS DOUBLE) AS DOUBLE
+    IF (num(1) < 0) THEN
+        ABS = -num(1)
     ELSE
-        ABS = num(1,1)
+        ABS = num(1)
     END IF
 END FUNCTION
 
@@ -30,14 +25,18 @@ DECLARE SUB STUN(a AS STRING, b AS INTEGER)
 DIM t1 AS TIME
 DIM t2 AS TIME
 
-DIM C() AS INTEGER = {222,222}
-C = {222,222}
+DIM C() AS INTEGER = {{222,222},{111,111}}
+ABS(C)
 
 IF t1 = t2 THEN
-PRINT "YES"
+    PRINT "YES"
 END IF
 
 DIM s1 = "HELLO WORD"
+DIM b()={{"A","B","C"},{"1","2","3"}}
+
+IF b(1,2) = "HEHE" THEN
+END IF
 
 IF s1 <> "HELLO WORD" THEN
     REM DO SOMETHING
