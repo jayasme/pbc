@@ -27,6 +27,7 @@
 		1D34C18520477ACA0019FFEB /* COLOR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D34C18420477ACA0019FFEB /* COLOR.swift */; };
 		1D34C1872047AC7D0019FFEB /* DECLARE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D34C1862047AC7D0019FFEB /* DECLARE.swift */; };
 		1D34C2312047FAD90019FFEB /* AssignmentParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D34C2302047FAD90019FFEB /* AssignmentParser.swift */; };
+		1D3EE5AC2068847000DB2CCB /* TagFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3EE5AB2068847000DB2CCB /* TagFragment.swift */; };
 		1D502A67204E6163003661ED /* BOOLEAN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D502A66204E6163003661ED /* BOOLEAN.swift */; };
 		1D518D632048D37C00CB5DD0 /* BlockParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D518D622048D37C00CB5DD0 /* BlockParser.swift */; };
 		1D518D672048E28000CB5DD0 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D518D662048E28000CB5DD0 /* Tag.swift */; };
@@ -157,6 +158,7 @@
 		1D34C18420477ACA0019FFEB /* COLOR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = COLOR.swift; sourceTree = "<group>"; };
 		1D34C1862047AC7D0019FFEB /* DECLARE.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DECLARE.swift; sourceTree = "<group>"; };
 		1D34C2302047FAD90019FFEB /* AssignmentParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentParser.swift; sourceTree = "<group>"; };
+		1D3EE5AB2068847000DB2CCB /* TagFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagFragment.swift; sourceTree = "<group>"; };
 		1D502A66204E6163003661ED /* BOOLEAN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BOOLEAN.swift; sourceTree = "<group>"; };
 		1D518D622048D37C00CB5DD0 /* BlockParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockParser.swift; sourceTree = "<group>"; };
 		1D518D662048E28000CB5DD0 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
@@ -283,6 +285,14 @@
 				1D33F2E82054A12B00BBAF42 /* VariableDecrationParser.swift */,
 			);
 			path = statement;
+			sourceTree = "<group>";
+		};
+		1D3EE5AA2068845600DB2CCB /* code */ = {
+			isa = PBXGroup;
+			children = (
+				1D3EE5AB2068847000DB2CCB /* TagFragment.swift */,
+			);
+			path = code;
 			sourceTree = "<group>";
 		};
 		1D654891203C5965000455DD /* includes */ = {
@@ -529,6 +539,7 @@
 		1DEF44FA20597DB900E8D608 /* fragments */ = {
 			isa = PBXGroup;
 			children = (
+				1D3EE5AA2068845600DB2CCB /* code */,
 				1DEF44FD20597DCB00E8D608 /* expression */,
 				1D65D7FD205F305800004FF8 /* BaseFragment.swift */,
 			);
@@ -654,6 +665,7 @@
 				1D65489E203D51E2000455DD /* SHORT.swift in Sources */,
 				1D34C17B20458EC30019FFEB /* RESUME.swift in Sources */,
 				1D34C18520477ACA0019FFEB /* COLOR.swift in Sources */,
+				1D3EE5AC2068847000DB2CCB /* TagFragment.swift in Sources */,
 				1DA13D51202563DE007AE5E8 /* main.swift in Sources */,
 				1DEF44FC20597DC500E8D608 /* OperandFragment.swift in Sources */,
 				1D6548A2203D524B000455DD /* SINGLE.swift in Sources */,

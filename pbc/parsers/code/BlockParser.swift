@@ -36,47 +36,43 @@ class BlockParser {
         didCreateBlock: ((_ block: BlockElement) throws -> Void)? = nil,
         shouldEndStatement: ((_ statement: BaseStatement, _ block: BlockElement) -> Bool)? = nil
     ) throws -> BlockElement {
-        do {
-            let parentBlock = CodeParser.sharedBlock
-            let block = BlockElement(parentBlock: parentBlock)
-            CodeParser.sharedBlock = block
+        let parentBlock = CodeParser.sharedBlock
+        let block = BlockElement(parentBlock: parentBlock)
+        CodeParser.sharedBlock = block
+        
+        try didCreateBlock?(block)
+        
+        var newLine = true
+        
+        while (code.count > 0) {
             
-            try didCreateBlock?(block)
-            
-            var newLine = true
-            
-            while (code.count > 0) {
-                
-                if let separator = SeparatorParser.parse(&code) {
-                    if (separator.separatorType == .newLine) {
-                        lineNumber += 1
-                        newLine = true
-                    }
-                    continue
+            if let separator = SeparatorParser.parse(&code) {
+                if (separator.separatorType == .newLine) {
+                    lineNumber += 1
+                    newLine = true
                 }
-                
-                // parse line tag
-                // tag only appeared at the beginning of a line
-                if newLine, let tag = TagParser.parse(&code) {
-                    block.fragments.append(tag)
-                    newLine = false
-                    continue
-                }
-                
-                // parse the single statement
-                if let fragment = try FragmentParser.parse(&code, lineNumber: &lineNumber) {
-                    // end of the block
-                    if let statement = fragment as? StatementElement, shouldEndStatement?(statement.statement, block) == true {
-                        break
-                    }
-                    block.fragments.append(fragment)
-                }
+                continue
             }
             
-            CodeParser.sharedBlock = parentBlock
-            return block
-        } catch let error {
-            throw error
+            // parse line tag
+            // tag only appeared at the beginning of a line
+            if newLine, let tag = TagDeclarationParser.parse(&code)?.tag {
+                try CodeParser.sharedBlock?.tagManager.registerTag(Tag.init(tag))
+                newLine = false
+                continue
+            }
+            
+            // parse the single statement
+            if let fragment = try FragmentParser.parse(&code, lineNumber: &lineNumber) {
+                // end of the block
+                if let statement = fragment as? StatementElement, shouldEndStatement?(statement.statement, block) == true {
+                    break
+                }
+                block.fragments.append(fragment)
+            }
         }
+        
+        CodeParser.sharedBlock = parentBlock
+        return block
     }
 }
