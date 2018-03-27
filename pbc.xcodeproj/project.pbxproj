@@ -123,6 +123,8 @@
 		1DEF450320597DF700E8D608 /* OperatorFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEF450220597DF700E8D608 /* OperatorFragment.swift */; };
 		1DEF45072059FC5A00E8D608 /* FunctionOperandFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEF45062059FC5A00E8D608 /* FunctionOperandFragment.swift */; };
 		1DEF45092059FD4F00E8D608 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEF45082059FD4F00E8D608 /* Operators.swift */; };
+		1DF0A6AC2069CA3800DA628D /* MemberOperandFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0A6AB2069CA3800DA628D /* MemberOperandFragment.swift */; };
+		1DF0A6AE2069CB6C00DA628D /* MemberOperandParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0A6AD2069CB6C00DA628D /* MemberOperandParser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -255,6 +257,8 @@
 		1DEF450220597DF700E8D608 /* OperatorFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatorFragment.swift; sourceTree = "<group>"; };
 		1DEF45062059FC5A00E8D608 /* FunctionOperandFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionOperandFragment.swift; sourceTree = "<group>"; };
 		1DEF45082059FD4F00E8D608 /* Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
+		1DF0A6AB2069CA3800DA628D /* MemberOperandFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberOperandFragment.swift; sourceTree = "<group>"; };
+		1DF0A6AD2069CB6C00DA628D /* MemberOperandParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberOperandParser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -484,6 +488,7 @@
 				1DA13D762026E918007AE5E8 /* VariableOperandParser.swift */,
 				1D8FFA36204F59BC007920AC /* FunctionOperandParser.swift */,
 				1DA13D682026A22B007AE5E8 /* ConstantOperandParser.swift */,
+				1DF0A6AD2069CB6C00DA628D /* MemberOperandParser.swift */,
 			);
 			path = expression;
 			sourceTree = "<group>";
@@ -555,6 +560,7 @@
 				1DEF45062059FC5A00E8D608 /* FunctionOperandFragment.swift */,
 				1D65D7FB205E360500004FF8 /* VariableOperandFragment.swift */,
 				1D2C51D92061FFA200C81612 /* ConstantOperandFragment.swift */,
+				1DF0A6AB2069CA3800DA628D /* MemberOperandFragment.swift */,
 			);
 			path = expression;
 			sourceTree = "<group>";
@@ -645,6 +651,7 @@
 				1D9DC3B42044E01E00B9196B /* INPUT.swift in Sources */,
 				1D9DC39E204470B500B9196B /* SUB.swift in Sources */,
 				1D9DC3A0204471FF00B9196B /* REM.swift in Sources */,
+				1DF0A6AE2069CB6C00DA628D /* MemberOperandParser.swift in Sources */,
 				1D34C17D204636010019FFEB /* Array+Utils.swift in Sources */,
 				1D925A502035543800F3C4E5 /* Multiples.swift in Sources */,
 				1D9DC3A82044DF5E00B9196B /* FOR.swift in Sources */,
@@ -701,6 +708,7 @@
 				1D6548A6203D5276000455DD /* STRING.swift in Sources */,
 				1D9DC3BC20450F4700B9196B /* RemarkParser.swift in Sources */,
 				1D6548B8203E7A8A000455DD /* Procedure.swift in Sources */,
+				1DF0A6AC2069CA3800DA628D /* MemberOperandFragment.swift in Sources */,
 				1D34C181204710180019FFEB /* SymbolParser.swift in Sources */,
 				1D6548B6203E634A000455DD /* PatternedNameParser.swift in Sources */,
 				1D54F18D204BA5F300A66AB8 /* TYPEFIELD.swift in Sources */,

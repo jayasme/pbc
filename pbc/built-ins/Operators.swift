@@ -30,6 +30,7 @@ enum Operator: String {
     case lessOrEqual
     case greaterOrEqual
     case notEqual
+    case dot
     
     var category: OperatorCategory {
         get {
@@ -56,6 +57,7 @@ enum OperatorCategory {
     case logic
     case comparation
     case equality
+    case accessibility
 }
 
 enum OperatorOperands {
@@ -68,9 +70,11 @@ fileprivate let operatorsCategory: [Operator: OperatorCategory] = [
     .and: .logic, .or: .logic, .not: .logic, .xor: .logic, .eqv: .logic,
     .equal: .equality, .notEqual: .equality,
     .less: .comparation, .greater: .comparation, .lessOrEqual: .comparation, .greaterOrEqual: .comparation,
+    .dot: .accessibility
 ]
 
 fileprivate let operatorsPiority: [Operator: Int] = [
+    .dot: 7,
     .not: 6, .positive: 6, .negative: 6,
     .square: 5,
     .multiply: 4, .division: 4, .modulo: 4, .intDivision: 4,

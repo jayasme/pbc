@@ -52,14 +52,18 @@ class ExpressionFragment: OperandFragment {
                 throw InvalidValueError("Only the values of identical type or numbers can be the operands of a comparational calculation.")
             }
             return TypeTuple(BOOLEANType)
+        } else if (oper.category == .comparation) {
+            // comparation
+            guard (type1.isNumber && type2.isNumber) else {
+                throw InvalidValueError("Only numbers can be the operands of a comparational calculation.")
+            }
+            
+            return TypeTuple(BOOLEANType)
+        } else if (oper == .dot) {
+            return type2
         }
         
-        // comparation
-        guard (type1.isNumber && type2.isNumber) else {
-            throw InvalidValueError("Only numbers can be the operands of a comparational calculation.")
-        }
-        
-        return TypeTuple(BOOLEANType)
+        throw InvalidValueError("Cannot apply operator '" + oper.rawValue + "' for '" + type1.name + "' and '" + type2.name + "'")
     }
     
     static func predictType(_ fragments: [ExpressionSubFragment]) throws -> TypeTuple {
@@ -72,10 +76,10 @@ class ExpressionFragment: OperandFragment {
                 if (oper.operands == .unary) {
                     // do nothing
                 } else {
-                    guard let operand1 = stack.pop() else {
+                    guard let operand2 = stack.pop() else {
                         throw SyntaxError("Not enough operand")
                     }
-                    guard let operand2 = stack.pop() else {
+                    guard let operand1 = stack.pop() else {
                         throw SyntaxError("Not enough operand")
                     }
                     
