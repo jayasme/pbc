@@ -8,36 +8,23 @@
 
 import Foundation
 
-enum SeparatorType {
-    case colon
-    case newLine
-}
-
-class SeparatorElement: BaseElement {
-    var separatorType: SeparatorType
-    
-    init(_ separatorType: SeparatorType) {
-        self.separatorType = separatorType
-    }
-}
-
 class SeparatorParser {
     
-    static func parse(_ code: inout String) -> SeparatorElement? {
+    static func parse(_ code: inout String) -> SeparatorFragment? {
         RemarkParser.parse(&code)
         
         if (NewLineParser.parse(&code) != nil) {
             // new line
             WhitespaceParser.parse(&code)
             RemarkParser.parse(&code)
-            return SeparatorElement(.newLine)
+            return SeparatorFragment(.newLine)
         }
         
         if (SymbolParser.parse(&code, symbol: ":") != nil) {
             // colon
             WhitespaceParser.parse(&code)
             RemarkParser.parse(&code)
-            return SeparatorElement(.colon)
+            return SeparatorFragment(.colon)
         }
         
         return nil

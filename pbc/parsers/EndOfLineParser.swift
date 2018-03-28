@@ -8,18 +8,10 @@
 
 import Foundation
 
-class EndOfLineElement: BaseElement {
-    var restText: String
-    
-    init(restText: String) {
-        self.restText = restText
-    }
-}
-
 class EndOfLineParser {
     
     @discardableResult
-    static func parse(_ code: inout String) -> EndOfLineElement {
+    static func parse(_ code: inout String) -> EndOfLineFragment {
         
         var offset = 0
         while(offset < code.count && code[offset] != "\n" && code[offset] != "\r") {
@@ -28,7 +20,7 @@ class EndOfLineParser {
         
         let restText = code[..<offset]
         code = code[offset...]
-        return EndOfLineElement(restText: restText)
+        return EndOfLineFragment(restText: restText)
     }
 }
 

@@ -10,39 +10,9 @@ import Foundation
 
 let validDecimalsSet = ["0","1","2","3","4","5","6","7","8","9"]
 
-struct DecimalElement {
-    var value: Any
-    var type: Type
-    
-    init(_ value: Any, type: Type) {
-        self.value = value
-        self.type = type
-    }
-    
-    var shortValue: Int16 {
-        return self.value as! Int16
-    }
-    
-    var integerValue: Int32 {
-        return self.value as! Int32
-    }
-    
-    var longValue: Int64 {
-        return self.value as! Int64
-    }
-    
-    var floatValue: Float {
-        return self.value as! Float
-    }
-    
-    var doubleValue: Double {
-        return self.value as! Double
-    }
-}
-
 class DecimalParser {
     
-    static func parse(_ code: inout String, expectedType: Type? = nil) throws -> DecimalElement? {
+    static func parse(_ code: inout String, expectedType: Type? = nil) throws -> DecimalFragment? {
         
         var offset: Int = 0
         // must check during the loop
@@ -92,7 +62,7 @@ class DecimalParser {
             if let int16 = Int16(value) {
                 code = code[offset...]
                 WhitespaceParser.parse(&code)
-                return DecimalElement(int16, type: SHORTType)
+                return DecimalFragment(int16, type: SHORTType)
             }
             return nil
         }
@@ -101,28 +71,28 @@ class DecimalParser {
         if let int32 = Int32(value), (expectedType == nil || expectedType! == INTEGERType) {
             code = code[offset...]
             WhitespaceParser.parse(&code)
-            return DecimalElement(int32, type: INTEGERType)
+            return DecimalFragment(int32, type: INTEGERType)
         }
         
         // parse long
         if let int64 = Int64(value), (expectedType == nil || expectedType! == LONGType) {
             code = code[offset...]
             WhitespaceParser.parse(&code)
-            return DecimalElement(int64, type: LONGType)
+            return DecimalFragment(int64, type: LONGType)
         }
         
         // parse float
         if let float = Float(value), (expectedType == nil || expectedType! == SINGLEType) {
             code = code[offset...]
             WhitespaceParser.parse(&code)
-            return DecimalElement(float, type: SINGLEType)
+            return DecimalFragment(float, type: SINGLEType)
         }
         
         // parse double
         if let double = Double(value), (expectedType == nil || expectedType! == DOUBLEType) {
             code = code[offset...]
             WhitespaceParser.parse(&code)
-            return DecimalElement(double, type: DOUBLEType)
+            return DecimalFragment(double, type: DOUBLEType)
         }
         
         return nil

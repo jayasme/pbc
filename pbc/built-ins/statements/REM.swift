@@ -8,7 +8,7 @@
 
 import Foundation
 
-// RemarkElement is for ' type remarks
+// RemarkFragment is for ' type remarks
 // REMStatement is for REM type remarks
 class REMStatement: BaseStatement {
     static var name: String {

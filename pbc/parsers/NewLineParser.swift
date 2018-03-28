@@ -8,19 +8,17 @@
 
 import Foundation
 
-class NewLineElement: BaseElement { }
-
 class NewLineParser {
     
     @discardableResult
-    static func parse(_ code: inout String) -> NewLineElement? {
+    static func parse(_ code: inout String) -> NewLineFragment? {
         guard (code.count > 0 && (code[0] == "\n" || code[0] == "\r")) else {
             return nil
         }
         
         code = code[1...]
         WhitespaceParser.parse(&code)
-        return NewLineElement()
+        return NewLineFragment()
     }
 }
 

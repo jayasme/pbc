@@ -8,17 +8,9 @@
 
 import Foundation
 
-class MultikeywordsElement: BaseElement {
-    var keywords: [String]
-    
-    init(keywords: [String]) {
-        self.keywords = keywords
-    }
-}
-
 class MultikeywordsParser {
     
-    static func parse(_ code: inout String, keywords: [String]) -> MultikeywordsElement? {
+    static func parse(_ code: inout String, keywords: [String]) -> MultikeywordsFragment? {
         var tryCode = code
         
         for keyword in keywords {
@@ -30,6 +22,6 @@ class MultikeywordsParser {
         }
 
         code = tryCode
-        return MultikeywordsElement(keywords: keywords)
+        return MultikeywordsFragment(keywords: keywords)
     }
 }

@@ -8,23 +8,15 @@
 
 import Foundation
 
-class SymbolElement: BaseElement {
-    var symbol: String
-    
-    init(symbol: String) {
-        self.symbol = symbol
-    }
-}
-
 class SymbolParser {
     
-    static func parse(_ code: inout String, symbol: String) -> SymbolElement? {
+    static func parse(_ code: inout String, symbol: String) -> SymbolFragment? {
         guard (code.hasPrefix(symbol)) else {
             return nil
         }
         
         code = code[symbol.count...]
         WhitespaceParser.parse(&code)
-        return SymbolElement(symbol: symbol)
+        return SymbolFragment(symbol: symbol)
     }
 }

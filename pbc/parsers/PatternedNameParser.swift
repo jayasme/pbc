@@ -12,17 +12,9 @@ fileprivate let validNameInitalsSet = ["_","A","B","C","D","E","F","G","H","I","
 
 fileprivate let validNameCharacterSet = ["_","A","B","C","D","E","F","G","H","I","J","K", "L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k", "l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9"]
 
-class PatternedNameElement: BaseElement {
-    var name: String
-    
-    init(_ name: String) {
-        self.name = name
-    }
-}
-
 class PatternedNameParser {
     
-    static func parse(_ code: inout String) -> PatternedNameElement? {
+    static func parse(_ code: inout String) -> PatternedNameFragment? {
         guard (code.count > 0 && validNameInitalsSet.contains(code[0])) else {
             return nil
         }
@@ -44,6 +36,6 @@ class PatternedNameParser {
         let name = code[..<offset]
         code = code[offset...]
         WhitespaceParser.parse(&code)
-        return PatternedNameElement(name)
+        return PatternedNameFragment(name)
     }
 }

@@ -8,18 +8,10 @@
 
 import Foundation
 
-class WhitespaceElement: BaseElement {
-    var spaceCount: Int
-    
-    init(spaceCount: Int) {
-        self.spaceCount = spaceCount
-    }
-}
-
 class WhitespaceParser {
     
     @discardableResult
-    static func parse(_ code: inout String) -> WhitespaceElement {
+    static func parse(_ code: inout String) -> WhitespaceFragment {
         
         var offset = 0
         while(offset < code.count && (code[offset] == " " || code[offset] == "\t")) {
@@ -28,6 +20,6 @@ class WhitespaceParser {
         if (offset > 0) {
             code = code[offset...]
         }
-        return WhitespaceElement(spaceCount: offset)
+        return WhitespaceFragment(spaceCount: offset)
     }
 }

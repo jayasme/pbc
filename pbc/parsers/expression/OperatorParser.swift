@@ -8,14 +8,6 @@
 
 import Foundation
 
-class OperatorElement: BaseElement {
-    var oper: Operator
-    
-    init(_ oper: Operator) {
-        self.oper = oper
-    }
-}
-
 class OperatorParser {
     
     static func parse(_ code: inout String, preferUnary: Bool = false) -> OperatorFragment? {

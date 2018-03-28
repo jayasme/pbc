@@ -8,17 +8,9 @@
 
 import Foundation
 
-class StringElement {
-    var value: String
-    
-    init(_ value: String) {
-        self.value = value
-    }
-}
-
 class StringParser {
     
-    static func parse(_ code: inout String) throws -> StringElement? {
+    static func parse(_ code: inout String) throws -> StringFragment? {
         
         guard (SymbolParser.parse(&code, symbol: "\"") != nil) else {
             return nil
@@ -42,6 +34,6 @@ class StringParser {
         let string = code[..<offset]
         code = code[(offset + 1)...]
         WhitespaceParser.parse(&code)
-        return StringElement(string)
+        return StringFragment(string)
     }
 }

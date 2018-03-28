@@ -108,7 +108,7 @@ class ExpressionParser {
         
         // if there is only one operand in the expression, extract it
         guard result.count > 1 else {
-            // only one or none elements
+            // only one or none fragments
             guard let operand = result.first as? OperandFragment else {
                 throw SyntaxError("Invalid expression.")
             }
