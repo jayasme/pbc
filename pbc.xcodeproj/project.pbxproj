@@ -436,7 +436,6 @@
 			children = (
 				1D33F28D2050D98D00BBAF42 /* statement */,
 				1D925A3C2032D82800F3C4E5 /* code */,
-				1DA13D932029CBD4007AE5E8 /* function */,
 				1DA13D672026A20A007AE5E8 /* expression */,
 				1DA13D6C2026DD64007AE5E8 /* WhitespaceParser.swift */,
 				1D6548AB203D79DD000455DD /* DecimalParser.swift */,
@@ -537,13 +536,6 @@
 				1DEF45082059FD4F00E8D608 /* Operators.swift */,
 			);
 			path = "built-ins";
-			sourceTree = "<group>";
-		};
-		1DA13D932029CBD4007AE5E8 /* function */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = function;
 			sourceTree = "<group>";
 		};
 		1DA13D962029F250007AE5E8 /* resources */ = {
