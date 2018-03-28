@@ -17,7 +17,7 @@ class VariableOperandParser {
             return nil
         }
         
-        guard let variable = CodeParser.sharedBlock?.variableManager.findVariable(name) else {
+        guard let variable = FileParser.sharedCompound?.variableManager.findVariable(name) else {
             return nil
         }
         

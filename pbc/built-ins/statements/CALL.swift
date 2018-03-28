@@ -48,7 +48,7 @@ class CALLStatement: BaseStatement {
                 return nil
             }
             
-            guard let procedure = CodeParser.sharedDeclareManager.findDeclare(name) else {
+            guard let procedure = FileParser.sharedDeclareManager.findDeclare(name) else {
                 if (expectedStatement) {
                     throw SyntaxError("Cannot find the declaration.")
                 }

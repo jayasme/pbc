@@ -28,24 +28,20 @@ class NEXTStatement: BaseStatement {
     }
     
     static func parse(_ code: inout String) throws -> BaseStatement? {
-        do {
-            // check the matched FOR statment
-            guard let forStatement = (CodeParser.sharedBlock?.firstStatement as? FORStatement) else {
-                throw SyntaxError("Cannot find the matched FOR statement for this NEXT statment.")
-            }
-            
-            // parse the variable
-            guard let nextName = PatternedNameParser.parse(&code)?.name else {
-                return NEXTStatement(forStatement.counter)
-            }
-            
-            guard forStatement.counter.name == nextName else {
-                throw InvalidValueError("Mismatched loop counter '" + nextName + "'.")
-            }
-            
-            return NEXTStatement(forStatement.counter)
-        } catch let error {
-            throw error
+        // check the matched FOR statment
+        guard let forStatement = (FileParser.sharedCompound?.firstStatement as? FORStatement) else {
+            throw SyntaxError("Cannot find the matched FOR statement for this NEXT statment.")
         }
+        
+        // parse the variable
+        guard let nextName = PatternedNameParser.parse(&code)?.name else {
+            return NEXTStatement(forStatement.counter)
+        }
+        
+        guard forStatement.counter.name == nextName else {
+            throw InvalidValueError("Mismatched loop counter '" + nextName + "'.")
+        }
+        
+        return NEXTStatement(forStatement.counter)
     }
 }

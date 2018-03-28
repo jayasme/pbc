@@ -41,7 +41,7 @@ class TYPEFIELDStatement: BaseStatement {
             }
                 
             // parse the type
-            guard let type = CodeParser.sharedBlock?.typeManager.parseType(&tryCode) else {
+            guard let type = FileParser.sharedCompound?.typeManager.parseType(&tryCode) else {
                 throw SyntaxError("Expected a valid type.")
             }
             

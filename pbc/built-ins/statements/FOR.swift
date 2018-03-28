@@ -8,7 +8,7 @@
 
 import Foundation
 
-class FORStatement: BaseStatement, GroupedStatement {
+class FORStatement: BaseStatement, CompoundStatement {
     static var name: String {
         get {
             return "FOR"
@@ -25,10 +25,10 @@ class FORStatement: BaseStatement, GroupedStatement {
         return statement is NEXTStatement
     }
     
-    func beginStatement(block: BlockElement) throws {
+    func beginStatement(compound: CompoundStatementFragment) throws {
         // register the counter
         do {
-            try block.variableManager.registerVariable(self.counter)
+            try compound.variableManager.registerVariable(self.counter)
         } catch let error {
             throw error
         }
@@ -56,7 +56,7 @@ class FORStatement: BaseStatement, GroupedStatement {
             // parse the counter type
             var counterType: TypeTuple! = nil
             if (KeywordParser.parse(&code, keyword: "AS") != nil) {
-                guard let type = CodeParser.sharedBlock?.typeManager.parseType(&code) else {
+                guard let type = FileParser.sharedCompound?.typeManager.parseType(&code) else {
                     throw SyntaxError("Unexpected a data type.")
                 }
                 counterType = TypeTuple(type)

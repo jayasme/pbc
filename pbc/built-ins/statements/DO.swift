@@ -14,7 +14,7 @@ enum LoopType {
     case loopUntil
 }
 
-class DOStatement: BaseStatement, GroupedStatement {
+class DOStatement: BaseStatement, CompoundStatement {
     static var name: String {
         get {
             return "DO"

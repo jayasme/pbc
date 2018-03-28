@@ -45,7 +45,7 @@ class REDIMStatement: BaseStatement {
         
         while (code.count > 0) {
             // parse the variable name
-            guard let variable = CodeParser.sharedBlock?.variableManager.parse(&code) else {
+            guard let variable = FileParser.sharedCompound?.variableManager.parse(&code) else {
                 // final of the statement
                 break
             }

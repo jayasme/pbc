@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SUBStatement: GroupedStatement, BaseStatement {
+class SUBStatement: BaseStatement, CompoundStatement {
     static var name: String {
         get {
             return "SUB"
@@ -21,13 +21,13 @@ class SUBStatement: GroupedStatement, BaseStatement {
         }
     }
     
-    static var blockIncludesBeginStatement: Bool {
+    static var compoundIncludesBeginStatement: Bool {
         get {
             return false
         }
     }
     
-    static var blockIncludesEndStatement: Bool {
+    static var compoundIncludesEndStatement: Bool {
         get {
             return false
         }
@@ -39,10 +39,10 @@ class SUBStatement: GroupedStatement, BaseStatement {
         self.sub = sub
     }
     
-    func beginStatement(block: BlockElement) throws {
+    func beginStatement(compound: CompoundStatementFragment) throws {
         do {
             for variable in self.sub.parameters.parameters {
-                try block.variableManager.registerVariable(variable)
+                try compound.variableManager.registerVariable(variable)
             }
         } catch let error {
             throw error
@@ -88,7 +88,7 @@ class SUBStatement: GroupedStatement, BaseStatement {
             }
             
             // Find the check declare registeration
-            guard let declare = CodeParser.sharedDeclareManager.findDeclare(subName) else {
+            guard let declare = FileParser.sharedDeclareManager.findDeclare(subName) else {
                 throw NotFoundError("Sub '" + subName + "' not declared")
             }
             guard (declare.module == nil) else {

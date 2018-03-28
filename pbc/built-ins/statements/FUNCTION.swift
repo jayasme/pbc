@@ -8,7 +8,7 @@
 
 import Foundation
 
-class FUNCTIONStatement: GroupedStatement, BaseStatement {
+class FUNCTIONStatement: BaseStatement, CompoundStatement {
     static var name: String {
         get {
             return "FUNCTION"
@@ -21,13 +21,13 @@ class FUNCTIONStatement: GroupedStatement, BaseStatement {
         }
     }
     
-    static var blockIncludesBeginStatement: Bool {
+    static var compoundIncludesBeginStatement: Bool {
         get {
             return false
         }
     }
     
-    static var blockIncludesEndStatement: Bool {
+    static var compoundIncludesEndStatement: Bool {
         get {
             return false
         }
@@ -40,13 +40,13 @@ class FUNCTIONStatement: GroupedStatement, BaseStatement {
         self.function = function
     }
     
-    func beginStatement(block: BlockElement) throws {
+    func beginStatement(compound: CompoundStatementFragment) throws {
         do {
             for variable in self.function.parameters.parameters {
-                try block.variableManager.registerVariable(variable)
+                try compound.variableManager.registerVariable(variable)
             }
             let returningVariable = Variable(name: self.function.name, type: self.function.returningType)
-            try block.variableManager.registerVariable(returningVariable)
+            try compound.variableManager.registerVariable(returningVariable)
         } catch let error {
             throw error
         }
@@ -93,7 +93,7 @@ class FUNCTIONStatement: GroupedStatement, BaseStatement {
             // parse the returning type
             var returningType: Type = INTEGERType
             if (KeywordParser.parse(&code, keyword: "AS") != nil) {
-                guard let type = CodeParser.sharedBlock?.typeManager.parseType(&code) else {
+                guard let type = FileParser.sharedCompound?.typeManager.parseType(&code) else {
                     throw SyntaxError("The returning expected a valid type.")
                 }
                 returningType = type
@@ -103,7 +103,7 @@ class FUNCTIONStatement: GroupedStatement, BaseStatement {
             let returningSubscripts: Subscripts? = nil
             
             // Find the check declare registeration
-            guard let declare = CodeParser.sharedDeclareManager.findDeclare(funcName) as? FunctionDeclare else {
+            guard let declare = FileParser.sharedDeclareManager.findDeclare(funcName) as? FunctionDeclare else {
                 throw NotFoundError("Function '" + funcName + "' not declared")
             }
             guard (declare.module == nil) else {

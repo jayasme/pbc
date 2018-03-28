@@ -44,7 +44,7 @@ class DIMStatement: BaseStatement {
                 variables.append(variable)
                 
                 // Register the variable
-                try CodeParser.sharedBlock?.variableManager.registerVariable(variable)
+                try FileParser.sharedCompound?.variableManager.registerVariable(variable)
                 
                 guard (SymbolParser.parse(&code, symbol: ",") != nil) else {
                     // separator

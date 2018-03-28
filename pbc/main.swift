@@ -12,8 +12,7 @@ import Foundation
 do {
     ConfigurationManager.shared = try ConfigurationManager.init(arguments: ProcessInfo.processInfo.arguments)
     
-    let input = try CodeInput(path: ConfigurationManager.shared.inputPath)
-    let code = try CodeParser.parse(&input.code)
+    let file = try FileParser.parse(path: ConfigurationManager.shared.inputPath)
     print("Parsing success")
 }
 catch let error {

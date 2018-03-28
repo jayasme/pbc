@@ -22,7 +22,7 @@ class EXITDOStatement: BaseStatement {
     }
     
     static func parse(_ code: inout String) throws -> BaseStatement? {
-        guard ((CodeParser.sharedBlock?.firstStatement as? DOStatement) != nil) else {
+        guard ((FileParser.sharedCompound?.firstStatement as? DOStatement) != nil) else {
             throw SyntaxError("EXIT DO statement can only contained in a DO loop.")
         }
         return EXITFORStatement()

@@ -31,7 +31,7 @@ class LOOPStatement: BaseStatement {
     
     static func parse(_ code: inout String) throws -> BaseStatement? {
         // check the matched DO statment
-        guard let doStatement = (CodeParser.sharedBlock?.firstStatement as? DOStatement) else {
+        guard let doStatement = (FileParser.sharedCompound?.firstStatement as? DOStatement) else {
             throw SyntaxError("Cannot find the matched DO statement for this LOOP statment.")
         }
         

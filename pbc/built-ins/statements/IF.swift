@@ -8,7 +8,7 @@
 
 import Foundation
 
-class IFStatement: BaseStatement, GroupedStatement {
+class IFStatement: BaseStatement, CompoundStatement {
     static var name: String {
         get {
             return "IF"

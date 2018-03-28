@@ -22,7 +22,7 @@ class EXITFORStatement: BaseStatement {
     }
     
     static func parse(_ code: inout String) throws -> BaseStatement? {
-        guard ((CodeParser.sharedBlock?.firstStatement as? FORStatement) != nil) else {
+        guard ((FileParser.sharedCompound?.firstStatement as? FORStatement) != nil) else {
             throw SyntaxError("EXIT FOR statement can only contained in a FOR loop.")
         }
         return EXITFORStatement()

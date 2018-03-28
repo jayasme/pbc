@@ -98,7 +98,7 @@ class DECLAREStatement: BaseStatement {
         if (isFunction == true) {
             var returningType: Type! = nil
             if (KeywordParser.parse(&code, keyword: "AS") != nil) {
-                guard let type = CodeParser.sharedBlock?.typeManager.parseType(&code) else {
+                guard let type = FileParser.sharedCompound?.typeManager.parseType(&code) else {
                     throw SyntaxError("The returning expected a valid type.")
                 }
                 returningType = type
@@ -121,7 +121,7 @@ class DECLAREStatement: BaseStatement {
                 parameters: parameters)
         }
         
-        try CodeParser.sharedDeclareManager.registerDeclare(declare)
+        try FileParser.sharedDeclareManager.registerDeclare(declare)
         
         return DECLAREStatement(declare)
     }

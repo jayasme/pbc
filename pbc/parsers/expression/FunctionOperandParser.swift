@@ -17,7 +17,7 @@ class FunctionOperandParser {
             return nil
         }
         
-        guard let declare = CodeParser.sharedDeclareManager.findDeclare(name) else {
+        guard let declare = FileParser.sharedDeclareManager.findDeclare(name) else {
             return nil
         }
         

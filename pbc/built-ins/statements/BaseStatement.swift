@@ -14,22 +14,22 @@ protocol BaseStatement: class {
     static func parse(_ code: inout String) throws -> BaseStatement?
 }
 
-protocol GroupedStatement: class {
+protocol CompoundStatement: class {
     static func endStatement(statement: BaseStatement) -> Bool
     // Optional
-    func beginStatement(block: BlockElement) throws
-    static var blockIncludesBeginStatement: Bool { get }
-    static var blockIncludesEndStatement: Bool { get }
+    func beginStatement(compound: CompoundStatementFragment) throws
+    static var compoundIncludesBeginStatement: Bool { get }
+    static var compoundIncludesEndStatement: Bool { get }
 }
 
-extension GroupedStatement {
-    func beginStatement(block: BlockElement) throws { }
-    static var blockIncludesBeginStatement: Bool {
+extension CompoundStatement {
+    func beginStatement(compound: CompoundStatementFragment) throws { }
+    static var compoundIncludesBeginStatement: Bool {
         get {
             return true
         }
     }
-    static var blockIncludesEndStatement: Bool {
+    static var compoundIncludesEndStatement: Bool {
         get {
             return true
         }

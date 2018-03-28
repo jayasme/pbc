@@ -65,7 +65,7 @@ class VariableDeclarationParser {
         // parse the type
         var varType: Type!
         if (KeywordParser.parse(&code, keyword: "AS") != nil) {
-            guard let type = CodeParser.sharedBlock?.typeManager.parseType(&code) else {
+            guard let type = FileParser.sharedCompound?.typeManager.parseType(&code) else {
                 throw SyntaxError("Expected a valid type.")
             }
             varType = type

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TYPEStatement: BaseStatement, GroupedStatement {
+class TYPEStatement: BaseStatement, CompoundStatement {
     static var name: String {
         get {
             return "TYPE"
@@ -25,13 +25,13 @@ class TYPEStatement: BaseStatement, GroupedStatement {
         return statement is ENDTYPEStatement
     }
     
-    static var blockIncludesBeginStatement: Bool {
+    static var compoundIncludesBeginStatement: Bool {
         get {
             return false
         }
     }
     
-    static var blockIncludesEndStatement: Bool {
+    static var compoundIncludesEndStatement: Bool {
         get {
             return false
         }
