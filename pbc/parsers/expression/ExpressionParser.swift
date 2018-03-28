@@ -44,10 +44,10 @@ class ExpressionParser {
                     couldBeOperand = true
                 } else if (bracket.direction == .close) {
                     deepOfBracket -= 1
+                    couldBeOperand = false
                     guard (deepOfBracket >= 0) else {
                         break
                     }
-                    couldBeOperand = false
                 }
                 lastType = nil
                 fragments.append(bracket)
@@ -99,12 +99,11 @@ class ExpressionParser {
             }
         }
         
-        while let top = stack.pop() as? ExpressionSubFragment {
-            result.append(top)
-        }
-        
-        guard (stack.count == 0) else {
-            throw InvalidValueError("Unexpected expression")
+        while let top = stack.pop() {
+            guard let fragment = top as? ExpressionSubFragment else {
+                throw InvalidValueError("Unexpected expression")
+            }
+            result.append(fragment)
         }
         
         // if there is only one operand in the expression, extract it
