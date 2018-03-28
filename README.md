@@ -1,4 +1,5 @@
 # pbc
-PolarBASIC Compiler - macOS
+PolarBASIC Compiler - macOS Edition
 
-Building...
+
+![PolarBASIC](cover.png "PolarBASIC")
