@@ -11,11 +11,7 @@ import Foundation
 class VariableManager: BaseManager<Variable> {
 
     func registerVariable(_ variable: Variable) throws {
-        do {
-            try super.registerValue(variable)
-        } catch let error {
-            throw error
-        }
+        try super.registerValue(variable)
     }
 
     func findVariable(_ name: String) -> Variable? {

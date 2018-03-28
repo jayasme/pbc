@@ -30,74 +30,66 @@ class CALLStatement: BaseStatement {
     }
     
     static func parse(_ code: inout String) throws -> BaseStatement? {
-        do {
-            return try CALLStatement.parse(&code, expectedStatement: true)
-        } catch let error {
-            throw error
-        }
+        return try CALLStatement.parse(&code, expectedStatement: true)
     }
     
     static func parse(_ code: inout String, expectedStatement: Bool) throws -> BaseStatement? {
-        do {
-            var tryCode = code
-            
-            guard let name = PatternedNameParser.parse(&tryCode)?.name else {
-                if (expectedStatement) {
-                    throw SyntaxError("Expected a valid name.")
-                }
-                return nil
+        var tryCode = code
+        
+        guard let name = PatternedNameParser.parse(&tryCode)?.name else {
+            if (expectedStatement) {
+                throw SyntaxError("Expected a valid name.")
             }
-            
-            guard let procedure = FileParser.sharedDeclareManager.findDeclare(name) else {
-                if (expectedStatement) {
-                    throw SyntaxError("Cannot find the declaration.")
-                }
-                return nil
-            }
-            
-            // To exclude the situation that no arguments invoved and brackets used
-            if (BracketParser.parse(&tryCode, expectedDirection: .pair) != nil) {
-                // paired brackets
-                code = tryCode
-                return CALLStatement(procedure: procedure, arguments: Arguments.empty)
-            }
-            
-            // parse the arguments
-            // Bracket is optional
-            let hasOpenBracket = (BracketParser.parse(&tryCode, expectedDirection: .open) != nil)
-            
-            let arguments: Arguments = Arguments.empty
-            while(code.count > 0) {
-                guard let operand = try ExpressionParser.parse(&tryCode)?.value else {
-                    throw SyntaxError("Expected a valid expression.")
-                }
-                
-                arguments.arguments.append(operand)
-                
-                if (SymbolParser.parse(&tryCode, symbol: ",") != nil) {
-                    // separator
-                    continue
-                }
-                
-                let hasCloseBracket = (BracketParser.parse(&tryCode, expectedDirection: .close) != nil)
-                if (hasOpenBracket && !hasCloseBracket) {
-                    throw SyntaxError("Expected a close bracket.")
-                } else if (!hasOpenBracket && hasCloseBracket) {
-                    throw SyntaxError("Unexpected the close bracket.")
-                }
-                
-                break
-            }
-            
-            // check the arguments
-            guard (arguments.isConformWith(parameters: procedure.parameters)) else {
-                throw InvalidValueError("Called function '" + procedure.name + "' it not mathced to its declaration.")
-            }
-            
-            code = tryCode
-            return CALLStatement(procedure: procedure, arguments: arguments)
-        } catch let error {
-            throw error
+            return nil
         }
+        
+        guard let procedure = FileParser.sharedDeclareManager.findDeclare(name) else {
+            if (expectedStatement) {
+                throw SyntaxError("Cannot find the declaration.")
+            }
+            return nil
+        }
+        
+        // To exclude the situation that no arguments invoved and brackets used
+        if (BracketParser.parse(&tryCode, expectedDirection: .pair) != nil) {
+            // paired brackets
+            code = tryCode
+            return CALLStatement(procedure: procedure, arguments: Arguments.empty)
+        }
+        
+        // parse the arguments
+        // Bracket is optional
+        let hasOpenBracket = (BracketParser.parse(&tryCode, expectedDirection: .open) != nil)
+        
+        let arguments: Arguments = Arguments.empty
+        while(code.count > 0) {
+            guard let operand = try ExpressionParser.parse(&tryCode)?.value else {
+                throw SyntaxError("Expected a valid expression.")
+            }
+            
+            arguments.arguments.append(operand)
+            
+            if (SymbolParser.parse(&tryCode, symbol: ",") != nil) {
+                // separator
+                continue
+            }
+            
+            let hasCloseBracket = (BracketParser.parse(&tryCode, expectedDirection: .close) != nil)
+            if (hasOpenBracket && !hasCloseBracket) {
+                throw SyntaxError("Expected a close bracket.")
+            } else if (!hasOpenBracket && hasCloseBracket) {
+                throw SyntaxError("Unexpected the close bracket.")
+            }
+            
+            break
+        }
+        
+        // check the arguments
+        guard (arguments.isConformWith(parameters: procedure.parameters)) else {
+            throw InvalidValueError("Called function '" + procedure.name + "' it not mathced to its declaration.")
+        }
+        
+        code = tryCode
+        return CALLStatement(procedure: procedure, arguments: arguments)
     }
 }

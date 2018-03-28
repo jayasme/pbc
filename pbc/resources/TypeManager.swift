@@ -26,11 +26,7 @@ class TypeManager: BaseManager<Type> {
     }
     
     func registerType(_ type: Type) throws {
-        do {
-            try super.registerValue(type)
-        } catch let error {
-            throw error
-        }
+        try super.registerValue(type)
     }
     
     func findType(_ name: String) -> Type? {

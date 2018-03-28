@@ -31,48 +31,40 @@ class LETStatement: BaseStatement {
     }
     
     static func parse(_ code: inout String) throws -> BaseStatement? {
-        do {
-            return try LETStatement.parse(&code)
-        } catch let error {
-            throw error
-        }
+        return try LETStatement.parse(&code)
     }
     
     static func parse(_ code: inout String, expectedStatement: Bool) throws -> BaseStatement? {
-        do {
-            var tryCode = code
-            
-            // parse the variable
-            guard let variable = try VariableOperandParser.parse(&tryCode)?.variableOperand else {
-                if (expectedStatement) {
-                    throw InvalidValueError("Expected a valid variable.")
-                }
-                return nil
+        var tryCode = code
+        
+        // parse the variable
+        guard let variable = try VariableOperandParser.parse(&tryCode)?.variableOperand else {
+            if (expectedStatement) {
+                throw InvalidValueError("Expected a valid variable.")
             }
-            
-            // parse the equality sign
-            guard (SymbolParser.parse(&tryCode, symbol: "=") != nil) else {
-                if (expectedStatement) {
-                    throw InvalidValueError("Expected an equality symbol")
-                }
-                return nil
-            }
-            
-            // parse the expression
-            guard let expression = try ExpressionParser.parse(&tryCode)?.value else {
-                throw InvalidValueError("Expected an valid expression")
-            }
-            
-            // check the type of variable & expression
-            
-            guard (variable.type.isCompatibleWith(type: expression.type)) else {
-                throw InvalidValueError("Cannot assign '" + expression.type.name + "' to a variable of type '" + variable.type.name + "'.")
-            }
-            
-            code = tryCode
-            return LETStatement(variable: variable, expression: expression)
-        } catch let error {
-            throw error
+            return nil
         }
+        
+        // parse the equality sign
+        guard (SymbolParser.parse(&tryCode, symbol: "=") != nil) else {
+            if (expectedStatement) {
+                throw InvalidValueError("Expected an equality symbol")
+            }
+            return nil
+        }
+        
+        // parse the expression
+        guard let expression = try ExpressionParser.parse(&tryCode)?.value else {
+            throw InvalidValueError("Expected an valid expression")
+        }
+        
+        // check the type of variable & expression
+        
+        guard (variable.type.isCompatibleWith(type: expression.type)) else {
+            throw InvalidValueError("Cannot assign '" + expression.type.name + "' to a variable of type '" + variable.type.name + "'.")
+        }
+        
+        code = tryCode
+        return LETStatement(variable: variable, expression: expression)
     }
 }

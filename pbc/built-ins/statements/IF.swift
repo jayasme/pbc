@@ -38,25 +38,21 @@ class IFStatement: BaseStatement, CompoundStatement {
     }
     
     static func parse(_ code: inout String) throws -> BaseStatement? {
-        do {
-            // parse the condition
-            guard let condition = try ExpressionParser.parse(&code)?.value else {
-                throw SyntaxError("Requires a valid expression")
-            }
-            
-            // check the expression's type
-            guard condition.type == BOOLEANType else {
-                throw SyntaxError("IF statement only excepts a boolean as its condition.")
-            }
-            
-            // parse the THEN
-            guard KeywordParser.parse(&code, keyword: "THEN") != nil else {
-                throw SyntaxError("Requires the keyword 'THEN'")
-            }
-            
-            return IFStatement(condition)
-        } catch let error {
-            throw error
+        // parse the condition
+        guard let condition = try ExpressionParser.parse(&code)?.value else {
+            throw SyntaxError("Requires a valid expression")
         }
+        
+        // check the expression's type
+        guard condition.type == BOOLEANType else {
+            throw SyntaxError("IF statement only excepts a boolean as its condition.")
+        }
+        
+        // parse the THEN
+        guard KeywordParser.parse(&code, keyword: "THEN") != nil else {
+            throw SyntaxError("Requires the keyword 'THEN'")
+        }
+        
+        return IFStatement(condition)
     }
 }

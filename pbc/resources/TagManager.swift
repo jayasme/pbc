@@ -11,11 +11,7 @@ import Foundation
 class TagManager: BaseManager<Tag> {
     
     func registerTag(_ tag: Tag) throws {
-        do {
-            try super.registerValue(tag)
-        } catch let error {
-            throw error
-        }
+        try super.registerValue(tag)
     }
     
     func findTag(_ name: String) -> Tag? {

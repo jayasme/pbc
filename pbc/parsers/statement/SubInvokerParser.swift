@@ -13,10 +13,6 @@ import Foundation
 class SubInvokerParser {
     
     static func parse(_ code: inout String) throws -> BaseStatement? {
-        do {
-            return try CALLStatement.parse(&code, expectedStatement: false)
-        } catch let error {
-            throw error
-        }
+        return try CALLStatement.parse(&code, expectedStatement: false)
     }
 }

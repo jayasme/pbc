@@ -57,15 +57,10 @@ class StatementParser {
                 let compound = try CompoundStatementParser.parse(
                     &code, lineNumber: &lineNumber,
                     didCreateCompound: { (compound: CompoundStatementFragment) throws -> Void in
-                        
-                        do {
-                            if (type(of: compoundStatement).compoundIncludesBeginStatement) {
-                                compound.statements.append(SingleStatementFragment(statement))
-                            }
-                            try compoundStatement.beginStatement(compound: compound)
-                        } catch let error {
-                            throw error
+                        if (type(of: compoundStatement).compoundIncludesBeginStatement) {
+                            compound.statements.append(SingleStatementFragment(statement))
                         }
+                        try compoundStatement.beginStatement(compound: compound)
                     }, shouldEndStatement: { (endStatement: BaseStatement, compound: CompoundStatementFragment) -> Bool in
                         let shouldEnd = type(of: compoundStatement).endStatement(statement: endStatement)
                         if (shouldEnd && type(of: compoundStatement).compoundIncludesEndStatement) {

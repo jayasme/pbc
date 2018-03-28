@@ -11,11 +11,7 @@ import Foundation
 class DeclareManager: BaseManager<Declare> {
     
     func registerDeclare(_ declare: Declare) throws {
-        do {
-            try super.registerValue(declare)
-        } catch let error {
-            throw error
-        }
+        try super.registerValue(declare)
     }
     
     func findDeclare(_ name: String) -> Declare? {

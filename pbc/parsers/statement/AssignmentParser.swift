@@ -13,10 +13,6 @@ import Foundation
 class AssignmentParser {
     
     static func parse(_ code: inout String) throws -> BaseStatement? {
-        do {
-            return try LETStatement.parse(&code, expectedStatement: false)
-        } catch let error {
-            throw error
-        }
+        return try LETStatement.parse(&code, expectedStatement: false)
     }
 }

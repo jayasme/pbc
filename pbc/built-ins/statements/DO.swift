@@ -40,32 +40,28 @@ class DOStatement: BaseStatement, CompoundStatement {
     }
     
     static func parse(_ code: inout String) throws -> BaseStatement? {
-        do {
-            // parse the type
-            var loopType: LoopType = .none
-            if (KeywordParser.parse(&code, keyword: "WHILE") != nil) {
-                loopType = .loopWhile
-            } else if (KeywordParser.parse(&code, keyword: "UNTIL") != nil) {
-                loopType = .loopUntil
-            }
-            
-            // parse the expression
-            var condition: OperandFragment! = nil
-            if (loopType != .none) {
-                guard let expression = try ExpressionParser.parse(&code) else {
-                    throw SyntaxError("Expected a valid expression")
-                }
-                condition = expression
-            }
-            
-            // check the expression's type
-            guard (condition == nil || condition.value.type == BOOLEANType) else {
-                throw InvalidValueError("DO statement only excepts a boolean as its condition.")
-            }
-            
-            return DOStatement.init(condition, loopType: loopType)
-        } catch let error {
-            throw error
+        // parse the type
+        var loopType: LoopType = .none
+        if (KeywordParser.parse(&code, keyword: "WHILE") != nil) {
+            loopType = .loopWhile
+        } else if (KeywordParser.parse(&code, keyword: "UNTIL") != nil) {
+            loopType = .loopUntil
         }
+        
+        // parse the expression
+        var condition: OperandFragment! = nil
+        if (loopType != .none) {
+            guard let expression = try ExpressionParser.parse(&code) else {
+                throw SyntaxError("Expected a valid expression")
+            }
+            condition = expression
+        }
+        
+        // check the expression's type
+        guard (condition == nil || condition.value.type == BOOLEANType) else {
+            throw InvalidValueError("DO statement only excepts a boolean as its condition.")
+        }
+        
+        return DOStatement.init(condition, loopType: loopType)
     }
 }

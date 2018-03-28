@@ -28,28 +28,24 @@ class TYPEFIELDStatement: BaseStatement {
     }
     
     static func parse(_ code: inout String) throws -> BaseStatement? {
-        do {
-            var tryCode = code
-            // parse the name
-            guard let patternedName = PatternedNameParser.parse(&tryCode)?.name else {
-                return nil
-            }
-                
-            // parse the AS
-            guard (KeywordParser.parse(&tryCode, keyword: "AS") != nil) else {
-                return nil
-            }
-                
-            // parse the type
-            guard let type = FileParser.sharedCompound?.typeManager.parseType(&tryCode) else {
-                throw SyntaxError("Expected a valid type.")
-            }
-            
-            code = tryCode
-            let field = TypeField(name: patternedName, type: type)
-            return TYPEFIELDStatement(field)
-        } catch let error {
-            throw error
+        var tryCode = code
+        // parse the name
+        guard let patternedName = PatternedNameParser.parse(&tryCode)?.name else {
+            return nil
         }
+        
+        // parse the AS
+        guard (KeywordParser.parse(&tryCode, keyword: "AS") != nil) else {
+            return nil
+        }
+        
+        // parse the type
+        guard let type = FileParser.sharedCompound?.typeManager.parseType(&tryCode) else {
+            throw SyntaxError("Expected a valid type.")
+        }
+        
+        code = tryCode
+        let field = TypeField(name: patternedName, type: type)
+        return TYPEFIELDStatement(field)
     }
 }
