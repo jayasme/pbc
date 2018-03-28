@@ -18,36 +18,37 @@ class ExpressionParser {
         var lastType: TypeTuple? = nil
         
         while(tryCode.count > 0) {
-            if let oper = OperatorParser.parse(&tryCode, preferUnary: couldBeOperand) {
-                // operator
-                couldBeOperand = true
-                lastType = nil
-                fragments.append(oper)
-            } else if let constant = try ConstantOperandParser.parse(&tryCode) {
+            if couldBeOperand, let constant = try ConstantOperandParser.parse(&tryCode) {
                 // constant operand
                 couldBeOperand = false
                 lastType = constant.value.type
                 fragments.append(constant)
-            } else if let variable = try VariableOperandParser.parse(&tryCode) {
+            } else if couldBeOperand, let variable = try VariableOperandParser.parse(&tryCode) {
                 // variable operand
                 couldBeOperand = false
                 lastType = variable.value.type
                 fragments.append(variable)
-            } else if let function = try FunctionOperandParser.parse(&tryCode) {
+            } else if couldBeOperand, let function = try FunctionOperandParser.parse(&tryCode) {
                 // function operand
                 couldBeOperand = false
                 lastType = function.value.type
                 fragments.append(function)
-            } else  if let bracket = BracketParser.parse(&tryCode), bracket.direction != .pair {
+            } else if let oper = OperatorParser.parse(&tryCode, preferUnary: couldBeOperand) {
+                // operator
+                couldBeOperand = true
+                lastType = nil
+                fragments.append(oper)
+            } else if let bracket = BracketParser.parse(&tryCode), bracket.direction != .pair {
                 if (bracket.direction == .open) {
                     deepOfBracket += 1
+                    couldBeOperand = true
                 } else if (bracket.direction == .close) {
                     deepOfBracket -= 1
                     guard (deepOfBracket >= 0) else {
                         break
                     }
+                    couldBeOperand = false
                 }
-                couldBeOperand = false
                 lastType = nil
                 fragments.append(bracket)
             } else if let parentType = lastType?.type, let members = try MemberOperandParser.parse(&tryCode, parentType: parentType) {
