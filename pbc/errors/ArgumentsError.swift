@@ -8,6 +8,6 @@
 
 import Foundation
 
-class ArgumentError: InnerError {
+class ArgumentsError: InnerError {
     
 }

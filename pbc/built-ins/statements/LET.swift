@@ -61,7 +61,7 @@ class LETStatement: BaseStatement {
         // check the type of variable & expression
         
         guard (variable.type.isCompatibleWith(type: expression.type)) else {
-            throw InvalidValueError("Cannot assign '" + expression.type.name + "' to a variable of type '" + variable.type.name + "'.")
+            throw InvalidTypeError("Cannot assign '" + expression.type.name + "' to a variable of type '" + variable.type.name + "'.")
         }
         
         code = tryCode

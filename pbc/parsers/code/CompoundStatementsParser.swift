@@ -12,7 +12,6 @@ class CompoundStatementParser {
     
     static func parse(
         _ code: inout String,
-        lineNumber: inout Int32,
         didCreateCompound: ((_ compound: CompoundStatementFragment) throws -> Void)? = nil,
         shouldEndStatement: ((_ statement: BaseStatement, _ compound: CompoundStatementFragment) -> Bool)? = nil
     ) throws -> CompoundStatementFragment {
@@ -29,7 +28,7 @@ class CompoundStatementParser {
             
             if let separator = SeparatorParser.parse(&code) {
                 if (separator.separatorType == .newLine) {
-                    lineNumber += 1
+                    FileParser.sharedWatcher?.lineNumber += 1
                     newLine = true
                 }
                 continue
@@ -44,7 +43,7 @@ class CompoundStatementParser {
             }
             
             // parse the single statement
-            if let statement = try StatementParser.parse(&code, lineNumber: &lineNumber) {
+            if let statement = try StatementParser.parse(&code) {
                 // end of the block
                 if let subStatement = (statement as? SingleStatementFragment)?.statement, shouldEndStatement?(subStatement, compound) == true {
                     break

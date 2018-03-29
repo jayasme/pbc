@@ -47,7 +47,7 @@ class StatementParser {
         try FileParser.sharedCompound?.typeManager.registerType(type)
     }
     
-    static func parse(_ code: inout String, lineNumber: inout Int32) throws -> BaseStatementFragment? {
+    static func parse(_ code: inout String) throws -> BaseStatementFragment? {
         do {
             guard let statement = try StatementParser.parseStatement(&code) else {
                 throw InvalidValueError("Unknown statement.")
@@ -55,7 +55,7 @@ class StatementParser {
             
             if let compoundStatement = statement as? CompoundStatement {
                 let compound = try CompoundStatementParser.parse(
-                    &code, lineNumber: &lineNumber,
+                    &code,
                     didCreateCompound: { (compound: CompoundStatementFragment) throws -> Void in
                         if (type(of: compoundStatement).compoundIncludesBeginStatement) {
                             compound.statements.append(SingleStatementFragment(statement))

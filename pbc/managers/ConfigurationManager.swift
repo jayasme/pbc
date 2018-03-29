@@ -58,19 +58,19 @@ class ConfigurationManager {
     init(arguments: [String]) throws {
         // -i is required
         guard let inputIndex = arguments.index(of: "-i") else {
-            throw ArgumentError.init("Input path not specified.")
+            throw IOError.Input_Path_Not_Specified()
         }
         if (inputIndex == arguments.count) {
-            throw ArgumentError.init("Input path not specified.")
+            throw IOError.Input_Path_Not_Specified()
         }
         
         /*
         // -o is required
         guard let outputIndex = arguments.index(of: "-o") else {
-            throw ArgumentError.init("Output path not specified.")
+            throw IOError.Output_Path_Not_Specified()
         }
         if (outputIndex == arguments.count) {
-            throw ArgumentError.init("Output path not specified.")
+            throw IOError.Output_Path_Not_Specified()
         } */
         
         configurationMap[ConfigurationManager.INPUT_PATH_KEY] = arguments[inputIndex + 1]

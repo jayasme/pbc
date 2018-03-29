@@ -17,11 +17,11 @@ class CodeInput {
         self.path = path
         
         if (!FileManager.default.fileExists(atPath: path)) {
-            throw IOError("Input file does not exist: " + path)
+            throw IOError.Input_File_Does_Not_Exist(path: path)
         }
         
         guard let stream = InputStream(fileAtPath: path) else {
-            throw IOError("Fail to open file: " + path)
+            throw IOError.Fail_To_Open_File(path: path)
         }
         
         var data = Data.init()
@@ -36,7 +36,7 @@ class CodeInput {
         buffer.deallocate(capacity: bufferSize)
 
         guard let code = String.init(data: data, encoding: .utf8) else {
-            throw IOError("Can not decode from file " + path + ", Please make sure the files is using the UTF8 encode.")
+            throw IOError.Incorrect_File_Encoding(path: path)
         }
         self.code = code
     }

@@ -101,7 +101,7 @@ class ExpressionParser {
         
         while let top = stack.pop() {
             guard let fragment = top as? ExpressionSubFragment else {
-                throw InvalidValueError("Unexpected expression")
+                throw SyntaxError.Illegal_Expression()
             }
             result.append(fragment)
         }
@@ -110,7 +110,7 @@ class ExpressionParser {
         guard result.count > 1 else {
             // only one or none fragments
             guard let operand = result.first as? OperandFragment else {
-                throw SyntaxError("Invalid expression.")
+                throw SyntaxError.Illegal_Expression()
             }
             return operand
         }

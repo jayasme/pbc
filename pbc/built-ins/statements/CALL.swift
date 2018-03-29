@@ -38,14 +38,14 @@ class CALLStatement: BaseStatement {
         
         guard let name = PatternedNameParser.parse(&tryCode)?.name else {
             if (expectedStatement) {
-                throw SyntaxError("Expected a valid name.")
+                throw InvalidNameError("Expected a valid name.")
             }
             return nil
         }
         
         guard let procedure = FileParser.sharedDeclareManager.findDeclare(name) else {
             if (expectedStatement) {
-                throw SyntaxError("Cannot find the declaration.")
+                throw InvalidValueError("Cannot find the declaration.")
             }
             return nil
         }
@@ -64,7 +64,7 @@ class CALLStatement: BaseStatement {
         let arguments: Arguments = Arguments.empty
         while(code.count > 0) {
             guard let operand = try ExpressionParser.parse(&tryCode)?.value else {
-                throw SyntaxError("Expected a valid expression.")
+                throw SyntaxError.Illegal_Expression()
             }
             
             arguments.arguments.append(operand)
@@ -76,9 +76,9 @@ class CALLStatement: BaseStatement {
             
             let hasCloseBracket = (BracketParser.parse(&tryCode, expectedDirection: .close) != nil)
             if (hasOpenBracket && !hasCloseBracket) {
-                throw SyntaxError("Expected a close bracket.")
+                throw SyntaxError.Expected_Character(character: ")")
             } else if (!hasOpenBracket && hasCloseBracket) {
-                throw SyntaxError("Unexpected the close bracket.")
+                throw SyntaxError.Unexpected_Character(character: ")")
             }
             
             break
@@ -86,7 +86,7 @@ class CALLStatement: BaseStatement {
         
         // check the arguments
         guard (arguments.isConformWith(parameters: procedure.parameters)) else {
-            throw InvalidValueError("Called function '" + procedure.name + "' it not mathced to its declaration.")
+            throw ArgumentsError("Called function '" + procedure.name + "' it not mathced to its declaration.")
         }
         
         code = tryCode

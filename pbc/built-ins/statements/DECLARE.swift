@@ -39,19 +39,19 @@ class DECLAREStatement: BaseStatement {
         }
         
         guard (isFunction != nil) else {
-            throw SyntaxError("Expected keyword 'FUNCTION' or 'SUB'")
+            throw SyntaxError.Declare_Expected_Function_Or_Sub()
         }
         
         // parse the name
         guard let declareName = PatternedNameParser.parse(&code)?.name else {
-            throw InvalidValueError("Declare requires a valid name.")
+            throw InvalidNameError("Declare requires a valid name.")
         }
         
         // parse the alias
         var aliasName: String? = nil
         if (KeywordParser.parse(&code, keyword: "ALIAS") != nil) {
             guard let alias = PatternedNameParser.parse(&code) else {
-                throw InvalidValueError("Invalid alias name.")
+                throw InvalidNameError("Invalid alias name.")
             }
             aliasName = alias.name
         }
@@ -65,30 +65,28 @@ class DECLAREStatement: BaseStatement {
             moduleName = module.value
         }
         
-        // parse the open bracket
-        guard (BracketParser.parse(&code, expectedDirection: .open) != nil) else {
-            throw SyntaxError("Declare requires a bracket following the declaration name.")
-        }
-        
-        // parse the parameters bracket
+        // parse the parameters
         let parameters = Parameters.empty
-        if (BracketParser.parse(&code, expectedDirection: .close) == nil) {
-            while(code.count > 0) {
-                guard let parameter = try VariableDeclarationParser.parse(&code, needDimensions: false)?.variable else {
-                    throw SyntaxError("Expected a valid parameter.")
+        if (BracketParser.parse(&code, expectedDirection: .open) != nil) {
+            // parse the parameters bracket
+            if (BracketParser.parse(&code, expectedDirection: .close) == nil) {
+                while(code.count > 0) {
+                    guard let parameter = try VariableDeclarationParser.parse(&code, needDimensions: false)?.variable else {
+                        throw InvalidValueError("Expected a valid parameter.")
+                    }
+                    
+                    parameters.parameters.append(parameter)
+                    
+                    if (SymbolParser.parse(&code, symbol: ",") != nil) {
+                        // separator
+                        continue
+                    } else if (BracketParser.parse(&code, expectedDirection: .close) != nil) {
+                        // end of the function declaration
+                        break
+                    }
+                    
+                    throw SyntaxError.Expected_Character(character: ")")
                 }
-                
-                parameters.parameters.append(parameter)
-                
-                if (SymbolParser.parse(&code, symbol: ",") != nil) {
-                    // separator
-                    continue
-                } else if (BracketParser.parse(&code, expectedDirection: .close) != nil) {
-                    // end of the function declaration
-                    break
-                }
-                
-                throw SyntaxError("Expected a close bracket.")
             }
         }
         
@@ -99,7 +97,7 @@ class DECLAREStatement: BaseStatement {
             var returningType: Type! = nil
             if (KeywordParser.parse(&code, keyword: "AS") != nil) {
                 guard let type = FileParser.sharedCompound?.typeManager.parseType(&code) else {
-                    throw SyntaxError("The returning expected a valid type.")
+                    throw InvalidTypeError("The returning expected a valid type.")
                 }
                 returningType = type
             } else {

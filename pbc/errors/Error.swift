@@ -22,10 +22,8 @@ class CompilingError {
 
 class InnerError: Error {
     var message: String
-    var offset: Int?
     
-    init(_ message: String, offset: Int? = nil) {
+    init(_ message: String) {
         self.message = message
-        self.offset = offset
     }
 }

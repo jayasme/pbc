@@ -8,20 +8,30 @@
 
 import Foundation
 
+class FileParserWatcher {
+    var lineNumber: Int = 1
+    var position: Int = 1
+    var errors: [CompilingError] = []
+    
+    func appendError() {
+        
+    }
+}
+
 class FileParser {
     
     static var sharedCompound: CompoundStatementFragment? = nil
     
     static var sharedDeclareManager = DeclareManager()
     
+    static var sharedWatcher: FileParserWatcher? = nil
+    
     static func parseStatements(_ code: inout String) throws -> CompoundStatementFragment {
-        var lineNumber: Int32 = 1
-        
         do {
-            let compound = try CompoundStatementParser.parse(&code, lineNumber: &lineNumber)
+            let compound = try CompoundStatementParser.parse(&code)
             return compound
         } catch let error {
-            print("At line " + String(lineNumber))
+            print("At line " + String(sharedWatcher!.lineNumber))
             throw error
         }
     }
@@ -29,6 +39,8 @@ class FileParser {
     static func parse(path: String) throws -> FileFragment? {
         do {
             let input = try CodeInput(path: path)
+            let watcher = FileParserWatcher()
+            FileParser.sharedWatcher = watcher
             let rootCompound = try FileParser.parseStatements(&input.code)
             return FileFragment(path: path, compound: rootCompound)
         } catch let error {
