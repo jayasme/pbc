@@ -70,6 +70,10 @@ class ExpressionParser {
         let fragments: [BaseFragment] = try ExpressionParser.parseFragments(&code)
         var result: [ExpressionSubFragment] = []
         
+        guard fragments.count > 0 else {
+            return nil
+        }
+        
         for fragment in fragments {
             if let bracket = fragment as? BracketFragment {
                 if (bracket.direction == .open) {
