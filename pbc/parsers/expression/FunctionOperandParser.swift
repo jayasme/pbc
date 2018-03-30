@@ -22,12 +22,12 @@ class FunctionOperandParser {
         }
         
         guard let function = declare as? FunctionDeclare else {
-            throw SyntaxError("Only function could be a part of expression.")
+            throw InvalidValueError("'" + declare.name + "' is not a function to be called.")
         }
         
         // parse the arguments
         guard (BracketParser.parse(&tryCode, expectedDirection: .open) != nil) else {
-            throw SyntaxError("Expected '('.")
+            throw SyntaxError.Expected(syntax: "(")
         }
         
         let arguments = Arguments.empty
@@ -35,7 +35,7 @@ class FunctionOperandParser {
             while(code.count > 0) {
                 
                 guard let operand = try ExpressionParser.parse(&tryCode)?.value else {
-                    throw SyntaxError("Expected a valid operand.")
+                    throw SyntaxError.Illegal_Expression()
                 }
                 
                 arguments.arguments.append(operand)
@@ -48,7 +48,7 @@ class FunctionOperandParser {
                     break
                 }
                 
-                throw SyntaxError("Expected a close bracket.")
+                throw SyntaxError.Expected(syntax: ")")
             }
         }
         

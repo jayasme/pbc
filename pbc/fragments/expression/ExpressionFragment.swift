@@ -24,13 +24,13 @@ class ExpressionFragment: OperandFragment {
     // get the type of the result of caclculations with binary operation.
     private static func getBinaryType(type1: TypeTuple, type2: TypeTuple, oper: Operator) throws -> TypeTuple {
         guard (type1.subscripts == nil && type2.subscripts == nil) else {
-            throw InvalidValueError("Arrays cannot be applied for '" + oper.rawValue + "' operations.")
+            throw InvalidTypeError("Arrays cannot be applied for '" + oper.rawValue + "' operations.")
         }
         
         if (oper.category == .mathematics) {
             // mathematics
             guard (type1 != BOOLEANType && type2 != BOOLEANType) else {
-                throw InvalidValueError("Boolean cannot be the one of the operands in a mathematical calculation.")
+                throw InvalidTypeError("Boolean cannot be the one of the operands in a mathematical calculation.")
             }
             
             if (type1 == STRINGType && type2 == STRINGType && oper == .addition) {
@@ -38,24 +38,24 @@ class ExpressionFragment: OperandFragment {
             } else if let mixedType = TypeTuple.mixType(type1: type1, type2: type2), mixedType.isNumber {
                 return mixedType
             } else {
-                throw InvalidValueError("'" + type1.name + "' and '" + type2.name + "' cannot be the operands in a mathematical calculation.")
+                throw InvalidTypeError("'" + type1.name + "' and '" + type2.name + "' cannot be the operands in a mathematical calculation.")
             }
         } else if (oper.category == .logic) {
             // logic
             guard (type1 == BOOLEANType && type2 == BOOLEANType) else {
-                throw InvalidValueError("Only Boolean can be the operands in a logical calculation.")
+                throw InvalidTypeError("Only Boolean can be the operands in a logical calculation.")
             }
             return TypeTuple(BOOLEANType)
         } else if (oper.category == .equality) {
             // equality
             guard type1.isCompatibleWith(type: type2) else {
-                throw InvalidValueError("Only the values of identical type or numbers can be the operands of a comparational calculation.")
+                throw InvalidTypeError("Only the values of identical type or numbers can be the operands of a comparational calculation.")
             }
             return TypeTuple(BOOLEANType)
         } else if (oper.category == .comparation) {
             // comparation
             guard (type1.isNumber && type2.isNumber) else {
-                throw InvalidValueError("Only numbers can be the operands of a comparational calculation.")
+                throw InvalidTypeError("Only numbers can be the operands of a comparational calculation.")
             }
             
             return TypeTuple(BOOLEANType)
@@ -63,7 +63,7 @@ class ExpressionFragment: OperandFragment {
             return type2
         }
         
-        throw InvalidValueError("Cannot apply operator '" + oper.rawValue + "' for '" + type1.name + "' and '" + type2.name + "'")
+        throw InvalidTypeError("Cannot apply operator '" + oper.rawValue + "' for '" + type1.name + "' and '" + type2.name + "'")
     }
     
     static func predictType(_ fragments: [ExpressionSubFragment]) throws -> TypeTuple {
@@ -77,10 +77,10 @@ class ExpressionFragment: OperandFragment {
                     // do nothing
                 } else {
                     guard let operand2 = stack.pop() else {
-                        throw SyntaxError("Not enough operand")
+                        throw SyntaxError.Illegal_Expression()
                     }
                     guard let operand1 = stack.pop() else {
-                        throw SyntaxError("Not enough operand")
+                        throw SyntaxError.Illegal_Expression()
                     }
                     
                     let type = try ExpressionFragment.getBinaryType(type1: operand1, type2: operand2, oper: oper)
@@ -90,7 +90,7 @@ class ExpressionFragment: OperandFragment {
         }
         
         guard stack.count == 1, let result = stack.top else {
-            throw InvalidValueError("Expression is illegal, please check it.")
+            throw SyntaxError.Illegal_Expression()
         }
         
         return result

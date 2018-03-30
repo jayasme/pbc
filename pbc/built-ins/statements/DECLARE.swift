@@ -85,7 +85,7 @@ class DECLAREStatement: BaseStatement {
                         break
                     }
                     
-                    throw SyntaxError.Expected_Character(character: ")")
+                    throw SyntaxError.Expected(syntax: ")")
                 }
             }
         }

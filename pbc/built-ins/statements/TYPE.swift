@@ -46,7 +46,7 @@ class TYPEStatement: BaseStatement, CompoundStatement {
     static func parse(_ code: inout String) throws -> BaseStatement? {
         // parse the name
         guard let typeName = PatternedNameParser.parse(&code)?.name else {
-            throw InvalidValueError("Type requires a valid name.")
+            throw InvalidNameError("Type requires a valid name.")
         }
         
         return TYPEStatement(typeName)

@@ -32,7 +32,7 @@ class LOOPStatement: BaseStatement {
     static func parse(_ code: inout String) throws -> BaseStatement? {
         // check the matched DO statment
         guard let doStatement = (FileParser.sharedCompound?.firstStatement as? DOStatement) else {
-            throw SyntaxError("Cannot find the matched DO statement for this LOOP statment.")
+            throw SyntaxError.Cannot_Find_The_Matched_Statement(statement: "DO")
         }
         
         // parse the type
@@ -47,19 +47,19 @@ class LOOPStatement: BaseStatement {
         var condition: OperandFragment! = nil
         if (loopType != .none) {
             guard let expression = try ExpressionParser.parse(&code) else {
-                throw SyntaxError("Expected a valid expression")
+                throw SyntaxError.Illegal_Expression_After(syntax: (loopType == .loopWhile ? "WHILE" : "UNTILE"))
             }
             condition = expression
         }
         
         // check there must and only be one condition between the LOOP and its matched DO statements.
         guard ((doStatement.loopType == .none && loopType != .none) || (doStatement.loopType != .none && loopType == .none)) else {
-            throw InvalidValueError("There must and only be one condition between the LOOP and its matched DO statements.")
+            throw SyntaxError.Loop_Only_One_Condition()
         }
         
         // check the condition's type
         guard (condition == nil || condition.value.type == BOOLEANType) else {
-            throw InvalidValueError("DO statement only excepts a boolean as its condition.")
+            throw InvalidTypeError("DO statement only excepts a boolean as its condition.")
         }
         
         return LOOPStatement.init(condition, loopType: loopType)

@@ -45,26 +45,26 @@ class FORStatement: BaseStatement, CompoundStatement {
     static func parse(_ code: inout String) throws -> BaseStatement? {
         // parse the counter name
         guard let counterName = PatternedNameParser.parse(&code)?.name else {
-            throw SyntaxError("Expected a valid variable name")
+            throw InvalidNameError("Expected a valid variable name")
         }
         
         // parse the counter type
         var counterType: TypeTuple! = nil
         if (KeywordParser.parse(&code, keyword: "AS") != nil) {
             guard let type = FileParser.sharedCompound?.typeManager.parseType(&code) else {
-                throw SyntaxError("Unexpected a data type.")
+                throw InvalidTypeError("Unexpected a data type.")
             }
             counterType = TypeTuple(type)
         }
         
         // parse the '='
         guard (SymbolParser.parse(&code, symbol: "=") != nil) else {
-            throw SyntaxError("Expected '='")
+            throw SyntaxError.Expected(syntax: "=")
         }
         
         // parse the start
         guard let start = try ExpressionParser.parse(&code)?.value else {
-            throw SyntaxError("Expected a valid initial expression.")
+            throw SyntaxError.Illegal_Expression_After(syntax: "=")
         }
         if (counterType == nil) {
             counterType = start.type
@@ -76,29 +76,29 @@ class FORStatement: BaseStatement, CompoundStatement {
         }
         
         guard start.type.isCompatibleWith(type: counterType) else {
-            throw InvalidValueError("The type of counter '" + start.type.name + "' dismatches to the start value.")
+            throw InvalidTypeError("The type of counter '" + start.type.name + "' dismatches to the start value.")
         }
         
         // parse the 'TO'
         guard (KeywordParser.parse(&code, keyword: "TO") != nil) else {
-            throw SyntaxError("Expected 'TO'")
+            throw SyntaxError.Expected(syntax: "TO")
         }
         
         // parse the end
         guard let end = try ExpressionParser.parse(&code)?.value else {
-            throw SyntaxError("Expected a valid end expression.")
+            throw SyntaxError.Illegal_Expression_After(syntax: "TO")
         }
         
         // check the end's type
         guard end.type.isNumber else {
-            throw InvalidValueError("Only numbers are excepted as the end value of a FOR loop statement.")
+            throw InvalidTypeError("Only numbers are excepted as the end value of a FOR loop statement.")
         }
         
         // parse the step
         var step: Operand! = nil
         if (KeywordParser.parse(&code, keyword: "STEP") != nil) {
             guard let se = try ExpressionParser.parse(&code)?.value else {
-                throw SyntaxError("Expected a valid step expression.")
+                throw SyntaxError.Illegal_Expression_After(syntax: "STEP")
             }
             step = se
         }
@@ -108,7 +108,7 @@ class FORStatement: BaseStatement, CompoundStatement {
         
         // check the step's type
         guard step.type.isNumber else {
-            throw InvalidValueError("Only numbers are excepted as the step of a FOR loop statement.")
+            throw InvalidTypeError("Only numbers are excepted as the step of a FOR loop statement.")
         }
         
         let counter = Variable.init(name: counterName, type: counterType!)

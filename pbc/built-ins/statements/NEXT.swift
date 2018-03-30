@@ -30,7 +30,7 @@ class NEXTStatement: BaseStatement {
     static func parse(_ code: inout String) throws -> BaseStatement? {
         // check the matched FOR statment
         guard let forStatement = (FileParser.sharedCompound?.firstStatement as? FORStatement) else {
-            throw SyntaxError("Cannot find the matched FOR statement for this NEXT statment.")
+            throw SyntaxError.Cannot_Find_The_Matched_Statement(statement: "FOR")
         }
         
         // parse the variable
@@ -39,7 +39,7 @@ class NEXTStatement: BaseStatement {
         }
         
         guard forStatement.counter.name == nextName else {
-            throw InvalidValueError("Mismatched loop counter '" + nextName + "'.")
+            throw InvalidNameError("Mismatched loop counter '" + nextName + "'.")
         }
         
         return NEXTStatement(forStatement.counter)

@@ -22,6 +22,11 @@ class ELSEStatement: BaseStatement {
     }
     
     static func parse(_ code: inout String) throws -> BaseStatement? {
+        // check the matched IF statment
+        guard ((FileParser.sharedCompound?.firstStatement as? IFStatement) != nil) else {
+            throw SyntaxError.Cannot_Find_The_Matched_Statement(statement: "IF")
+        }
+        
         return ELSEStatement()
     }
 }

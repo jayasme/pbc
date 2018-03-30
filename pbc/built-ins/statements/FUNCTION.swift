@@ -55,33 +55,30 @@ class FUNCTIONStatement: BaseStatement, CompoundStatement {
     static func parse(_ code: inout String) throws -> BaseStatement? {
         // parse the name
         guard let funcName = PatternedNameParser.parse(&code)?.name else {
-            throw InvalidValueError("Function requires a valid name.")
+            throw InvalidNameError("Function requires a valid name.")
         }
         
-        // parse the open bracket
-        guard (BracketParser.parse(&code, expectedDirection: .open) != nil) else {
-            throw SyntaxError("Function requires a bracket following the function name.")
-        }
-        
-        // parse the parameter bracket
+        // parse the parameters
         let parameters = Parameters.empty
-        if (BracketParser.parse(&code, expectedDirection: .close) == nil) {
-            while(code.count > 0) {
-                guard let parameter = try VariableDeclarationParser.parse(&code, needDimensions: false)?.variable else {
-                    throw SyntaxError("Expected a valid argument.")
+        if (BracketParser.parse(&code, expectedDirection: .open) != nil) {
+            if (BracketParser.parse(&code, expectedDirection: .close) == nil) {
+                while(code.count > 0) {
+                    guard let parameter = try VariableDeclarationParser.parse(&code, needDimensions: false)?.variable else {
+                        throw InvalidNameError("Expected a valid argument.")
+                    }
+                    
+                    parameters.parameters.append(parameter)
+                    
+                    if (SymbolParser.parse(&code, symbol: ",") != nil) {
+                        // separator
+                        continue
+                    } else if (BracketParser.parse(&code, expectedDirection: .close) != nil) {
+                        // end of the function declaration
+                        break
+                    }
+                    
+                    throw SyntaxError.Expected(syntax: ")")
                 }
-                
-                parameters.parameters.append(parameter)
-                
-                if (SymbolParser.parse(&code, symbol: ",") != nil) {
-                    // separator
-                    continue
-                } else if (BracketParser.parse(&code, expectedDirection: .close) != nil) {
-                    // end of the function declaration
-                    break
-                }
-                
-                throw SyntaxError("Expected a close bracket.")
             }
         }
         
@@ -89,7 +86,7 @@ class FUNCTIONStatement: BaseStatement, CompoundStatement {
         var returningType: Type = INTEGERType
         if (KeywordParser.parse(&code, keyword: "AS") != nil) {
             guard let type = FileParser.sharedCompound?.typeManager.parseType(&code) else {
-                throw SyntaxError("The returning expected a valid type.")
+                throw InvalidTypeError("The returning expected a valid type.")
             }
             returningType = type
         }
@@ -99,16 +96,16 @@ class FUNCTIONStatement: BaseStatement, CompoundStatement {
         
         // Find the check declare registeration
         guard let declare = FileParser.sharedDeclareManager.findDeclare(funcName) as? FunctionDeclare else {
-            throw NotFoundError("Function '" + funcName + "' not declared")
+            throw SyntaxError.Function_Declare_Not_Found(functionName: funcName)
         }
         guard (declare.module == nil) else {
-            throw NotFoundError("Cannot implement the declare '" + funcName + "' due to it's a external one.")
+            throw SyntaxError.Function_Cannot_Implement_External(functionName: funcName)
         }
         guard (declare.procedure == nil) else {
-            throw NotFoundError("Reimplementation of the function '" + funcName + "'.")
+            throw SyntaxError.Function_Reimplement(functionName: funcName)
         }
         guard (declare.parameters == parameters && declare.returningType == returningType) else {
-            throw NotFoundError("Function '" + funcName + "' dismatches its declaration.")
+            throw ArgumentsError("Function '" + funcName + "' dismatches its declaration.")
         }
         
         let function = Function(name: funcName, parameters: parameters, returningType: TypeTuple(returningType, subscripts: returningSubscripts))

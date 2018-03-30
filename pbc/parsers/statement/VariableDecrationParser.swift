@@ -32,14 +32,14 @@ class VariableDeclarationParser {
             if (BracketParser.parse(&code, expectedDirection: .close) == nil) {
                 while(code.count > 0) {
                     guard let leftBound = try DecimalParser.parse(&code, expectedType: INTEGERType) else {
-                        throw SyntaxError("Expected a valid array bound.")
+                        throw SyntaxError.Expected_Valid_Bound()
                     }
                     
                     if (KeywordParser.parse(&code, keyword: "TO") != nil) {
                         // The second bound(upper bound) indicated
                         let lowerBound: Int32 = leftBound.integerValue
                         guard let rightBound = try DecimalParser.parse(&code, expectedType: INTEGERType) else {
-                            throw SyntaxError("Expected a valid upper bound.")
+                            throw SyntaxError.Expected_Valid_Upper_Bound()
                         }
                         let upperBound: Int32 = rightBound.integerValue
                         varSubscripts = try Subscripts(baseSubscripts: varSubscripts, attached: Subscript(lowerBound: lowerBound, upperBound: upperBound))
@@ -57,7 +57,7 @@ class VariableDeclarationParser {
                         break
                     }
                     
-                    throw SyntaxError("Expected a close bracket.")
+                    throw SyntaxError.Expected(syntax: ")")
                 }
             }
         }
@@ -66,7 +66,7 @@ class VariableDeclarationParser {
         var varType: Type!
         if (KeywordParser.parse(&code, keyword: "AS") != nil) {
             guard let type = FileParser.sharedCompound?.typeManager.parseType(&code) else {
-                throw SyntaxError("Expected a valid type.")
+                throw InvalidTypeError("Expected a valid type.")
             }
             varType = type
         }
@@ -75,7 +75,7 @@ class VariableDeclarationParser {
         var initialValue: Operand? = nil
         if (SymbolParser.parse(&code, symbol: "=") != nil) {
             guard let operand = try ExpressionParser.parse(&code)?.value else {
-                throw SyntaxError("Expected a valid expression.")
+                throw SyntaxError.Illegal_Expression_After(syntax: "=")
             }
             
             initialValue = operand
@@ -106,7 +106,7 @@ class VariableDeclarationParser {
         
         // check the type
         guard (initialValue == nil || initialValue!.type.isCompatibleWith(type: type)) else {
-            throw InvalidValueError("The type of initial value '" + initialValue!.type.name + "' dismatches to '" + type.name + "'")
+            throw InvalidTypeError("The type of initial value '" + initialValue!.type.name + "' dismatches to '" + type.name + "'")
         }
         
         return VariableDeclarationFragment(Variable(name: varName, type: type), initialValue: initialValue)

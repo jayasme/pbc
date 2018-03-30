@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D1C6ED4204C344A004F10CD /* NotFoundError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1C6ED3204C344A004F10CD /* NotFoundError.swift */; };
 		1D1C6ED6204C3D36004F10CD /* CALL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1C6ED5204C3D36004F10CD /* CALL.swift */; };
 		1D1C6ED9204C5079004F10CD /* BuiltInDeclares.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1C6ED8204C5079004F10CD /* BuiltInDeclares.swift */; };
 		1D2C51DA2061FFA200C81612 /* ConstantOperandFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2C51D92061FFA200C81612 /* ConstantOperandFragment.swift */; };
@@ -153,7 +152,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1D1C6ED3204C344A004F10CD /* NotFoundError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotFoundError.swift; sourceTree = "<group>"; };
 		1D1C6ED5204C3D36004F10CD /* CALL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CALL.swift; sourceTree = "<group>"; };
 		1D1C6ED8204C5079004F10CD /* BuiltInDeclares.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInDeclares.swift; sourceTree = "<group>"; };
 		1D2C51D92061FFA200C81612 /* ConstantOperandFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantOperandFragment.swift; sourceTree = "<group>"; };
@@ -496,7 +494,6 @@
 				1DF0A6D5206C6EA800DA628D /* InvalidTypeError.swift */,
 				1DF0A6D7206C6F2000DA628D /* InvalidNameError.swift */,
 				1D34C17220455F000019FFEB /* IOError.swift */,
-				1D1C6ED3204C344A004F10CD /* NotFoundError.swift */,
 			);
 			path = errors;
 			sourceTree = "<group>";
@@ -744,7 +741,6 @@
 				1D33F2ED2054F5AB00BBAF42 /* Variable.swift in Sources */,
 				1DA13D692026A22B007AE5E8 /* ConstantOperandParser.swift in Sources */,
 				1D54F179204AF89D00A66AB8 /* ENDFUNCTION.swift in Sources */,
-				1D1C6ED4204C344A004F10CD /* NotFoundError.swift in Sources */,
 				1D925A67203731DC00F3C4E5 /* InvalidValueError.swift in Sources */,
 				1D925A522035550700F3C4E5 /* Divisions.swift in Sources */,
 				1DA13D5D20260706007AE5E8 /* String+Utils.swift in Sources */,

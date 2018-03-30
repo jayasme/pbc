@@ -28,7 +28,7 @@ class StringParser {
         }
         
         guard endOfQuote else {
-            throw SyntaxError("Unclosed string.")
+            throw SyntaxError.Illegal_Expression()
         }
         
         let string = code[..<offset]

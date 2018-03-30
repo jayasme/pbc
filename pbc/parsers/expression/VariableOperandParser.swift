@@ -27,12 +27,12 @@ class VariableOperandParser {
             if (BracketParser.parse(&tryCode, expectedDirection: .open) != nil) {
                 while(tryCode.count > 0) {
                     guard let operand = try ExpressionParser.parse(&tryCode)?.value else {
-                        throw SyntaxError("Expected a valid expression.")
+                        throw SyntaxError.Illegal_Expression()
                     }
                     
                     // check the expression's type
                     guard (operand.type.isRounded) else {
-                        throw SyntaxError("The subscripts of array only expects rounded numbers.")
+                        throw InvalidValueError("The subscripts of array only expects rounded numbers.")
                     }
                     
                     subscripts.arguments.append(operand)
@@ -45,7 +45,7 @@ class VariableOperandParser {
                         break
                     }
                     
-                    throw SyntaxError("Expected a close bracket.")
+                    throw SyntaxError.Expected(syntax: ")")
                 }
             }
         }

@@ -46,29 +46,28 @@ class REDIMStatement: BaseStatement {
         while (code.count > 0) {
             // parse the variable name
             guard let variable = FileParser.sharedCompound?.variableManager.parse(&code) else {
-                // final of the statement
+                // quit of the statement
                 break
             }
             
             guard (variable.type.isArray) else {
-                throw InvalidValueError("Variable '" + variable.name + "' is not an array.")
+                throw SyntaxError.Redim_Expected_Array_Variable(variableName: variable.name)
             }
             
             var subscripts = Subscripts.empty
             // parse the array bounds
             if (BracketParser.parse(&code, expectedDirection: .open) != nil) {
-                subscripts = Subscripts.empty
                 if (BracketParser.parse(&code, expectedDirection: .close) == nil) {
                     while(code.count > 0) {
                         guard let leftBound = try DecimalParser.parse(&code, expectedType: INTEGERType) else {
-                            throw SyntaxError("Expected a valid array bound.")
+                            throw SyntaxError.Expected_Valid_Bound()
                         }
                         
                         if (KeywordParser.parse(&code, keyword: "TO") != nil) {
                             // The second bound(upper bound) indicated
                             let lowerBound: Int32 = leftBound.integerValue
                             guard let rightBound = try DecimalParser.parse(&code, expectedType: INTEGERType) else {
-                                throw SyntaxError("Expected a valid upper bound.")
+                                throw SyntaxError.Expected_Valid_Upper_Bound()
                             }
                             let upperBound: Int32 = rightBound.integerValue
                             subscripts = try Subscripts(baseSubscripts: subscripts, attached: Subscript(lowerBound: lowerBound, upperBound: upperBound))
@@ -86,7 +85,7 @@ class REDIMStatement: BaseStatement {
                             break
                         }
                         
-                        throw SyntaxError("Expected a close bracket.")
+                        throw SyntaxError.Expected(syntax: ")")
                     }
                 }
             }
@@ -101,7 +100,7 @@ class REDIMStatement: BaseStatement {
         }
         
         guard (redimensions.count > 0) else {
-            throw InvalidValueError("Redim statement requires least one valid name.")
+            throw SyntaxError.Redim_Expected_At_Least_One_Argument()
         }
         
         return REDIMStatement(redimensions: redimensions, preserve: preserve)

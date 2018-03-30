@@ -28,19 +28,24 @@ class ELSEIFStatement: BaseStatement {
     }
     
     static func parse(_ code: inout String) throws -> BaseStatement? {
+        // check the matched IF statment
+        guard ((FileParser.sharedCompound?.firstStatement as? IFStatement) != nil) else {
+            throw SyntaxError.Cannot_Find_The_Matched_Statement(statement: "IF")
+        }
+        
         // parse the condition
         guard let condition = try ExpressionParser.parse(&code)?.value else {
-            throw SyntaxError("Requires a valid expression")
+            throw SyntaxError.Illegal_Expression_After(syntax: "ELSEIF")
         }
         
         // check the expression's type
         guard condition.type == BOOLEANType else {
-            throw SyntaxError("ELSEIF statement only excepts a boolean as its condition.")
+            throw InvalidTypeError("ELSEIF statement only excepts a boolean as its condition.")
         }
         
         // parse the THEN
         guard KeywordParser.parse(&code, keyword: "THEN") != nil else {
-            throw SyntaxError("Requires the keyword 'THEN'")
+            throw SyntaxError.Expected(syntax: "THEN")
         }
         
         return ELSEIFStatement(condition)

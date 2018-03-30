@@ -52,48 +52,45 @@ class SUBStatement: BaseStatement, CompoundStatement {
     static func parse(_ code: inout String) throws -> BaseStatement? {
         // parse the name
         guard let subName = PatternedNameParser.parse(&code)?.name else {
-            throw InvalidValueError("Sub requires a valid name.")
+            throw InvalidNameError("Sub requires a valid name.")
         }
         
-        // parse the open bracket
-        guard (BracketParser.parse(&code, expectedDirection: .open) != nil) else {
-            throw SyntaxError("Sub requires a bracket following the sub name.")
-        }
-        
-        // parse the parameters bracket
+        // parse the parameters
         let parameters = Parameters.empty
-        if (BracketParser.parse(&code, expectedDirection: .close) == nil) {
-            while(code.count > 0) {
-                guard let argument = try VariableDeclarationParser.parse(&code, needDimensions: false)?.variable else {
-                    throw SyntaxError("Expected a valid argument.")
+        if (BracketParser.parse(&code, expectedDirection: .open) != nil) {
+            if (BracketParser.parse(&code, expectedDirection: .close) == nil) {
+                while(code.count > 0) {
+                    guard let argument = try VariableDeclarationParser.parse(&code, needDimensions: false)?.variable else {
+                        throw InvalidNameError("Expected a valid argument.")
+                    }
+                    
+                    parameters.parameters.append(argument)
+                    
+                    if (SymbolParser.parse(&code, symbol: ",") != nil) {
+                        // separator
+                        continue
+                    } else if (BracketParser.parse(&code, expectedDirection: .close) != nil) {
+                        // end of the sub declaration
+                        break
+                    }
+                    
+                    throw SyntaxError.Expected(syntax: ")")
                 }
-                
-                parameters.parameters.append(argument)
-                
-                if (SymbolParser.parse(&code, symbol: ",") != nil) {
-                    // separator
-                    continue
-                } else if (BracketParser.parse(&code, expectedDirection: .close) != nil) {
-                    // end of the sub declaration
-                    break
-                }
-                
-                throw SyntaxError("Expected a close bracket.")
             }
         }
         
         // Find the check declare registeration
         guard let declare = FileParser.sharedDeclareManager.findDeclare(subName) else {
-            throw NotFoundError("Sub '" + subName + "' not declared")
+            throw SyntaxError.Sub_Declare_Not_Found(subName: subName)
         }
         guard (declare.module == nil) else {
-            throw NotFoundError("Cannot implement the declare '" + subName + "' due to it's a external one.")
+            throw SyntaxError.Sub_Cannot_Implement_External(subName: subName)
         }
         guard (declare.procedure == nil) else {
-            throw NotFoundError("Reimplementation of the sub '" + subName + "'.")
+            throw SyntaxError.Sub_Reimplement(subName: subName)
         }
         guard (declare.parameters == parameters) else {
-            throw NotFoundError("Sub '" + subName + "' dismatches its declaration.")
+            throw ArgumentsError("Sub '" + subName + "' dismatches its declaration.")
         }
         
         let sub = Sub(name: subName, parameters: parameters)

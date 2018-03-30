@@ -52,14 +52,14 @@ class DOStatement: BaseStatement, CompoundStatement {
         var condition: OperandFragment! = nil
         if (loopType != .none) {
             guard let expression = try ExpressionParser.parse(&code) else {
-                throw SyntaxError("Expected a valid expression")
+                throw SyntaxError.Illegal_Expression_After(syntax: (loopType == .loopWhile ? "WHILE" : "UNTILE"))
             }
             condition = expression
         }
         
         // check the expression's type
         guard (condition == nil || condition.value.type == BOOLEANType) else {
-            throw InvalidValueError("DO statement only excepts a boolean as its condition.")
+            throw InvalidTypeError("DO statement only excepts a boolean as its condition.")
         }
         
         return DOStatement.init(condition, loopType: loopType)

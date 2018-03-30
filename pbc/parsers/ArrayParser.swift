@@ -21,7 +21,7 @@ class ArrayParser {
         if (SymbolParser.parse(&code, symbol: "}") == nil) {
             while(code.count > 0) {
                 guard let operand = try ExpressionParser.parse(&code)?.value else {
-                    throw SyntaxError("Expected a valid expression.")
+                    throw SyntaxError.Illegal_Expression()
                 }
                 
                 // keep the each type of elements must be the same
@@ -44,7 +44,7 @@ class ArrayParser {
                     break
                 }
                 
-                throw SyntaxError("Expected '}'.")
+                throw SyntaxError.Expected(syntax: "}")
             }
         }
         

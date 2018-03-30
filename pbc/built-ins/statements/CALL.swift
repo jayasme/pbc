@@ -76,9 +76,9 @@ class CALLStatement: BaseStatement {
             
             let hasCloseBracket = (BracketParser.parse(&tryCode, expectedDirection: .close) != nil)
             if (hasOpenBracket && !hasCloseBracket) {
-                throw SyntaxError.Expected_Character(character: ")")
+                throw SyntaxError.Expected(syntax: ")")
             } else if (!hasOpenBracket && hasCloseBracket) {
-                throw SyntaxError.Unexpected_Character(character: ")")
+                throw SyntaxError.Unexpected(syntax: ")")
             }
             
             break
