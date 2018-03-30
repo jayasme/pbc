@@ -286,6 +286,9 @@
 		1DF0A6D4206C6B4200DA628D /* zh_tw.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = zh_tw.xml; sourceTree = "<group>"; };
 		1DF0A6D5206C6EA800DA628D /* InvalidTypeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvalidTypeError.swift; sourceTree = "<group>"; };
 		1DF0A6D7206C6F2000DA628D /* InvalidNameError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvalidNameError.swift; sourceTree = "<group>"; };
+		1DF0A6D9206DC37500DA628D /* cover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover.png; sourceTree = "<group>"; };
+		1DF0A6DA206DC37700DA628D /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		1DF0A6DB206DC37800DA628D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -404,6 +407,9 @@
 		1DA13D44202563DE007AE5E8 = {
 			isa = PBXGroup;
 			children = (
+				1DF0A6D9206DC37500DA628D /* cover.png */,
+				1DF0A6DA206DC37700DA628D /* LICENSE */,
+				1DF0A6DB206DC37800DA628D /* README.md */,
 				1DA13D4F202563DE007AE5E8 /* pbc */,
 				1DA13D4E202563DE007AE5E8 /* Products */,
 			);
