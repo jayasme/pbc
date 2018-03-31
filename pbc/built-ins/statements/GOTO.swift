@@ -30,7 +30,7 @@ class GOTOStatement: BaseStatement {
     static func parse(_ code: inout String) throws -> BaseStatement? {
         // parse the line tag
         guard let tag = TagParser.parse(&code)?.tag else {
-            throw InvalidValueError("Expected a tag name.")
+            throw InvalidNameError("Expected a tag name.")
         }
         
         return GOTOStatement(tag)

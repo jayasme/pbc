@@ -60,7 +60,7 @@ class DECLAREStatement: BaseStatement {
         var moduleName: String? = nil
         if (KeywordParser.parse(&code, keyword: "MODULE") != nil) {
             guard let module = try StringParser.parse(&code) else {
-                throw InvalidValueError("Invalid module name.")
+                throw InvalidNameError("Invalid module name.")
             }
             moduleName = module.value
         }
@@ -72,7 +72,7 @@ class DECLAREStatement: BaseStatement {
             if (BracketParser.parse(&code, expectedDirection: .close) == nil) {
                 while(code.count > 0) {
                     guard let parameter = try VariableDeclarationParser.parse(&code, needDimensions: false)?.variable else {
-                        throw InvalidValueError("Expected a valid parameter.")
+                        throw SyntaxError.Expected_Parameter()
                     }
                     
                     parameters.parameters.append(parameter)

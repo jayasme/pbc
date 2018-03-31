@@ -38,14 +38,14 @@ class CALLStatement: BaseStatement {
         
         guard let name = PatternedNameParser.parse(&tryCode)?.name else {
             if (expectedStatement) {
-                throw InvalidNameError("Expected a valid name.")
+                throw SyntaxError.Expected_Pattern()
             }
             return nil
         }
         
         guard let procedure = FileParser.sharedDeclareManager.findDeclare(name) else {
             if (expectedStatement) {
-                throw InvalidValueError("Cannot find the declaration.")
+                throw InvalidValueError.Cannot_Find_The_Declaration(declarationName: name)
             }
             return nil
         }

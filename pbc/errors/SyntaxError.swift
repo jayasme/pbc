@@ -38,6 +38,21 @@ class SyntaxError: InnerError {
         return SyntaxError(String(format: "Cannot find the matched '%@' statement.", statement))
     }
     
+    static func Expected_Pattern() -> SyntaxError {
+        return SyntaxError("Expected pattern.")
+    }
+    
+    static func Expected_Parameter() -> SyntaxError {
+        return SyntaxError("Expected parameter.")
+    }
+    
+    static func Expected_Type_Field() -> SyntaxError {
+        return SyntaxError("Expected type field.")
+    }
+    
+    static func Unknown_Statement() -> SyntaxError {
+        return SyntaxError("Unknown statement.")
+    }
     
     // DECLARE
     static func Declare_Expected_Function_Or_Sub() -> SyntaxError {
@@ -56,7 +71,7 @@ class SyntaxError: InnerError {
     static func Function_Reimplement(functionName: String) -> SyntaxError {
         return SyntaxError(String(format: "Re-implement the function '%@'.", functionName))
     }
-    
+
     // SUB
     static func Sub_Declare_Not_Found(subName: String) -> SyntaxError {
         return SyntaxError(String(format: "Cannot find the 'DECLARE' statement for the sub '%@'.", subName))

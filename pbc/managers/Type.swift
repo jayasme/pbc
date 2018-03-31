@@ -77,7 +77,7 @@ class Subscript {
     
     init(lowerBound: Int32 = 1, upperBound: Int32) throws {
         guard (upperBound >= lowerBound) else {
-            throw InvalidValueError("The upper bound must be greater than the lower bound.")
+            throw InvalidValueError.Upper_Bound_Must_Greater()
         }
         self.lowerBound = lowerBound
         self.upperBound = upperBound

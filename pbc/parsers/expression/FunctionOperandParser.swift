@@ -22,7 +22,7 @@ class FunctionOperandParser {
         }
         
         guard let function = declare as? FunctionDeclare else {
-            throw InvalidValueError("'" + declare.name + "' is not a function to be called.")
+            throw InvalidNameError("'" + declare.name + "' is not a function to be called.")
         }
         
         // parse the arguments
@@ -54,7 +54,7 @@ class FunctionOperandParser {
         
         // check the arguments
         guard (arguments.isConformWith(parameters: function.parameters)) else {
-            throw InvalidValueError("Called function '" + function.name + "' it not mathced to its declaration.")
+            throw ArgumentsError("Called function '" + function.name + "' it not mathced to its declaration.")
         }
         
         code = tryCode

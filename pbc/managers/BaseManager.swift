@@ -24,7 +24,7 @@ class BaseManager<T: BaseManagerContent> {
     func registerValue(_ value: T) throws {
         let name = value.name
         guard (self.findValue(name) == nil) else {
-            throw InvalidValueError("Redeclaration '" + name + "'")
+            throw InvalidNameError("Redeclaration '" + name + "'")
         }
         
         self.map[ConfigurationManager.shared.caseSensitive ? name : name.uppercased()] = value

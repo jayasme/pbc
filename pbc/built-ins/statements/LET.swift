@@ -40,7 +40,7 @@ class LETStatement: BaseStatement {
         // parse the variable
         guard let variable = try VariableOperandParser.parse(&tryCode)?.variableOperand else {
             if (expectedStatement) {
-                throw InvalidValueError("Expected a valid variable.")
+                throw SyntaxError.Expected_Pattern()
             }
             return nil
         }
@@ -48,14 +48,14 @@ class LETStatement: BaseStatement {
         // parse the equality sign
         guard (SymbolParser.parse(&tryCode, symbol: "=") != nil) else {
             if (expectedStatement) {
-                throw InvalidValueError("Expected an equality symbol")
+                throw SyntaxError.Expected(syntax: "=")
             }
             return nil
         }
         
         // parse the expression
         guard let expression = try ExpressionParser.parse(&tryCode)?.value else {
-            throw InvalidValueError("Expected an valid expression")
+            throw SyntaxError.Illegal_Expression()
         }
         
         // check the type of variable & expression

@@ -14,7 +14,7 @@ class MemberOperand: Operand {
     
     init(_ name: String, parent: Type) throws {
         guard let field = parent.fields[name] else {
-            throw InvalidValueError("Cannot find the memebrt '" + name + "' in type '" + parent.name + "'")
+            throw InvalidNameError("Cannot find the member '" + name + "' in type '" + parent.name + "'")
         }
     
         self.parent = parent

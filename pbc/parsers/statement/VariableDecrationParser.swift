@@ -84,10 +84,12 @@ class VariableDeclarationParser {
         var type: TypeTuple!
         if let initialValue = initialValue {
             if (varType == nil) {
+                // type inferred by the initial value
                 varType = initialValue.type.type
             }
 
             if (varSubscripts != nil && varSubscripts.isDynamic) {
+                // subscripts inferred by the inital value
                 varSubscripts = initialValue.type.subscripts
             }
             
@@ -96,11 +98,12 @@ class VariableDeclarationParser {
             if let varType = varType {
                 type = TypeTuple(varType, subscripts: varSubscripts)
             } else {
+                // the default type is int
                 type = TypeTuple(INTEGERType, subscripts: varSubscripts)
             }
             
             guard (!needDimensions || varSubscripts == nil || !varSubscripts.isDynamic) else {
-                throw InvalidValueError("Must specify the dimensions for the variable '" + varName + "'.")
+                throw InvalidTypeError("Must specify the dimensions for the variable '" + varName + "'.")
             }
         }
         

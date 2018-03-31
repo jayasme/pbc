@@ -32,7 +32,7 @@ class VariableOperandParser {
                     
                     // check the expression's type
                     guard (operand.type.isRounded) else {
-                        throw InvalidValueError("The subscripts of array only expects rounded numbers.")
+                        throw InvalidTypeError("The subscripts of array only expects rounded numbers.")
                     }
                     
                     subscripts.arguments.append(operand)

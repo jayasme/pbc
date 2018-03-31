@@ -26,7 +26,7 @@ class ArrayParser {
                 
                 // keep the each type of elements must be the same
                 guard (arrType == nil || operand.type.isCompatibleWith(type: arrType)) else {
-                    throw InvalidValueError("Each type of elements in the array must be the same.")
+                    throw InvalidValueError.Array_Elements_Identical()
                 }
                 
                 arrValue.append(operand)

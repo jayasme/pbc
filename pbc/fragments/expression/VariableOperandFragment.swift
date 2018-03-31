@@ -19,7 +19,7 @@ class VariableOperand: Operand {
         // check the subscripts
         if let varSubscripts = variable.type.subscripts {
             guard (varSubscripts.dimensions == subscripts.arguments.count || varSubscripts.isDynamic || subscripts.isEmpty) else {
-                throw InvalidValueError("Variable '" + variable.name + "' expected providing " + String(varSubscripts.dimensions) + " subscripts")
+                throw InvalidTypeError("Variable '" + variable.name + "' expected providing " + String(varSubscripts.dimensions) + " subscripts")
             }
             
             if (subscripts.isEmpty) {
@@ -34,7 +34,7 @@ class VariableOperand: Operand {
         } else {
             // if the varialbe was not an array, passing the arguments (aka subscripts) is strictly prohibited.
             guard (subscripts.isEmpty) else {
-                throw InvalidValueError("Variable '" + variable.name + "' is not an array")
+                throw InvalidTypeError("Variable '" + variable.name + "' is not an array")
             }
             
             super.init(type: variable.type)

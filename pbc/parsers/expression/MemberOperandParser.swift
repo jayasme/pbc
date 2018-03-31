@@ -18,7 +18,7 @@ class MemberOperandParser {
         }
         
         guard let name = PatternedNameParser.parse(&tryCode)?.name else {
-            throw InvalidValueError("Expected a valid field name")
+            throw SyntaxError.Expected_Type_Field()
         }
         
         code = tryCode

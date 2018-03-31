@@ -34,7 +34,7 @@ class DIMStatement: BaseStatement {
             // parse the variable declaration
             guard let variable = try VariableDeclarationParser.parse(&code)?.variable else {
                 guard (variables.count > 0) else {
-                    throw InvalidValueError("Decration requires least one valid name.")
+                    throw SyntaxError.Expected_Pattern()
                 }
                 // final of the statement
                 break

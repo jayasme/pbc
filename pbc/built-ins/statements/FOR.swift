@@ -72,7 +72,7 @@ class FORStatement: BaseStatement, CompoundStatement {
         
         // check the start's type
         guard start.type.isNumber else {
-            throw InvalidValueError("Only numbers are excepted as the start value of a FOR loop statement.")
+            throw InvalidTypeError("Only numbers are excepted as the start value of a FOR loop statement.")
         }
         
         guard start.type.isCompatibleWith(type: counterType) else {

@@ -38,7 +38,7 @@ class StatementParser {
         var fields: [String: TypeField] = [:]
         for statement in compound.statements {
             guard let typeField = (statement as? SingleStatementFragment)?.statement as? TYPEFIELDStatement else {
-                throw InvalidValueError("Expected a valid type field")
+                throw SyntaxError.Expected_Type_Field()
             }
             fields[typeField.typeField.name] = typeField.typeField
         }
@@ -50,7 +50,7 @@ class StatementParser {
     static func parse(_ code: inout String) throws -> BaseStatementFragment? {
         do {
             guard let statement = try StatementParser.parseStatement(&code) else {
-                throw InvalidValueError("Unknown statement.")
+                throw SyntaxError.Unknown_Statement()
             }
             
             if let compoundStatement = statement as? CompoundStatement {
