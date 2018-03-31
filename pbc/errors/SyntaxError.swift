@@ -46,6 +46,10 @@ class SyntaxError: InnerError {
         return SyntaxError("Expected parameter.")
     }
     
+    static func Expected_Type() -> SyntaxError {
+        return SyntaxError("Expected type.")
+    }
+    
     static func Expected_Type_Field() -> SyntaxError {
         return SyntaxError("Expected type field.")
     }

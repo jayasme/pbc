@@ -30,9 +30,9 @@ class VariableOperandParser {
                         throw SyntaxError.Illegal_Expression()
                     }
                     
-                    // check the expression's type
+                    // check the type of expression
                     guard (operand.type.isRounded) else {
-                        throw InvalidTypeError("The subscripts of array only expects rounded numbers.")
+                        throw InvalidTypeError.Expected_Type_Of(typeName: "SHORT/INTEGER/LONG", something: "the subscripts of array")
                     }
                     
                     subscripts.arguments.append(operand)

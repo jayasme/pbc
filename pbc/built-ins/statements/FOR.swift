@@ -51,8 +51,8 @@ class FORStatement: BaseStatement, CompoundStatement {
         // parse the counter type
         var counterType: TypeTuple! = nil
         if (KeywordParser.parse(&code, keyword: "AS") != nil) {
-            guard let type = FileParser.sharedCompound?.typeManager.parseType(&code) else {
-                throw InvalidTypeError("Unexpected a data type.")
+            guard let type = try FileParser.sharedCompound?.typeManager.parseType(&code) else {
+                throw SyntaxError.Expected_Type()
             }
             counterType = TypeTuple(type)
         }
@@ -72,11 +72,11 @@ class FORStatement: BaseStatement, CompoundStatement {
         
         // check the start's type
         guard start.type.isNumber else {
-            throw InvalidTypeError("Only numbers are excepted as the start value of a FOR loop statement.")
+            throw InvalidTypeError.Expected_Type_Of(typeName: "NUMBER", something: "the starter of 'FOR' statement")
         }
         
         guard start.type.isCompatibleWith(type: counterType) else {
-            throw InvalidTypeError("The type of counter '" + start.type.name + "' dismatches to the start value.")
+            throw InvalidTypeError.Cannot_Convert_Type_From_To(fromType: start.type.name, toType: counterType.name)
         }
         
         // parse the 'TO'
@@ -91,7 +91,7 @@ class FORStatement: BaseStatement, CompoundStatement {
         
         // check the end's type
         guard end.type.isNumber else {
-            throw InvalidTypeError("Only numbers are excepted as the end value of a FOR loop statement.")
+            throw InvalidTypeError.Expected_Type_Of(typeName: "NUMBER", something: "the ender of 'FOR' statement")
         }
         
         // parse the step
@@ -108,7 +108,7 @@ class FORStatement: BaseStatement, CompoundStatement {
         
         // check the step's type
         guard step.type.isNumber else {
-            throw InvalidTypeError("Only numbers are excepted as the step of a FOR loop statement.")
+            throw InvalidTypeError.Expected_Type_Of(typeName: "NUMBER", something: "the step of 'FOR' statement")
         }
         
         let counter = Variable.init(name: counterName, type: counterType!)

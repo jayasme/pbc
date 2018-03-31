@@ -96,8 +96,8 @@ class DECLAREStatement: BaseStatement {
         if (isFunction == true) {
             var returningType: Type! = nil
             if (KeywordParser.parse(&code, keyword: "AS") != nil) {
-                guard let type = FileParser.sharedCompound?.typeManager.parseType(&code) else {
-                    throw InvalidTypeError("The returning expected a valid type.")
+                guard let type = try FileParser.sharedCompound?.typeManager.parseType(&code) else {
+                    throw SyntaxError.Expected_Type()
                 }
                 returningType = type
             } else {

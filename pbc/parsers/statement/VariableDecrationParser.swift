@@ -65,8 +65,8 @@ class VariableDeclarationParser {
         // parse the type
         var varType: Type!
         if (KeywordParser.parse(&code, keyword: "AS") != nil) {
-            guard let type = FileParser.sharedCompound?.typeManager.parseType(&code) else {
-                throw InvalidTypeError("Expected a valid type.")
+            guard let type = try FileParser.sharedCompound?.typeManager.parseType(&code) else {
+                throw SyntaxError.Expected_Type()
             }
             varType = type
         }
@@ -103,13 +103,13 @@ class VariableDeclarationParser {
             }
             
             guard (!needDimensions || varSubscripts == nil || !varSubscripts.isDynamic) else {
-                throw InvalidTypeError("Must specify the dimensions for the variable '" + varName + "'.")
+                throw InvalidTypeError.Variable_Must_Indicate_Subscripts(variableName: varName)
             }
         }
         
         // check the type
         guard (initialValue == nil || initialValue!.type.isCompatibleWith(type: type)) else {
-            throw InvalidTypeError("The type of initial value '" + initialValue!.type.name + "' dismatches to '" + type.name + "'")
+            throw InvalidTypeError.Cannot_Convert_Type_From_To(fromType: initialValue!.type.name, toType: type.name)
         }
         
         return VariableDeclarationFragment(Variable(name: varName, type: type), initialValue: initialValue)

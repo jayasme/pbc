@@ -40,8 +40,8 @@ class TYPEFIELDStatement: BaseStatement {
         }
         
         // parse the type
-        guard let type = FileParser.sharedCompound?.typeManager.parseType(&tryCode) else {
-            throw InvalidTypeError("Expected a valid type.")
+        guard let type = try FileParser.sharedCompound?.typeManager.parseType(&tryCode) else {
+            throw SyntaxError.Expected_Type()
         }
         
         code = tryCode

@@ -59,7 +59,7 @@ class LOOPStatement: BaseStatement {
         
         // check the condition's type
         guard (condition == nil || condition.value.type == BOOLEANType) else {
-            throw InvalidTypeError("DO statement only excepts a boolean as its condition.")
+            throw InvalidTypeError.Expected_Type_Of(typeName: "BOOLEAN", something: "the condition of 'DO' statement")
         }
         
         return LOOPStatement.init(condition, loopType: loopType)

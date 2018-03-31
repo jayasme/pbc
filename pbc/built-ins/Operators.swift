@@ -9,7 +9,7 @@
 import Foundation
 
 
-enum Operator: String {
+enum Operator {
     case addition
     case subtract
     case multiply
@@ -48,6 +48,53 @@ enum Operator: String {
     var piority: Int {
         get {
             return operatorsPiority[self]!
+        }
+    }
+    
+    var symbol: String {
+        switch(self) {
+        case .addition:
+            return "+"
+        case .subtract:
+            return "-"
+        case .multiply:
+            return "*"
+        case .division:
+            return "/"
+        case .square:
+            return "^"
+        case .positive:
+            return "+"
+        case .negative:
+            return "-"
+        case .and:
+            return "AND"
+        case .or:
+            return "OR"
+        case .not:
+            return "NOT"
+        case .xor:
+            return "XOR"
+        case .eqv:
+            return "EQV"
+        case .modulo:
+            return "MOD"
+        case .intDivision:
+            return "\\"
+        case .equal:
+            return "="
+        case .less:
+            return "<"
+        case .greater:
+            return ">"
+        case .lessOrEqual:
+            return "<="
+        case .greaterOrEqual:
+            return ">="
+        case .notEqual:
+            return "<>"
+        case .dot:
+            return "."
         }
     }
 }

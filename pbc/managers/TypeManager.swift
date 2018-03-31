@@ -33,11 +33,16 @@ class TypeManager: BaseManager<Type> {
         return super.findValue(name)
     }
     
-    func parseType(_ code: inout String) -> Type? {
+    func parseType(_ code: inout String) throws -> Type? {
         guard let name = PatternedNameParser.parse(&code)?.name else {
             return nil
         }
         
-        return self.findType(name)
+        guard let type = self.findType(name) else {
+            // must find one type
+            throw InvalidTypeError.Type_Does_Not_Exist(typeName: name)
+        }
+        
+        return type
     }
 }

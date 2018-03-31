@@ -40,7 +40,7 @@ class ELSEIFStatement: BaseStatement {
         
         // check the expression's type
         guard condition.type == BOOLEANType else {
-            throw InvalidTypeError("ELSEIF statement only excepts a boolean as its condition.")
+            throw InvalidTypeError.Expected_Type_Of(typeName: "BOOLEAN", something: "the condition of 'ELSEIF' statement")
         }
         
         // parse the THEN

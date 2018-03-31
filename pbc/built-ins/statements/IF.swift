@@ -45,7 +45,7 @@ class IFStatement: BaseStatement, CompoundStatement {
         
         // check the expression's type
         guard condition.type == BOOLEANType else {
-            throw InvalidTypeError("IF statement only excepts a boolean as its condition.")
+            throw InvalidTypeError.Expected_Type_Of(typeName: "BOOLEAN", something: "the condition of 'IF' statement")
         }
         
         // parse the THEN
