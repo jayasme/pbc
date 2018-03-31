@@ -45,7 +45,7 @@ class FORStatement: BaseStatement, CompoundStatement {
     static func parse(_ code: inout String) throws -> BaseStatement? {
         // parse the counter name
         guard let counterName = PatternedNameParser.parse(&code)?.name else {
-            throw InvalidNameError("Expected a valid variable name")
+            throw InvalidNameError.For_Invalid_Counter_Name()
         }
         
         // parse the counter type

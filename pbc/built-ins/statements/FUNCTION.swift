@@ -55,7 +55,7 @@ class FUNCTIONStatement: BaseStatement, CompoundStatement {
     static func parse(_ code: inout String) throws -> BaseStatement? {
         // parse the name
         guard let funcName = PatternedNameParser.parse(&code)?.name else {
-            throw InvalidNameError("Function requires a valid name.")
+            throw InvalidNameError.Invalid_Name_Of(name: "FUNCTION")
         }
         
         // parse the parameters
@@ -64,7 +64,7 @@ class FUNCTIONStatement: BaseStatement, CompoundStatement {
             if (BracketParser.parse(&code, expectedDirection: .close) == nil) {
                 while(code.count > 0) {
                     guard let parameter = try VariableDeclarationParser.parse(&code, needDimensions: false)?.variable else {
-                        throw InvalidNameError("Expected a valid argument.")
+                        throw SyntaxError.Expected_Parameter()
                     }
                     
                     parameters.parameters.append(parameter)

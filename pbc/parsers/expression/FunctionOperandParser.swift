@@ -22,7 +22,7 @@ class FunctionOperandParser {
         }
         
         guard let function = declare as? FunctionDeclare else {
-            throw InvalidNameError("'" + declare.name + "' is not a function to be called.")
+            throw SyntaxError.Function_Cannot_Be_Found(functionName: declare.name)
         }
         
         // parse the arguments

@@ -21,5 +21,4 @@ class InvalidValueError: InnerError {
     static func Array_Elements_Identical() -> InvalidValueError {
         return InvalidValueError("The types or subscripts of every element in the array should be identical.")
     }
-
 }

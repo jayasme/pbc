@@ -10,4 +10,23 @@ import Foundation
 
 class InvalidNameError: InnerError {
     
+    static func Redeclaration_Of(name: String) -> InvalidNameError {
+        return InvalidNameError(String(format: "Redeclaration of '%@'.", name))
+    }
+    
+    static func Invalid_Name_Of(name: String) -> InvalidNameError {
+        return InvalidNameError(String(format: "Invalid name of '%@'.", name))
+    }
+    
+    static func For_Invalid_Counter_Name() -> InvalidNameError {
+        return InvalidNameError("Invalid counter name of 'FOR' statement.")
+    }
+    
+    static func Next_Dismatch_For() -> InvalidNameError {
+        return InvalidNameError("The counter of 'NEXT' statement dismatched its 'FOR' statement.")
+    }
+    
+    static func Field_Not_Included_In_Type(field: String, typeName: String) -> InvalidNameError {
+        return InvalidNameError(String(format: "Field '%@' not included in type '%@'.", field, typeName))
+    }
 }

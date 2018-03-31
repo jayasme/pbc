@@ -46,6 +46,10 @@ class SyntaxError: InnerError {
         return SyntaxError("Expected parameter.")
     }
     
+    static func Excepted_Argument() -> SyntaxError {
+        return SyntaxError("Expected argument.")
+    }
+    
     static func Expected_Type() -> SyntaxError {
         return SyntaxError("Expected type.")
     }
@@ -70,6 +74,10 @@ class SyntaxError: InnerError {
     
     static func Function_Cannot_Implement_External(functionName: String) -> SyntaxError {
         return SyntaxError(String(format: "Cannot implement an external function '%@'.", functionName))
+    }
+    
+    static func Function_Cannot_Be_Found(functionName: String) -> SyntaxError {
+        return SyntaxError(String(format: "Connot find the function '%@' in context.", functionName))
     }
     
     static func Function_Reimplement(functionName: String) -> SyntaxError {

@@ -44,14 +44,14 @@ class DECLAREStatement: BaseStatement {
         
         // parse the name
         guard let declareName = PatternedNameParser.parse(&code)?.name else {
-            throw InvalidNameError("Declare requires a valid name.")
+            throw InvalidNameError.Invalid_Name_Of(name: "DECLARE")
         }
         
         // parse the alias
         var aliasName: String? = nil
         if (KeywordParser.parse(&code, keyword: "ALIAS") != nil) {
             guard let alias = PatternedNameParser.parse(&code) else {
-                throw InvalidNameError("Invalid alias name.")
+                throw InvalidNameError.Invalid_Name_Of(name: "ALIAS")
             }
             aliasName = alias.name
         }
@@ -60,7 +60,7 @@ class DECLAREStatement: BaseStatement {
         var moduleName: String? = nil
         if (KeywordParser.parse(&code, keyword: "MODULE") != nil) {
             guard let module = try StringParser.parse(&code) else {
-                throw InvalidNameError("Invalid module name.")
+                throw InvalidNameError.Invalid_Name_Of(name: "MODULE")
             }
             moduleName = module.value
         }

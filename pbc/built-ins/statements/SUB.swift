@@ -52,7 +52,7 @@ class SUBStatement: BaseStatement, CompoundStatement {
     static func parse(_ code: inout String) throws -> BaseStatement? {
         // parse the name
         guard let subName = PatternedNameParser.parse(&code)?.name else {
-            throw InvalidNameError("Sub requires a valid name.")
+            throw InvalidNameError.Invalid_Name_Of(name: "SUB")
         }
         
         // parse the parameters
@@ -61,7 +61,7 @@ class SUBStatement: BaseStatement, CompoundStatement {
             if (BracketParser.parse(&code, expectedDirection: .close) == nil) {
                 while(code.count > 0) {
                     guard let argument = try VariableDeclarationParser.parse(&code, needDimensions: false)?.variable else {
-                        throw InvalidNameError("Expected a valid argument.")
+                        throw SyntaxError.Excepted_Argument()
                     }
                     
                     parameters.parameters.append(argument)
