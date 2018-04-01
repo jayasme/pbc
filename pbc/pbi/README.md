@@ -1,13 +1,13 @@
 # Polar Bytecode Instructions
 ## Introducing
-Polar Bytecode Instructions is a designed instruction set the Polar Virtual Runtime (PVR).
+Polar Bytecode Instructions is a designed instruction set of the Polar Virtual Runtime (PVR).
 With this manual, you may understand the PBI roughly, more details please step forward to the WIKI (if there is).
-The PBI uses 2 bytes to indicates the instruction which you may find the instructions table below.
+The PBI uses 2 bytes to indicate the instruction which you may find them in the instructions table below.
 
-## Something must to say
+## Something must known
 * The PBI is not only designed for `PolarBasic`, I am very greatful that someone wanted to participate compilers of other languages.
 * The PBI is under developing so far, so everything could be changed.
-* Due to my limited knowledges, I am very sure that I am making some awful mistakes, so please fix me up if you'd happy to do that, app.
+* Due to my limited knowledges, I am very sure that I am making some awful mistakes, so please fix me up if you'd happy to do that.
 * Very appreciated!
 
 ## INSTRUCTIONS
@@ -29,7 +29,7 @@ The PBI uses 2 bytes to indicates the instruction which you may find the instruc
 
 ### Category 0x10 - 0x1F: Loads & Saves
 
-|Bytecode|Category (High)|Opercode (Low)|Instruction|
+|Category (High)|Opercode (Low)|Bytecode|Instruction|
 | ------------ | ------------ | ------------ | ------------ |
 |0x10|None|None|PBI_CONST|
 |0x10|0x01|0x1001|PBI_CONST_S|
