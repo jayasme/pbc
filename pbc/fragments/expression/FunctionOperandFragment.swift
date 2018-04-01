@@ -16,7 +16,7 @@ class FunctionOperand: Operand {
         self.function = function
         self.arguments = arguments
         
-        super.init(type: function.returningType)
+        super.init(type: function.returnType)
     }
 }
 

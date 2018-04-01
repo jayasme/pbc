@@ -44,8 +44,8 @@ class FUNCTIONStatement: BaseStatement, CompoundStatement {
         for variable in self.function.parameters.parameters {
             try compound.variableManager.registerVariable(variable)
         }
-        let returningVariable = Variable(name: self.function.name, type: self.function.returningType)
-        try compound.variableManager.registerVariable(returningVariable)
+        let returnVariable = Variable(name: self.function.name, type: self.function.returnType)
+        try compound.variableManager.registerVariable(returnVariable)
     }
     
     static func endStatement(statement: BaseStatement) -> Bool {
@@ -82,17 +82,17 @@ class FUNCTIONStatement: BaseStatement, CompoundStatement {
             }
         }
         
-        // parse the returning type
-        var returningType: Type = INTEGERType
+        // parse the return type
+        var returnType: Type = INTEGERType
         if (KeywordParser.parse(&code, keyword: "AS") != nil) {
             guard let type = try FileParser.sharedCompound?.typeManager.parseType(&code) else {
                 throw SyntaxError.Expected_Type()
             }
-            returningType = type
+            returnType = type
         }
         
         // TODO parse the returning subscripts
-        let returningSubscripts: Subscripts? = nil
+        let returnSubscripts: Subscripts? = nil
         
         // Find the check declare registeration
         guard let declare = FileParser.sharedDeclareManager.findDeclare(funcName) as? FunctionDeclare else {
@@ -104,11 +104,15 @@ class FUNCTIONStatement: BaseStatement, CompoundStatement {
         guard (declare.procedure == nil) else {
             throw SyntaxError.Function_Reimplement(functionName: funcName)
         }
-        guard (declare.parameters == parameters && declare.returningType == returningType) else {
-            throw ArgumentsError("Function '" + funcName + "' dismatches its declaration.")
+        guard (declare.parameters == parameters) else {
+            throw InvalidTypeError.Implement_Expected_Arguments(arguments: parameters.description, practicalArguments: declare.parameters.description)
         }
         
-        let function = Function(name: funcName, parameters: parameters, returningType: TypeTuple(returningType, subscripts: returningSubscripts))
+        guard (declare.returnType == returnType) else {
+            throw InvalidTypeError.Implement_Expected_Return_Type(typeName: returnType.name, practicalTypeName: declare.returnType.name)
+        }
+        
+        let function = Function(name: funcName, parameters: parameters, returnType: TypeTuple(returnType, subscripts: returnSubscripts))
         declare.function = function
         
         return FUNCTIONStatement(function)

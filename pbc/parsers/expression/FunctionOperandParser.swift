@@ -54,7 +54,7 @@ class FunctionOperandParser {
         
         // check the arguments
         guard (arguments.isConformWith(parameters: function.parameters)) else {
-            throw ArgumentsError("Called function '" + function.name + "' it not mathced to its declaration.")
+            throw InvalidTypeError.Invoker_Expected_Arguments(arguments: arguments.description, practicalArguments: function.parameters.description)
         }
         
         code = tryCode

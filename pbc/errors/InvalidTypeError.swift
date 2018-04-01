@@ -41,4 +41,18 @@ class InvalidTypeError: InnerError {
     static func Operator_Cannot_Be_Applied(oper: String, type1: String, type2: String) -> InvalidTypeError {
         return InvalidTypeError(String(format: "Operator '%@' cannot be applied between '%@' and '%@'.", oper, type1, type2))
     }
+    
+    
+    
+    static func Invoker_Expected_Arguments(arguments: String, practicalArguments: String) -> InvalidValueError {
+        return InvalidValueError(String(format: "Arguments '%@' mismatch with the praticial arguments '%@'.", arguments, practicalArguments))
+    }
+    
+    static func Implement_Expected_Arguments(arguments: String, practicalArguments: String) -> InvalidValueError {
+        return InvalidValueError(String(format: "Arguments '%@' mismatch with its 'DECLARE' arguments '%@'.", arguments, practicalArguments))
+    }
+    
+    static func Implement_Expected_Return_Type(typeName: String, practicalTypeName: String) -> InvalidValueError {
+        return InvalidValueError(String(format: "Return type '%@' mismatch with its 'DECLARE' return type '%@'.", typeName, practicalTypeName))
+    }
 }

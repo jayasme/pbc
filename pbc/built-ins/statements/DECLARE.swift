@@ -28,7 +28,7 @@ class DECLAREStatement: BaseStatement {
     }
     
     static func parse(_ code: inout String) throws -> BaseStatement? {
-        // DECLARE FUNCTION|SUB name [ALIAS alias] [MODULE module](parameters...) [AS returningType[()]]
+        // DECLARE FUNCTION|SUB name [ALIAS alias] [MODULE module](parameters...) [AS returnType[()]]
         
         // parse FUNCTION / SUB
         var isFunction: Bool? = nil
@@ -94,14 +94,14 @@ class DECLAREStatement: BaseStatement {
         
         // parse the returning type
         if (isFunction == true) {
-            var returningType: Type! = nil
+            var returnType: Type! = nil
             if (KeywordParser.parse(&code, keyword: "AS") != nil) {
                 guard let type = try FileParser.sharedCompound?.typeManager.parseType(&code) else {
                     throw SyntaxError.Expected_Type()
                 }
-                returningType = type
+                returnType = type
             } else {
-                returningType = INTEGERType
+                returnType = INTEGERType
             }
             
             declare = FunctionDeclare(
@@ -109,7 +109,7 @@ class DECLAREStatement: BaseStatement {
                 alias: aliasName,
                 module: moduleName,
                 parameters: parameters,
-                returningType: TypeTuple(returningType))
+                returnType: TypeTuple(returnType))
         } else {
             
             declare = SubDeclare(

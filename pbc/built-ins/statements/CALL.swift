@@ -86,7 +86,7 @@ class CALLStatement: BaseStatement {
         
         // check the arguments
         guard (arguments.isConformWith(parameters: procedure.parameters)) else {
-            throw ArgumentsError("Called function '" + procedure.name + "' it not mathced to its declaration.")
+            throw InvalidTypeError.Invoker_Expected_Arguments(arguments: arguments.description, practicalArguments: procedure.parameters.description)
         }
         
         code = tryCode

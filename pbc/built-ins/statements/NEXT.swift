@@ -39,7 +39,7 @@ class NEXTStatement: BaseStatement {
         }
         
         guard forStatement.counter.name == nextName else {
-            throw InvalidNameError.Next_Dismatch_For()
+            throw InvalidNameError.Next_Mismatch_For()
         }
         
         return NEXTStatement(forStatement.counter)

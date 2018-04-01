@@ -118,7 +118,7 @@ class Subscripts: Equatable {
     }
     
     var description: String {
-        return String(format: "(%@)", subscripts.reduce("", { $0 + String($1.count) + "," }).trimmingCharacters(in: CharacterSet.init(charactersIn: ",")))
+        return String(format: "(%@)", subscripts.reduce("", { $0 + String($1.count) + "," }).trimmingCharacters(in: CharacterSet(charactersIn: ",")))
     }
     
     init(current: Subscript? = nil) {

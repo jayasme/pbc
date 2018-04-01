@@ -22,8 +22,8 @@ class InvalidNameError: InnerError {
         return InvalidNameError("Invalid counter name of 'FOR' statement.")
     }
     
-    static func Next_Dismatch_For() -> InvalidNameError {
-        return InvalidNameError("The counter of 'NEXT' statement dismatched its 'FOR' statement.")
+    static func Next_Mismatch_For() -> InvalidNameError {
+        return InvalidNameError("The counter of 'NEXT' statement mismatch with its 'FOR' statement.")
     }
     
     static func Field_Not_Included_In_Type(field: String, typeName: String) -> InvalidNameError {

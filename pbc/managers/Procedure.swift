@@ -54,6 +54,11 @@ class Parameters: Equatable {
             self.parameters[index] = value
         }
     }
+    
+    var description: String {
+        let result = self.parameters.reduce("", { $0 + $1.type.name + "," }).trimmingCharacters(in: CharacterSet(charactersIn: ","))
+        return String(format: "(%@)", result)
+    }
 }
 
 class Arguments: Equatable {
@@ -108,9 +113,14 @@ class Arguments: Equatable {
             self.arguments[index] = value
         }
     }
+    
+    var description: String {
+        let result = self.arguments.reduce("", { $0 + $1.type.name + "," }).trimmingCharacters(in: CharacterSet(charactersIn: ","))
+        return String(format: "(%@)", result)
+    }
 }
 
-// A procedure may stand for a function or a sub, determined by its returningType
+// A procedure may stand for a function or a sub, determined by its returnType
 class Procedure {
     var name: String
     var parameters: Parameters
@@ -136,10 +146,10 @@ class Procedure {
 class Sub: Procedure { }
 
 class Function: Procedure {
-    var returningType: TypeTuple
+    var returnType: TypeTuple
 
-    init(name: String, parameters: Parameters, returningType: TypeTuple) {
-        self.returningType = returningType
+    init(name: String, parameters: Parameters, returnType: TypeTuple) {
+        self.returnType = returnType
         super.init(name: name, parameters: parameters)
     }
     

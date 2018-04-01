@@ -45,10 +45,10 @@ class Declare: BaseManagerContent {
 class SubDeclare: Declare { }
 
 class FunctionDeclare: Declare {
-    var returningType: TypeTuple
+    var returnType: TypeTuple
     
-    init(name: String, alias: String?, module: String?, parameters: Parameters, returningType: TypeTuple) {
-        self.returningType = returningType
+    init(name: String, alias: String?, module: String?, parameters: Parameters, returnType: TypeTuple) {
+        self.returnType = returnType
         
         super.init(name: name, alias: alias, module: module, parameters: parameters)
     }

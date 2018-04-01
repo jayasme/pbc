@@ -83,7 +83,7 @@ class SyntaxError: InnerError {
     static func Function_Reimplement(functionName: String) -> SyntaxError {
         return SyntaxError(String(format: "Re-implement the function '%@'.", functionName))
     }
-
+    
     // SUB
     static func Sub_Declare_Not_Found(subName: String) -> SyntaxError {
         return SyntaxError(String(format: "Cannot find the 'DECLARE' statement for the sub '%@'.", subName))

@@ -90,7 +90,7 @@ class SUBStatement: BaseStatement, CompoundStatement {
             throw SyntaxError.Sub_Reimplement(subName: subName)
         }
         guard (declare.parameters == parameters) else {
-            throw ArgumentsError("Sub '" + subName + "' dismatches its declaration.")
+            throw InvalidTypeError.Implement_Expected_Arguments(arguments: parameters.description, practicalArguments: declare.parameters.description)
         }
         
         let sub = Sub(name: subName, parameters: parameters)
