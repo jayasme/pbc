@@ -10,6 +10,10 @@ import Foundation
 
 class InvalidTypeError: InnerError {
     
+    override var errorType: String {
+        return "INVALID TYPE ERROR"
+    }
+    
     static func Expected_Type(typeName: String) -> InvalidTypeError {
         return InvalidTypeError(String(format: "Expected type '%@'.", typeName))
     }

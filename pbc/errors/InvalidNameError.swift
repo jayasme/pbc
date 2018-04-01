@@ -10,6 +10,10 @@ import Foundation
 
 class InvalidNameError: InnerError {
     
+    override var errorType: String {
+        return "INVALID NAME ERROR"
+    }
+    
     static func Redeclaration_Of(name: String) -> InvalidNameError {
         return InvalidNameError(String(format: "Redeclaration of '%@'.", name))
     }

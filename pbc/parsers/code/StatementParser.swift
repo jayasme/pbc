@@ -11,27 +11,23 @@ import Foundation
 class StatementParser {
     
     private static func parseStatement(_ code: inout String) throws -> BaseStatement? {
-        do {
-            for statementType in StatementManager.shared.statements {
-                guard (MultikeywordsParser.parse(&code, keywords: statementType.keywords) != nil) else {
-                    continue
-                }
-                
-                if let statement = try statementType.parse(&code) {
-                    return statement
-                }
+        for statementType in StatementManager.shared.statements {
+            guard (MultikeywordsParser.parse(&code, keywords: statementType.keywords) != nil) else {
+                continue
             }
             
-            if let assignment = try AssignmentParser.parse(&code) {
-                return assignment
+            if let statement = try statementType.parse(&code) {
+                return statement
             }
-            if let subInvoker = try SubInvokerParser.parse(&code) {
-                return subInvoker
-            }
-            return nil
-        } catch let error {
-            throw error
         }
+        
+        if let assignment = try AssignmentParser.parse(&code) {
+            return assignment
+        }
+        if let subInvoker = try SubInvokerParser.parse(&code) {
+            return subInvoker
+        }
+        return nil
     }
     
     private static func extractType(_ typeName: String, compound: CompoundStatementFragment) throws {
@@ -48,40 +44,36 @@ class StatementParser {
     }
     
     static func parse(_ code: inout String) throws -> BaseStatementFragment? {
-        do {
-            guard let statement = try StatementParser.parseStatement(&code) else {
-                throw SyntaxError.Unknown_Statement()
-            }
-            
-            if let compoundStatement = statement as? CompoundStatement {
-                let compound = try CompoundStatementParser.parse(
-                    &code,
-                    didCreateCompound: { (compound: CompoundStatementFragment) throws -> Void in
-                        if (type(of: compoundStatement).compoundIncludesBeginStatement) {
-                            compound.statements.append(SingleStatementFragment(statement))
-                        }
-                        try compoundStatement.beginStatement(compound: compound)
-                    }, shouldEndStatement: { (endStatement: BaseStatement, compound: CompoundStatementFragment) -> Bool in
-                        let shouldEnd = type(of: compoundStatement).endStatement(statement: endStatement)
-                        if (shouldEnd && type(of: compoundStatement).compoundIncludesEndStatement) {
-                            compound.statements.append(SingleStatementFragment(endStatement))
-                        }
-                        return shouldEnd
-                    }
-                )
-                
-                // extract the type
-                if let typeStatement = statement as? TYPEStatement {
-                    try StatementParser.extractType(typeStatement.typeName, compound: compound)
-                    return nil
-                }
-                
-                return compound
-            }
-            
-            return SingleStatementFragment(statement)
-        } catch let error {
-            throw error
+        guard let statement = try StatementParser.parseStatement(&code) else {
+            throw SyntaxError.Unknown_Statement()
         }
+        
+        if let compoundStatement = statement as? CompoundStatement {
+            let compound = try CompoundStatementParser.parse(
+                &code,
+                didCreateCompound: { (compound: CompoundStatementFragment) throws -> Void in
+                    if (type(of: compoundStatement).compoundIncludesBeginStatement) {
+                        compound.statements.append(SingleStatementFragment(statement))
+                    }
+                    try compoundStatement.beginStatement(compound: compound)
+            }, shouldEndStatement: { (endStatement: BaseStatement, compound: CompoundStatementFragment) -> Bool in
+                let shouldEnd = type(of: compoundStatement).endStatement(statement: endStatement)
+                if (shouldEnd && type(of: compoundStatement).compoundIncludesEndStatement) {
+                    compound.statements.append(SingleStatementFragment(endStatement))
+                }
+                return shouldEnd
+            }
+            )
+            
+            // extract the type
+            if let typeStatement = statement as? TYPEStatement {
+                try StatementParser.extractType(typeStatement.typeName, compound: compound)
+                return nil
+            }
+            
+            return compound
+        }
+        
+        return SingleStatementFragment(statement)
     }
 }

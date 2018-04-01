@@ -10,6 +10,10 @@ import Foundation
 
 class InvalidValueError: InnerError {
     
+    override var errorType: String {
+        return "INVALID VALUE ERROR"
+    }
+    
     static func Upper_Bound_Must_Greater() -> InvalidValueError {
         return InvalidValueError("The upper bound must be greater than the lower bound.")
     }

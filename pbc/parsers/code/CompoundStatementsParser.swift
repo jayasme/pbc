@@ -26,29 +26,41 @@ class CompoundStatementParser {
         
         while (code.count > 0) {
             
-            if let separator = SeparatorParser.parse(&code) {
-                if (separator.separatorType == .newLine) {
-                    FileParser.sharedWatcher?.lineNumber += 1
-                    newLine = true
+            do {
+                if let separator = SeparatorParser.parse(&code) {
+                    if (separator.separatorType == .newLine) {
+                        FileParser.sharedWatcher?.lineNumber += 1
+                        newLine = true
+                    }
+                    continue
                 }
-                continue
-            }
-            
-            // parse line tag
-            // tag only appeared at the beginning of a line
-            if newLine, let tag = TagDeclarationParser.parse(&code)?.tag {
-                try FileParser.sharedCompound?.tagManager.registerTag(Tag.init(tag))
-                newLine = false
-                continue
-            }
-            
-            // parse the single statement
-            if let statement = try StatementParser.parse(&code) {
-                // end of the block
-                if let subStatement = (statement as? SingleStatementFragment)?.statement, shouldEndStatement?(subStatement, compound) == true {
-                    break
+                
+                // parse line tag
+                // tag only appeared at the beginning of a line
+                if newLine, let tag = TagDeclarationParser.parse(&code)?.tag {
+                    try FileParser.sharedCompound?.tagManager.registerTag(Tag.init(tag))
+                    newLine = false
+                    continue
                 }
-                compound.statements.append(statement)
+                
+                // parse the single statement
+                if let statement = try StatementParser.parse(&code) {
+                    // end of the block
+                    if let subStatement = (statement as? SingleStatementFragment)?.statement, shouldEndStatement?(subStatement, compound) == true {
+                        break
+                    }
+                    compound.statements.append(statement)
+                }
+            } catch let error {
+                guard let innerError = error as? InnerError else {
+                    throw error
+                }
+                
+                FileParser.sharedWatcher?.appendError(innerError)
+                EndOfLineParser.parse(&code)
+                NewLineParser.parse(&code)
+                FileParser.sharedWatcher?.lineNumber += 1
+                newLine = true
             }
         }
         

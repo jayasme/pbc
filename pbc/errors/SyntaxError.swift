@@ -10,6 +10,10 @@ import Foundation
 
 class SyntaxError: InnerError {
     
+    override var errorType: String {
+        return "SYNTAX ERROR"
+    }
+    
     static func Illegal_Expression() -> SyntaxError {
         return SyntaxError("Illegal expression.")
     }

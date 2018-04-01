@@ -9,12 +9,21 @@
 import Foundation
 
 class FileParserWatcher {
+    var filePath: String
     var lineNumber: Int = 1
     var position: Int = 1
-    var errors: [CompilingError] = []
+    var errors: CompilingErrors = CompilingErrors()
     
-    func appendError() {
-        
+    init(filePath: String) {
+        self.filePath = filePath
+    }
+    
+    func appendError(_ error: InnerError) {
+        errors.errors.append(CompilingError(error, file: filePath, line: lineNumber, position: position))
+    }
+    
+    func printErrors() {
+        print(errors.description)
     }
 }
 
@@ -27,25 +36,22 @@ class FileParser {
     static var sharedWatcher: FileParserWatcher? = nil
     
     static func parseStatements(_ code: inout String) throws -> CompoundStatementFragment {
-        do {
-            let compound = try CompoundStatementParser.parse(&code)
-            return compound
-        } catch let error {
-            print("At line " + String(sharedWatcher!.lineNumber))
-            throw error
-        }
+        let compound = try CompoundStatementParser.parse(&code)
+        return compound
     }
     
-    static func parse(path: String) throws -> FileFragment? {
+    static func parse(path: String) -> FileFragment? {
         do {
             let input = try CodeInput(path: path)
-            let watcher = FileParserWatcher()
-            FileParser.sharedWatcher = watcher
+            FileParser.sharedWatcher = FileParserWatcher(filePath: path)
             let rootCompound = try FileParser.parseStatements(&input.code)
+            // print the errors message
+            FileParser.sharedWatcher?.printErrors()
             return FileFragment(path: path, compound: rootCompound)
         } catch let error {
+            print("Fatal errors: " + error.localizedDescription)
             print("Compiling aborted.")
-            throw error
+            return nil
         }
     }
 }
