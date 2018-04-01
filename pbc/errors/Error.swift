@@ -22,7 +22,7 @@ class CompilingErrors {
                              error.file
             )
         }
-        result += String(format: "Summary %d error(s)", self.errors.count)
+        result += String(format: "A total of %d error(s)", self.errors.count)
         
         return result
     }
