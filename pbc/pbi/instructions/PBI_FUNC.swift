@@ -11,7 +11,11 @@ import Foundation
 class PBI_FUNC: PBI {
     
     var returnType: Type
-    var variables: [Variable]
-    var instructions: [BaseInstruction]
+    var pool: PBI_STACK_POOL = PBI_STACK_POOL()
+    var instructions: [PBI] = []
     
+    init(returnType: Type) {
+        self.returnType = returnType
+        super.init(catecode: 0x01, opercode: 0x01)
+    }
 }

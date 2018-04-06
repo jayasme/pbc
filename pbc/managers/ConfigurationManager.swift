@@ -10,10 +10,11 @@ import Foundation
 
 class ConfigurationManager {
     
-    static let INPUT_PATH_KEY: String = "INPUT_PATH_KEY"
-    static let OUTPUT_PATH_KEY: String = "OUTPUT_PATH_KEY"
+    static let INPUT_PATH_KEY: String = "INPUT_PATH"
+    static let OUTPUT_PATH_KEY: String = "OUTPUT_PATH"
     static let CASE_SENSITIVE_KEY: String = "CASE_SENSITIVE"
     static let LINE_NUMBER_REQUIRED_KEY: String = "LINE_NUMBER_REQUIRED"
+    static let VERBOSE_KEY: String = "VERBOSE"
     
     var inputPath: String {
         set(value) {
@@ -51,6 +52,15 @@ class ConfigurationManager {
         }
     }
     
+    var verbose: Bool {
+        set(value) {
+            self.configurationMap[ConfigurationManager.VERBOSE_KEY] = value
+        }
+        get {
+            return self.configurationMap[ConfigurationManager.VERBOSE_KEY] as! Bool
+        }
+    }
+    
     static var shared: ConfigurationManager!
     
     private var configurationMap: [String: Any] = [:]
@@ -77,6 +87,7 @@ class ConfigurationManager {
         // configurationMap[ConfigurationManager.OUTPUT_PATH_KEY] = arguments[outputIndex + 1]
         configurationMap[ConfigurationManager.CASE_SENSITIVE_KEY] = arguments.contains("-cs")
         configurationMap[ConfigurationManager.LINE_NUMBER_REQUIRED_KEY] = arguments.contains("-ln")
+        configurationMap[ConfigurationManager.VERBOSE_KEY] = arguments.contains("-verbose")
     }
     
     
