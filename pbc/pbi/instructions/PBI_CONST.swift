@@ -30,7 +30,8 @@ class PBI_CONST: PBI {
         } else if let string = constant.constant.stringValue {
             return PBI_CONST_T(operand: string)
         } else if let boolean = constant.constant.booleanValue {
-            return PBI_CONST_B(operand: boolean)
+            let value = boolean ? Int16(1) : Int16(0)
+            return PBI_CONST_S(operand: value)
         }
         
         return nil
@@ -70,11 +71,5 @@ class PBI_CONST_D: PBI_CONST {
 class PBI_CONST_T: PBI_CONST {
     init(operand: String) {
         super.init(opercode: 0x6, operand: operand)
-    }
-}
-
-class PBI_CONST_B: PBI_CONST {
-    init(operand: Bool) {
-        super.init(opercode: 0x7, operand: operand)
     }
 }

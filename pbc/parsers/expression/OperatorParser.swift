@@ -22,7 +22,7 @@ class OperatorParser {
         } else if (SymbolParser.parse(&code, symbol: "^") != nil) {
             return OperatorFragment(.power)
         } else if (SymbolParser.parse(&code, symbol: "\\") != nil) {
-            return OperatorFragment(.intDivision)
+            return OperatorFragment(.divisible)
         } else if (KeywordParser.parse(&code, keyword: "MOD") != nil) {
             return OperatorFragment(.modulo)
         } else if (KeywordParser.parse(&code, keyword: "AND") != nil) {

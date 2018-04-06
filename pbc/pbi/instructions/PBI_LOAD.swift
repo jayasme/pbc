@@ -21,7 +21,7 @@ class PBI_LOAD: PBI {
             return nil
         }
         
-        if (item.type == SHORTType) {
+        if (item.type == SHORTType || item.type == BOOLEANType) {
             return PBI_LOAD_S(item: item)
         } else if (item.type == INTEGERType) {
             return PBI_LOAD_I(item: item)
@@ -33,8 +33,6 @@ class PBI_LOAD: PBI {
             return PBI_LOAD_D(item: item)
         } else if (item.type == STRINGType) {
             return PBI_LOAD_T(item: item)
-        } else if (item.type == BOOLEANType) {
-            return PBI_LOAD_B(item: item)
         }
         
         return PBI_LOAD_A(item: item)
@@ -77,14 +75,8 @@ class PBI_LOAD_T: PBI_LOAD {
     }
 }
 
-class PBI_LOAD_B: PBI_LOAD {
-    init(item: PBI_VARIABLE) {
-        super.init(opercode: 0x7, item: item)
-    }
-}
-
 class PBI_LOAD_A: PBI_LOAD {
     init(item: PBI_VARIABLE) {
-        super.init(opercode: 0x8, item: item)
+        super.init(opercode: 0x7, item: item)
     }
 }

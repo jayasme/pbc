@@ -23,7 +23,7 @@ enum Operator {
     case eqv
     case modulo
     case power
-    case intDivision
+    case divisible
     case equal
     case less
     case greater
@@ -79,7 +79,7 @@ enum Operator {
             return "EQV"
         case .modulo:
             return "MOD"
-        case .intDivision:
+        case .divisible:
             return "\\"
         case .equal:
             return "="
@@ -113,7 +113,7 @@ enum OperatorOperands {
 }
 
 fileprivate let operatorsCategory: [Operator: OperatorCategory] = [
-    .addition: .mathematics, .subtract: .mathematics, .multiply: .mathematics, .division: .mathematics, .power: .mathematics, .intDivision: .mathematics, .modulo: .mathematics, .positive: .mathematics, .negative: .mathematics,
+    .addition: .mathematics, .subtract: .mathematics, .multiply: .mathematics, .division: .mathematics, .power: .mathematics, .divisible: .mathematics, .modulo: .mathematics, .positive: .mathematics, .negative: .mathematics,
     .and: .logic, .or: .logic, .not: .logic, .xor: .logic, .eqv: .logic,
     .equal: .equality, .notEqual: .equality,
     .less: .comparation, .greater: .comparation, .lessOrEqual: .comparation, .greaterOrEqual: .comparation,
@@ -124,7 +124,7 @@ fileprivate let operatorsPiority: [Operator: Int] = [
     .dot: 7,
     .not: 6, .positive: 6, .negative: 6,
     .power: 5,
-    .multiply: 4, .division: 4, .modulo: 4, .intDivision: 4,
+    .multiply: 4, .division: 4, .modulo: 4, .divisible: 4,
     .addition: 3, .subtract: 3,
     .equal: 2, .less: 2, .greater: 2, .lessOrEqual: 2, .greaterOrEqual: 2, .notEqual: 2,
     .and: 1, .or: 1, .xor: 1, .eqv: 1
