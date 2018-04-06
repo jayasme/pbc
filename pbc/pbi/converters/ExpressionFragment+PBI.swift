@@ -26,6 +26,12 @@ extension ExpressionFragment {
                     
                     if (oper == .addition) {
                         pbi = PBI_ADD.select(operand1: operand1, operand2: operand2)
+                    } else if (oper == .subtract) {
+                        pbi = PBI_SUB.select(operand1: operand1, operand2: operand2)
+                    } else if (oper == .multiply) {
+                        pbi = PBI_MUL.select(operand1: operand1, operand2: operand2)
+                    } else if (oper == .division) {
+                        pbi = PBI_DIV.select(operand1: operand1, operand2: operand2)
                     }
                 }
             } else if let operand = fragment.operandValue {

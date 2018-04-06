@@ -69,6 +69,11 @@
 		1D65D7FC205E360500004FF8 /* VariableOperandFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D65D7FB205E360500004FF8 /* VariableOperandFragment.swift */; };
 		1D65D7FE205F305800004FF8 /* BaseFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D65D7FD205F305800004FF8 /* BaseFragment.swift */; };
 		1D73C360207458F500A693E7 /* PBIConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D73C35F207458F500A693E7 /* PBIConverter.swift */; };
+		1D73C36320776D7200A693E7 /* PBI_SUB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D73C36220776D7200A693E7 /* PBI_SUB.swift */; };
+		1D73C36520776DF600A693E7 /* PBI_MUL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D73C36420776DF600A693E7 /* PBI_MUL.swift */; };
+		1D73C36720776E3900A693E7 /* PBI_DIV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D73C36620776E3900A693E7 /* PBI_DIV.swift */; };
+		1D73C36920776F5100A693E7 /* PBI_INTDIV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D73C36820776F5100A693E7 /* PBI_INTDIV.swift */; };
+		1D73C36B20776F5F00A693E7 /* PBI_MOD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D73C36A20776F5F00A693E7 /* PBI_MOD.swift */; };
 		1D8FFA33204EE98E007920AC /* EXITFOR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8FFA32204EE98E007920AC /* EXITFOR.swift */; };
 		1D8FFA35204EE99C007920AC /* EXITDO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8FFA34204EE99C007920AC /* EXITDO.swift */; };
 		1D8FFA37204F59BC007920AC /* FunctionOperandParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8FFA36204F59BC007920AC /* FunctionOperandParser.swift */; };
@@ -220,6 +225,11 @@
 		1D65D7FB205E360500004FF8 /* VariableOperandFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableOperandFragment.swift; sourceTree = "<group>"; };
 		1D65D7FD205F305800004FF8 /* BaseFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFragment.swift; sourceTree = "<group>"; };
 		1D73C35F207458F500A693E7 /* PBIConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBIConverter.swift; sourceTree = "<group>"; };
+		1D73C36220776D7200A693E7 /* PBI_SUB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBI_SUB.swift; sourceTree = "<group>"; };
+		1D73C36420776DF600A693E7 /* PBI_MUL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBI_MUL.swift; sourceTree = "<group>"; };
+		1D73C36620776E3900A693E7 /* PBI_DIV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBI_DIV.swift; sourceTree = "<group>"; };
+		1D73C36820776F5100A693E7 /* PBI_INTDIV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBI_INTDIV.swift; sourceTree = "<group>"; };
+		1D73C36A20776F5F00A693E7 /* PBI_MOD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBI_MOD.swift; sourceTree = "<group>"; };
 		1D8FFA32204EE98E007920AC /* EXITFOR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXITFOR.swift; sourceTree = "<group>"; };
 		1D8FFA34204EE99C007920AC /* EXITDO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXITDO.swift; sourceTree = "<group>"; };
 		1D8FFA36204F59BC007920AC /* FunctionOperandParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionOperandParser.swift; sourceTree = "<group>"; };
@@ -383,6 +393,11 @@
 				1D925A55203581E300F3C4E5 /* PBI_CONST.swift */,
 				1D925A4720353D4B00F3C4E5 /* PBI_LOAD.swift */,
 				1D5D30F22071AD730013AE6A /* PBI_ADD.swift */,
+				1D73C36220776D7200A693E7 /* PBI_SUB.swift */,
+				1D73C36420776DF600A693E7 /* PBI_MUL.swift */,
+				1D73C36620776E3900A693E7 /* PBI_DIV.swift */,
+				1D73C36820776F5100A693E7 /* PBI_INTDIV.swift */,
+				1D73C36A20776F5F00A693E7 /* PBI_MOD.swift */,
 			);
 			path = instructions;
 			sourceTree = "<group>";
@@ -748,6 +763,7 @@
 				1D9DC3A0204471FF00B9196B /* REM.swift in Sources */,
 				1DF0A6AE2069CB6C00DA628D /* MemberOperandParser.swift in Sources */,
 				1D5D30ED2071A76B0013AE6A /* FileFragment+PBI.swift in Sources */,
+				1D73C36320776D7200A693E7 /* PBI_SUB.swift in Sources */,
 				1D34C17D204636010019FFEB /* Array+Utils.swift in Sources */,
 				1DF0A6B4206A8B8700DA628D /* StatementFragment.swift in Sources */,
 				1D925A502035543800F3C4E5 /* Multiples.swift in Sources */,
@@ -774,6 +790,7 @@
 				1DA13D51202563DE007AE5E8 /* main.swift in Sources */,
 				1DEF44FC20597DC500E8D608 /* OperandFragment.swift in Sources */,
 				1D6548A2203D524B000455DD /* SINGLE.swift in Sources */,
+				1D73C36920776F5100A693E7 /* PBI_INTDIV.swift in Sources */,
 				1D54F18F204BCBB300A66AB8 /* Declare.swift in Sources */,
 				1DA13D6320260EE2007AE5E8 /* SyntaxError.swift in Sources */,
 				1D9DC3BA2044E28400B9196B /* NewLineParser.swift in Sources */,
@@ -792,6 +809,7 @@
 				1DF0A6D8206C6F2000DA628D /* InvalidNameError.swift in Sources */,
 				1D65D7FC205E360500004FF8 /* VariableOperandFragment.swift in Sources */,
 				1D73C360207458F500A693E7 /* PBIConverter.swift in Sources */,
+				1D73C36720776E3900A693E7 /* PBI_DIV.swift in Sources */,
 				1D54F189204B996200A66AB8 /* ENDTYPE.swift in Sources */,
 				1D34C17920458EB80019FFEB /* GOTO.swift in Sources */,
 				1D518D672048E28000CB5DD0 /* Tag.swift in Sources */,
@@ -831,6 +849,7 @@
 				1D54F16D204A2FC100A66AB8 /* TagParser.swift in Sources */,
 				1D6548A0203D523A000455DD /* LONG.swift in Sources */,
 				1DA13D6520260F31007AE5E8 /* Error.swift in Sources */,
+				1D73C36B20776F5F00A693E7 /* PBI_MOD.swift in Sources */,
 				1D1C6ED6204C3D36004F10CD /* CALL.swift in Sources */,
 				1D5D30E9207111440013AE6A /* PBI_STRUCT.swift in Sources */,
 				1D33F2E520514EFB00BBAF42 /* ArrayParser.swift in Sources */,
@@ -839,6 +858,7 @@
 				1DF0A6C4206B29D600DA628D /* EndOfLineFragment.swift in Sources */,
 				1D925A4A2035462400F3C4E5 /* PBI_SAVE.swift in Sources */,
 				1DF0A6C8206B2A9200DA628D /* DecimalFragment.swift in Sources */,
+				1D73C36520776DF600A693E7 /* PBI_MUL.swift in Sources */,
 				1DA13D872027CCA8007AE5E8 /* Stack.swift in Sources */,
 				1D6548AE203DBB42000455DD /* StringParser.swift in Sources */,
 				1DEF45092059FD4F00E8D608 /* Operators.swift in Sources */,
