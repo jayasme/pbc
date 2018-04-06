@@ -10,7 +10,7 @@ import Foundation
 
 class PBI_MOD: PBI {
     init(opercode: Int8) {
-        super.init(catecode: 0x23, opercode: opercode)
+        super.init(catecode: 0x25, opercode: opercode)
     }
     
     static func select(operand1: Operand, operand2: Operand) -> PBI_MOD? {
