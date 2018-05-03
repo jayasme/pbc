@@ -15,7 +15,7 @@ class PBI_EQV: PBI {
     
     static func select(operand1: Operand, operand2: Operand) -> PBI_EQV? {
         let type = Type.mixType(type1: operand1.type.type, type2: operand2.type.type)
-        if type == SHORTType {
+        if (type == SHORTType) {
             return PBI_EQV_S()
         }
         

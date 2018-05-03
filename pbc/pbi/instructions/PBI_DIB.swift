@@ -15,11 +15,11 @@ class PBI_DIB: PBI {
     
     static func select(operand1: Operand, operand2: Operand) -> PBI_DIB? {
         let type = Type.mixType(type1: operand1.type.type, type2: operand2.type.type)
-        if type == SHORTType {
+        if (type == SHORTType) {
             return PBI_DIB_S()
-        } else if type == INTEGERType {
+        } else if (type == INTEGERType) {
             return PBI_DIB_I()
-        } else if type == LONGType {
+        } else if (type == LONGType) {
             return PBI_DIB_L()
         }
         

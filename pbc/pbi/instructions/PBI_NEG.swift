@@ -15,15 +15,15 @@ class PBI_NEG: PBI {
     
     static func select(operand: Operand) -> PBI_NEG? {
         let type = operand.type.type
-        if type == SHORTType {
+        if (type == SHORTType) {
             return PBI_NEG_S()
-        } else if type == INTEGERType {
+        } else if (type == INTEGERType) {
             return PBI_NEG_I()
-        } else if type == LONGType {
+        } else if (type == LONGType) {
             return PBI_NEG_L()
-        } else if type == SINGLEType {
+        } else if (type == SINGLEType) {
             return PBI_NEG_F()
-        } else if type == DOUBLEType {
+        } else if (type == DOUBLEType) {
             return PBI_NEG_D()
         }
         

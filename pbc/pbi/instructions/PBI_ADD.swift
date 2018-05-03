@@ -15,17 +15,17 @@ class PBI_ADD: PBI {
     
     static func select(operand1: Operand, operand2: Operand) -> PBI_ADD? {
         let type = Type.mixType(type1: operand1.type.type, type2: operand2.type.type)
-        if type == SHORTType {
+        if (type == SHORTType) {
             return PBI_ADD_S()
-        } else if type == INTEGERType {
+        } else if (type == INTEGERType) {
             return PBI_ADD_I()
-        } else if type == LONGType {
+        } else if (type == LONGType) {
             return PBI_ADD_L()
-        } else if type == SINGLEType {
+        } else if (type == SINGLEType) {
             return PBI_ADD_F()
-        } else if type == DOUBLEType {
+        } else if (type == DOUBLEType) {
             return PBI_ADD_D()
-        } else if type == STRINGType {
+        } else if (type == STRINGType) {
             return PBI_ADD_T()
         }
         

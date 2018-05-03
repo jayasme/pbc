@@ -80,6 +80,10 @@
 		1D73C3732077748300A693E7 /* PBI_XOR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D73C3722077748300A693E7 /* PBI_XOR.swift */; };
 		1D73C3752077748B00A693E7 /* PBI_EQV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D73C3742077748B00A693E7 /* PBI_EQV.swift */; };
 		1D73C3772078301800A693E7 /* PBI_NEG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D73C3762078301800A693E7 /* PBI_NEG.swift */; };
+		1D73C3792078509800A693E7 /* PBI_IDX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D73C3782078509800A693E7 /* PBI_IDX.swift */; };
+		1D73C37B20799E9200A693E7 /* PBI_CMP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D73C37A20799E9200A693E7 /* PBI_CMP.swift */; };
+		1D73C37D20799EB000A693E7 /* OperandFragment+PBI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D73C37C20799EB000A693E7 /* OperandFragment+PBI.swift */; };
+		1D73C37F2079A1BD00A693E7 /* OperatorFragment+PBI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D73C37E2079A1BD00A693E7 /* OperatorFragment+PBI.swift */; };
 		1D8FFA33204EE98E007920AC /* EXITFOR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8FFA32204EE98E007920AC /* EXITFOR.swift */; };
 		1D8FFA35204EE99C007920AC /* EXITDO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8FFA34204EE99C007920AC /* EXITDO.swift */; };
 		1D8FFA37204F59BC007920AC /* FunctionOperandParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8FFA36204F59BC007920AC /* FunctionOperandParser.swift */; };
@@ -236,6 +240,10 @@
 		1D73C3722077748300A693E7 /* PBI_XOR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBI_XOR.swift; sourceTree = "<group>"; };
 		1D73C3742077748B00A693E7 /* PBI_EQV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBI_EQV.swift; sourceTree = "<group>"; };
 		1D73C3762078301800A693E7 /* PBI_NEG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBI_NEG.swift; sourceTree = "<group>"; };
+		1D73C3782078509800A693E7 /* PBI_IDX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBI_IDX.swift; sourceTree = "<group>"; };
+		1D73C37A20799E9200A693E7 /* PBI_CMP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBI_CMP.swift; sourceTree = "<group>"; };
+		1D73C37C20799EB000A693E7 /* OperandFragment+PBI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OperandFragment+PBI.swift"; sourceTree = "<group>"; };
+		1D73C37E2079A1BD00A693E7 /* OperatorFragment+PBI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OperatorFragment+PBI.swift"; sourceTree = "<group>"; };
 		1D8FFA32204EE98E007920AC /* EXITFOR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXITFOR.swift; sourceTree = "<group>"; };
 		1D8FFA34204EE99C007920AC /* EXITDO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXITDO.swift; sourceTree = "<group>"; };
 		1D8FFA36204F59BC007920AC /* FunctionOperandParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionOperandParser.swift; sourceTree = "<group>"; };
@@ -366,6 +374,8 @@
 				1D73C35F207458F500A693E7 /* PBIConverter.swift */,
 				1D5D30EC2071A76B0013AE6A /* FileFragment+PBI.swift */,
 				1D5D30EF2071A7E50013AE6A /* ExpressionFragment+PBI.swift */,
+				1D73C37C20799EB000A693E7 /* OperandFragment+PBI.swift */,
+				1D73C37E2079A1BD00A693E7 /* OperatorFragment+PBI.swift */,
 			);
 			path = converters;
 			sourceTree = "<group>";
@@ -404,6 +414,8 @@
 				1D73C3722077748300A693E7 /* PBI_XOR.swift */,
 				1D73C3742077748B00A693E7 /* PBI_EQV.swift */,
 				1D73C3762078301800A693E7 /* PBI_NEG.swift */,
+				1D73C3782078509800A693E7 /* PBI_IDX.swift */,
+				1D73C37A20799E9200A693E7 /* PBI_CMP.swift */,
 			);
 			path = instructions;
 			sourceTree = "<group>";
@@ -738,6 +750,7 @@
 				1D9DC3AC2044DF8900B9196B /* LOOP.swift in Sources */,
 				1D65489C203D5191000455DD /* INTEGER.swift in Sources */,
 				1D5D30E7207109AC0013AE6A /* PBI_FUNC.swift in Sources */,
+				1D73C37F2079A1BD00A693E7 /* OperatorFragment+PBI.swift in Sources */,
 				1D6548A4203D5261000455DD /* DOUBLE.swift in Sources */,
 				1D9DC3B82044E02E00B9196B /* SCREEN.swift in Sources */,
 				1D54F183204B96AD00A66AB8 /* TagManager.swift in Sources */,
@@ -755,6 +768,7 @@
 				1D34C17F204697370019FFEB /* SWAP.swift in Sources */,
 				1D73C3772078301800A693E7 /* PBI_NEG.swift in Sources */,
 				1DF0A6BA206B290100DA628D /* PatternedNameFragment.swift in Sources */,
+				1D73C37B20799E9200A693E7 /* PBI_CMP.swift in Sources */,
 				1DA13D6F2026DF56007AE5E8 /* BracketParser.swift in Sources */,
 				1D34C1872047AC7D0019FFEB /* DECLARE.swift in Sources */,
 				1DA13D6B2026C289007AE5E8 /* OperatorParser.swift in Sources */,
@@ -763,6 +777,7 @@
 				1D9DC3A0204471FF00B9196B /* REM.swift in Sources */,
 				1DF0A6AE2069CB6C00DA628D /* MemberOperandParser.swift in Sources */,
 				1D73C36F2077745700A693E7 /* PBI_OR.swift in Sources */,
+				1D73C37D20799EB000A693E7 /* OperandFragment+PBI.swift in Sources */,
 				1D5D30ED2071A76B0013AE6A /* FileFragment+PBI.swift in Sources */,
 				1D73C36320776D7200A693E7 /* PBI_SUB.swift in Sources */,
 				1D34C17D204636010019FFEB /* Array+Utils.swift in Sources */,
@@ -781,6 +796,7 @@
 				1D654893203C5974000455DD /* math.bas in Sources */,
 				1D33F28F2050D9C000BBAF42 /* SubInvokerParser.swift in Sources */,
 				1DA13D772026E918007AE5E8 /* VariableOperandParser.swift in Sources */,
+				1D73C3792078509800A693E7 /* PBI_IDX.swift in Sources */,
 				1D9DC3A62044DF5700B9196B /* ELSEIF.swift in Sources */,
 				1D9DC3A42044DF1D00B9196B /* IF.swift in Sources */,
 				1D65489E203D51E2000455DD /* SHORT.swift in Sources */,

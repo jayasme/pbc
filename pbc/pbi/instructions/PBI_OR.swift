@@ -15,7 +15,7 @@ class PBI_OR: PBI {
     
     static func select(operand1: Operand, operand2: Operand) -> PBI_OR? {
         let type = Type.mixType(type1: operand1.type.type, type2: operand2.type.type)
-        if type == SHORTType {
+        if (type == SHORTType) {
             return PBI_OR_S()
         }
         

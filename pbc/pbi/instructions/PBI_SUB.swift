@@ -15,15 +15,15 @@ class PBI_SUB: PBI {
     
     static func select(operand1: Operand, operand2: Operand) -> PBI_SUB? {
         let type = Type.mixType(type1: operand1.type.type, type2: operand2.type.type)
-        if type == SHORTType {
+        if (type == SHORTType) {
             return PBI_SUB_S()
-        } else if type == INTEGERType {
+        } else if (type == INTEGERType) {
             return PBI_SUB_I()
-        } else if type == LONGType {
+        } else if (type == LONGType) {
             return PBI_SUB_L()
-        } else if type == SINGLEType {
+        } else if (type == SINGLEType) {
             return PBI_SUB_F()
-        } else if type == DOUBLEType {
+        } else if (type == DOUBLEType) {
             return PBI_SUB_D()
         }
         

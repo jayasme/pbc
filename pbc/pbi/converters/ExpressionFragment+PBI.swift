@@ -15,18 +15,18 @@ extension ExpressionFragment {
         let stack = Stack<Operand>()
         
         for fragment in self.fragments {
-            var pbi: PBI? = nil
+            var currentPBI: [PBI] = []
 
             if let oper = fragment.operatorValue {
                 if (oper.operands == .unary) {
                     let operand = stack.pop()!
-                    
+
                     if (oper == .not) {
                         // pib = PBI_NOT
                     } else if (oper == .positive) {
                         
                     } else if (oper == .negative) {
-                        pbi = PBI_NEG.select(operand: operand)
+                        currentPBI.append(PBI_NEG.select(operand: operand))
                     }
                 } else if (oper.operands == .binary) {
                     let operand2 = stack.pop()!
