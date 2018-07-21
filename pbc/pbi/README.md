@@ -1,16 +1,10 @@
 # Polar Bytecode Instructions
 ## Introducing
-Polar Bytecode Instructions is a designed instruction set of the Polar Virtual Runtime (PVR).
-With this manual, you may understand the PBI roughly, more details please step forward to the WIKI (if there is).
-The PBI uses 2 bytes to indicate the instruction which you may find them in the instructions table below.
+PBI (Polar Bytecode Instructions) are a designed instruction set of the Polar Virtual Runtime (PVR).
+With this manual, you may understand the PBI roughly.
+The PBI uses 2 bytes to indicate the instruction which you may find them in the instructions sheet below.
 
-## Something must known
-* The PBI is not only designed for `PolarBasic`, I am very greatful that someone wanted to participate compilers of other languages.
-* The PBI is under developing so far, so everything could be changed.
-* Due to my limited knowledges, I am very sure that I am making some awful mistakes, so please fix me up if you'd happy to do that.
-* Very appreciated!
-
-## INSTRUCTIONS
+## INSTRUCTIONS SHEETS
 
 ### Category summaries
 
@@ -63,3 +57,17 @@ The PBI uses 2 bytes to indicate the instruction which you may find them in the 
 |0x13|0x05|0x1305|PBI_RETURN_D|
 |0x13|0x06|0x1306|PBI_RETURN_T|
 |0x13|0x07|0x1307|PBI_RETURN_B|
+
+## MID-INSTRUCTIONS
+The mid-instructions are used for helping the compiler to compile the code from syntax tree to the final instructions set, optmized by the compiler, it doesn't appear in the final result. The mid-instructions use the prefix `MPBI_` with `catecode 0` to distinguish from the normal instructions.
+
+### MID-INSTRUCTIONS SHEET
+
+|Category (High)|Opercode (Low)|Bytecode|Instruction|
+| ------------ | ------------ | ------------ | ------------ |
+|0x00|0x1|0x0001|MPBI_NOT|
+|0x00|0x2|0x0002|MPBI_POS_S|
+|0x00|0x3|0x0003|MPBI_POS_I|
+|0x00|0x4|0x0004|MPBI_POS_L|
+|0x00|0x5|0x0005|MPBI_POS_F|
+|0x00|0x6|0x0006|MPBI_POS_D|

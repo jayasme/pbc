@@ -24,13 +24,13 @@ class ExpressionFragment: OperandFragment {
     // get the type of the result of caclculations with binary operation.
     private static func getBinaryType(type1: TypeTuple, type2: TypeTuple, oper: Operator) throws -> TypeTuple {
         guard (type1.subscripts == nil && type2.subscripts == nil) else {
-            throw InvalidTypeError.Operator_Cannot_Be_Applied(oper: oper.symbol, type1: type1.name, type2: type2.name)
+            throw InvalidTypeError.Operator_Cannot_Be_Applied_Between(oper: oper.symbol, type1: type1.name, type2: type2.name)
         }
         
         if (oper.category == .mathematics) {
             // mathematics
             guard (type1 != BOOLEANType && type2 != BOOLEANType) else {
-                throw InvalidTypeError.Operator_Cannot_Be_Applied(oper: oper.symbol, type1: type1.name, type2: type2.name)
+                throw InvalidTypeError.Operator_Cannot_Be_Applied_Between(oper: oper.symbol, type1: type1.name, type2: type2.name)
             }
             
             if (type1 == STRINGType && type2 == STRINGType && oper == .addition) {
@@ -38,24 +38,24 @@ class ExpressionFragment: OperandFragment {
             } else if let mixedType = TypeTuple.mixType(type1: type1, type2: type2), mixedType.isNumber {
                 return mixedType
             } else {
-                throw InvalidTypeError.Operator_Cannot_Be_Applied(oper: oper.symbol, type1: type1.name, type2: type2.name)
+                throw InvalidTypeError.Operator_Cannot_Be_Applied_Between(oper: oper.symbol, type1: type1.name, type2: type2.name)
             }
         } else if (oper.category == .logic) {
             // logic
             guard (type1 == BOOLEANType && type2 == BOOLEANType) else {
-                throw InvalidTypeError.Operator_Cannot_Be_Applied(oper: oper.symbol, type1: type1.name, type2: type2.name)
+                throw InvalidTypeError.Operator_Cannot_Be_Applied_Between(oper: oper.symbol, type1: type1.name, type2: type2.name)
             }
             return TypeTuple(BOOLEANType)
         } else if (oper.category == .equality) {
             // equality
             guard type1.isCompatibleWith(type: type2) else {
-                throw InvalidTypeError.Operator_Cannot_Be_Applied(oper: oper.symbol, type1: type1.name, type2: type2.name)
+                throw InvalidTypeError.Operator_Cannot_Be_Applied_Between(oper: oper.symbol, type1: type1.name, type2: type2.name)
             }
             return TypeTuple(BOOLEANType)
         } else if (oper.category == .comparation) {
             // comparation
             guard (type1.isNumber && type2.isNumber) else {
-                throw InvalidTypeError.Operator_Cannot_Be_Applied(oper: oper.symbol, type1: type1.name, type2: type2.name)
+                throw InvalidTypeError.Operator_Cannot_Be_Applied_Between(oper: oper.symbol, type1: type1.name, type2: type2.name)
             }
             
             return TypeTuple(BOOLEANType)
@@ -63,7 +63,7 @@ class ExpressionFragment: OperandFragment {
             return type2
         }
         
-        throw InvalidTypeError.Operator_Cannot_Be_Applied(oper: oper.symbol, type1: type1.name, type2: type2.name)
+        throw InvalidTypeError.Operator_Cannot_Be_Applied_Between(oper: oper.symbol, type1: type1.name, type2: type2.name)
     }
     
     static func predictType(_ fragments: [ExpressionSubFragment]) throws -> TypeTuple {

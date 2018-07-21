@@ -1,5 +1,5 @@
 //
-//  Loads.swift
+//  PBI_LOAD.swift
 //  pbc
 //
 //  Created by Scott Rong on 2018/2/15.
@@ -19,8 +19,7 @@ class PBI_LOAD: PBI {
     }
     
     static func create(variable: VariableOperand) -> PBI_LOAD? {
-        
-        
+        let type = variable.type.type
         
         if (variable.subscripts.isEmpty) {
             // not an array
@@ -29,7 +28,7 @@ class PBI_LOAD: PBI {
             // array
         }
         
-        if (variable == SHORTType || item.type == BOOLEANType) {
+        if (type == SHORTType || type == BOOLEANType) {
             return PBI_LOAD_S(variable: variable, indexCount: )
         } else if (item.type == INTEGERType) {
             return PBI_LOAD_I(item: item)

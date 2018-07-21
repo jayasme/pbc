@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D0A6C7021036CDC00BD28EC /* MPBI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0A6C6F21036CDC00BD28EC /* MPBI.swift */; };
+		1D0A6C722103772F00BD28EC /* MPBI_NOT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0A6C712103772F00BD28EC /* MPBI_NOT.swift */; };
+		1D0A6C7421037B1400BD28EC /* MPBI_POS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0A6C7321037B1400BD28EC /* MPBI_POS.swift */; };
+		1D0A6C76210380FE00BD28EC /* MPBI_EQL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0A6C75210380FE00BD28EC /* MPBI_EQL.swift */; };
 		1D1C6ED6204C3D36004F10CD /* CALL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1C6ED5204C3D36004F10CD /* CALL.swift */; };
 		1D1C6ED9204C5079004F10CD /* BuiltInDeclares.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1C6ED8204C5079004F10CD /* BuiltInDeclares.swift */; };
 		1D2C51DA2061FFA200C81612 /* ConstantOperandFragment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2C51D92061FFA200C81612 /* ConstantOperandFragment.swift */; };
@@ -166,6 +170,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1D0A6C6F21036CDC00BD28EC /* MPBI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPBI.swift; sourceTree = "<group>"; };
+		1D0A6C712103772F00BD28EC /* MPBI_NOT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPBI_NOT.swift; sourceTree = "<group>"; };
+		1D0A6C7321037B1400BD28EC /* MPBI_POS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPBI_POS.swift; sourceTree = "<group>"; };
+		1D0A6C75210380FE00BD28EC /* MPBI_EQL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPBI_EQL.swift; sourceTree = "<group>"; };
 		1D1C6ED5204C3D36004F10CD /* CALL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CALL.swift; sourceTree = "<group>"; };
 		1D1C6ED8204C5079004F10CD /* BuiltInDeclares.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInDeclares.swift; sourceTree = "<group>"; };
 		1D2C51D92061FFA200C81612 /* ConstantOperandFragment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantOperandFragment.swift; sourceTree = "<group>"; };
@@ -331,6 +339,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1D0A6C6E21036CC600BD28EC /* mid-instructions */ = {
+			isa = PBXGroup;
+			children = (
+				1D0A6C6F21036CDC00BD28EC /* MPBI.swift */,
+				1D0A6C712103772F00BD28EC /* MPBI_NOT.swift */,
+				1D0A6C7321037B1400BD28EC /* MPBI_POS.swift */,
+				1D0A6C75210380FE00BD28EC /* MPBI_EQL.swift */,
+			);
+			path = "mid-instructions";
+			sourceTree = "<group>";
+		};
 		1D1C6ED7204C5061004F10CD /* declares */ = {
 			isa = PBXGroup;
 			children = (
@@ -541,6 +560,7 @@
 		1DA13D5E20260B12007AE5E8 /* pbi */ = {
 			isa = PBXGroup;
 			children = (
+				1D0A6C6E21036CC600BD28EC /* mid-instructions */,
 				1D73C35E207456D100A693E7 /* instructions */,
 				1D5D30EE2071A7710013AE6A /* converters */,
 				1D925A43203528CF00F3C4E5 /* PBI_RETURN.swift */,
@@ -765,6 +785,7 @@
 				1DA13D6D2026DD64007AE5E8 /* WhitespaceParser.swift in Sources */,
 				1D54F17B204AFE8B00A66AB8 /* SeparatorParser.swift in Sources */,
 				1D1C6ED9204C5079004F10CD /* BuiltInDeclares.swift in Sources */,
+				1D0A6C76210380FE00BD28EC /* MPBI_EQL.swift in Sources */,
 				1D34C17F204697370019FFEB /* SWAP.swift in Sources */,
 				1D73C3772078301800A693E7 /* PBI_NEG.swift in Sources */,
 				1DF0A6BA206B290100DA628D /* PatternedNameFragment.swift in Sources */,
@@ -782,6 +803,7 @@
 				1D73C36320776D7200A693E7 /* PBI_SUB.swift in Sources */,
 				1D34C17D204636010019FFEB /* Array+Utils.swift in Sources */,
 				1DF0A6B4206A8B8700DA628D /* StatementFragment.swift in Sources */,
+				1D0A6C7421037B1400BD28EC /* MPBI_POS.swift in Sources */,
 				1D73C3752077748B00A693E7 /* PBI_EQV.swift in Sources */,
 				1DF0A6BE206B294300DA628D /* MultikeywordsFragment.swift in Sources */,
 				1D9DC3A82044DF5E00B9196B /* FOR.swift in Sources */,
@@ -878,7 +900,9 @@
 				1DA13D872027CCA8007AE5E8 /* Stack.swift in Sources */,
 				1D6548AE203DBB42000455DD /* StringParser.swift in Sources */,
 				1DEF45092059FD4F00E8D608 /* Operators.swift in Sources */,
+				1D0A6C722103772F00BD28EC /* MPBI_NOT.swift in Sources */,
 				1DF0A6D6206C6EA800DA628D /* InvalidTypeError.swift in Sources */,
+				1D0A6C7021036CDC00BD28EC /* MPBI.swift in Sources */,
 				1DF0A6CA206B2B0200DA628D /* WhitespaceFragment.swift in Sources */,
 				1D981EDF2056DE1900998846 /* Constant.swift in Sources */,
 				1D925A44203528CF00F3C4E5 /* PBI_RETURN.swift in Sources */,

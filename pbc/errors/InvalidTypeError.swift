@@ -42,9 +42,14 @@ class InvalidTypeError: InnerError {
         return InvalidTypeError(String(format: "Must indicate subscirpts for '%@'.", variableName))
     }
 
-    static func Operator_Cannot_Be_Applied(oper: String, type1: String, type2: String) -> InvalidTypeError {
+    static func Operator_Cannot_Be_Applied_Between(oper: String, type1: String, type2: String) -> InvalidTypeError {
         return InvalidTypeError(String(format: "Operator '%@' cannot be applied between '%@' and '%@'.", oper, type1, type2))
     }
+    
+    static func Operator_Cannot_Be_Applied_To(oper: String, type: String) -> InvalidTypeError {
+        return InvalidTypeError(String(format: "Operator '%@' cannot be applied to '%@'.", oper, type))
+    }
+
     
     
     
@@ -59,4 +64,5 @@ class InvalidTypeError: InnerError {
     static func Implement_Expected_Return_Type(typeName: String, practicalTypeName: String) -> InvalidValueError {
         return InvalidValueError(String(format: "Return type '%@' mismatch with its 'DECLARE' return type '%@'.", typeName, practicalTypeName))
     }
+    
 }
