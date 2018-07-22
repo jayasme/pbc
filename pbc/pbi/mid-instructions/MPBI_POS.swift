@@ -13,7 +13,7 @@ class MPBI_POS: PBI {
         super.init(catecode: 0, opercode: opercode)
     }
     
-    static func select(operand: Operand) -> MPBI_POS? {
+    static func create(operand: Operand) -> MPBI_POS? {
         let type = operand.type.type
         if (type == SHORTType) {
             return MPBI_POS_S()

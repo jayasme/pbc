@@ -72,18 +72,18 @@ class PBI_LOAD_F: PBI_LOAD {
 
 class PBI_LOAD_D: PBI_LOAD {
     init(variable: PBI_VARIABLE) {
-        super.init(opercode: 0x5, variable: variable, indexCount: indexCount))
+        super.init(opercode: 0x5, variable: variable, indexCount: indexCount)
     }
 }
 
 class PBI_LOAD_T: PBI_LOAD {
     init(variable: PBI_VARIABLE) {
-        super.init(opercode: 0x6, variable: variable, indexCount: indexCount))
+        super.init(opercode: 0x6, variable: variable, indexCount: indexCount)
     }
 }
 
 class PBI_LOAD_A: PBI_LOAD {
     init(variable: PBI_VARIABLE) {
-        super.init(opercode: 0x7, variable: variable, indexCount: indexCount))
+        super.init(opercode: 0x7, variable: variable, indexCount: indexCount)
     }
 }

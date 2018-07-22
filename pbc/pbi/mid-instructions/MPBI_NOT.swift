@@ -13,7 +13,7 @@ class MPBI_NOT: PBI {
         super.init(catecode: 0, opercode: 0x1)
     }
     
-    static func select(operand: Operand) -> MPBI_NOT? {
+    static func create(operand: Operand) -> MPBI_NOT? {
         let type = operand.type.type
         if (type == BOOLEANType) {
             return MPBI_NOT()

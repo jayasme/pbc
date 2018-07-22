@@ -19,11 +19,10 @@ extension ExpressionFragment {
                 if (oper.operands == .unary) {
                     let operand = stack.pop()!
 
-                    var currentPBI: PBI? = nil
-                    if (oper == .not), let pbi = MPBI_NOT.select(operand: operand) {
+                    if (oper == .not), let pbi = MPBI_NOT.create(operand: operand) {
                         result.append(pbi)
                         continue
-                    } else if (oper == .positive), let pbi = MPBI_POS.select(operand: operand) {
+                    } else if (oper == .positive), let pbi = MPBI_POS.create(operand: operand) {
                         result.append(pbi)
                         continue
                     } else if (oper == .negative), let pbi = PBI_NEG.select(operand: operand) {
@@ -64,22 +63,30 @@ extension ExpressionFragment {
                     } else if (oper == .or), let pbi = PBI_OR.select(operand1: operand1, operand2: operand2) {
                         result.append(pbi)
                         continue
-                    } else if (oper == .xor), let pbi = PBI_XOR.select(operand1: operand1, operand2: operand2) {
+                    } else if (oper == .xor), let pbi = PBI_XOR.create(operand1: operand1, operand2: operand2) {
                         result.append(pbi)
                         continue
-                    } else if (oper == .eqv), let pbi = PBI_EQV.select(operand1: operand1, operand2: operand2) {
+                    } else if (oper == .eqv), let pbi = PBI_EQV.create(operand1: operand1, operand2: operand2) {
                         result.append(pbi)
                         continue
-                    } else if (oper == .equal) {
-                        
-                    } else if (oper == .greater) {
-                        
-                    } else if (oper == .greaterOrEqual) {
-                        
-                    } else if (oper == .less) {
-                        
-                    } else if (oper == .lessOrEqual) {
-                        
+                    } else if (oper == .equal), let pbi = MPBI_EQ.create(operand1: operand1, operand2: operand2) {
+                        result.append(pbi)
+                        continue
+                    } else if (oper == .notEqual), let pbi = MPBI_NEQ.create(operand1: operand1, operand2: operand2)  {
+                        result.append(pbi)
+                        continue
+                    } else if (oper == .greater), let pbi = MPBI_GT.create(operand1: operand1, operand2: operand2) {
+                        result.append(pbi)
+                        continue
+                    } else if (oper == .greaterOrEqual), let pbi = MPBI_GE.create(operand1: operand1, operand2: operand2) {
+                        result.append(pbi)
+                        continue
+                    } else if (oper == .less), let pbi = MPBI_LT.create(operand1: operand1, operand2: operand2) {
+                        result.append(pbi)
+                        continue
+                    } else if (oper == .lessOrEqual), let pbi = MPBI_LE.create(operand1: operand1, operand2: operand2) {
+                        result.append(pbi)
+                        continue
                     }
                     
                     throw InvalidTypeError.Operator_Cannot_Be_Applied_Between(oper: oper.symbol, type1: operand1.type.type.name, type2: operand2.type.type.name)
