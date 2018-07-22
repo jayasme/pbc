@@ -39,7 +39,7 @@ extension ExpressionFragment {
                     result.append(pbi)
                     continue
                 } else if let variable = operand as? VariableOperand {
-                    result += variable.convert()
+                    result += try variable.convert()
                     continue
                 }
             }

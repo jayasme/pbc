@@ -10,4 +10,7 @@ import Foundation
 
 extension FileFragment {
     
+    func convert() throws -> [PBI] {
+        return []
+    }
 }

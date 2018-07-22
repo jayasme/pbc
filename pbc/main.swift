@@ -9,7 +9,6 @@
 import Foundation
 
 // acquire the arguments
-    ConfigurationManager.shared = try ConfigurationManager.init(arguments: ProcessInfo.processInfo.arguments)
+ConfigurationManager.shared = try ConfigurationManager.init(arguments: ProcessInfo.processInfo.arguments)
     
-    let file = FileParser.parse(path: ConfigurationManager.shared.inputPath)
-
+let file = FileParser.parse(path: ConfigurationManager.shared.inputPath)
