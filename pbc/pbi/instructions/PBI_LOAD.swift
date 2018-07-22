@@ -9,81 +9,78 @@
 import Foundation
 
 class PBI_LOAD: PBI {
-    var variable: PBI_VARIABLE
-    var indexCount: Int
+    var index: Int
     
-    fileprivate init(opercode: Int8, variable: PBI_VARIABLE, indexCount: Int) {
-        self.variable = variable
-        self.indexCount = indexCount
+    fileprivate init(opercode: Int8, index: Int) {
+        self.index = index
         super.init(catecode: 0x11, opercode: opercode)
     }
     
-    static func create(variable: VariableOperand) -> PBI_LOAD? {
-        let type = variable.type.type
-        
-        if (variable.subscripts.isEmpty) {
-            // not an array
-            
-        } else {
-            // array
+    static func create(type: Type, index: Int) -> PBI_LOAD? {
+        if (type == BOOLEANType) {
+            return PBI_LOAD_B(index: index)
+        } else if (type == SHORTType) {
+            return PBI_LOAD_S(index: index)
+        } else if (type == INTEGERType) {
+            return PBI_LOAD_I(index: index)
+        } else if (type == LONGType) {
+            return PBI_LOAD_L(index: index)
+        } else if (type == SINGLEType) {
+            return PBI_LOAD_F(index: index)
+        } else if (type == DOUBLEType) {
+            return PBI_LOAD_D(index: index)
+        } else if (type == STRINGType) {
+            return PBI_LOAD_T(index: index)
         }
         
-        if (type == SHORTType || type == BOOLEANType) {
-            return PBI_LOAD_S(variable: variable, indexCount: )
-        } else if (item.type == INTEGERType) {
-            return PBI_LOAD_I(item: item)
-        } else if (item.type == LONGType) {
-            return PBI_LOAD_L(item: item)
-        } else if (item.type == SINGLEType) {
-            return PBI_LOAD_F(item: item)
-        } else if (item.type == DOUBLEType) {
-            return PBI_LOAD_D(item: item)
-        } else if (item.type == STRINGType) {
-            return PBI_LOAD_T(item: item)
-        }
-        
-        return PBI_LOAD_A(item: item)
+        return PBI_LOAD_A(index: index)
     }
 }
 
-class PBI_LOAD_S: PBI_LOAD {
-    init(variable: PBI_VARIABLE, indexCount: Int) {
-        super.init(opercode: 0x1, variable: variable, indexCount: indexCount)
+fileprivate class PBI_LOAD_B: PBI_LOAD {
+    init(index: Int) {
+        super.init(opercode: 0x1, index: index)
     }
 }
 
-class PBI_LOAD_I: PBI_LOAD {
-    init(variable: PBI_VARIABLE) {
-        super.init(opercode: 0x2, variable: variable, indexCount: indexCount)
+fileprivate class PBI_LOAD_S: PBI_LOAD {
+    init(index: Int) {
+        super.init(opercode: 0x2, index: index)
+    }
+}
+
+fileprivate class PBI_LOAD_I: PBI_LOAD {
+    init(index: Int) {
+        super.init(opercode: 0x3, index: index)
     }
 }
 
 class PBI_LOAD_L: PBI_LOAD {
-    init(variable: PBI_VARIABLE) {
-        super.init(opercode: 0x3, variable: variable, indexCount: indexCount)
+    init(index: Int) {
+        super.init(opercode: 0x4, index: index)
     }
 }
 
 class PBI_LOAD_F: PBI_LOAD {
-    init(item: PBI_VARIABLE) {
-        super.init(opercode: 0x4, variable: variable, indexCount: indexCount)
+    init(index: Int) {
+        super.init(opercode: 0x5, index: index)
     }
 }
 
 class PBI_LOAD_D: PBI_LOAD {
-    init(variable: PBI_VARIABLE) {
-        super.init(opercode: 0x5, variable: variable, indexCount: indexCount)
+    init(index: Int) {
+        super.init(opercode: 0x6, index: index)
     }
 }
 
 class PBI_LOAD_T: PBI_LOAD {
-    init(variable: PBI_VARIABLE) {
-        super.init(opercode: 0x6, variable: variable, indexCount: indexCount)
+    init(index: Int) {
+        super.init(opercode: 0x7, index: index)
     }
 }
 
 class PBI_LOAD_A: PBI_LOAD {
-    init(variable: PBI_VARIABLE) {
-        super.init(opercode: 0x7, variable: variable, indexCount: indexCount)
+    init(index: Int) {
+        super.init(opercode: 0x8, index: index)
     }
 }

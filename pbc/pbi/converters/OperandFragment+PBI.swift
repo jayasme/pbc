@@ -30,7 +30,6 @@ extension Operand {
                 for argument in variable.subscripts.arguments {
                     pbi += argument.convert()
                 }
-                pbi.append
                 pbi.append(PBI_IDX.select(operand: self))
             }
             
